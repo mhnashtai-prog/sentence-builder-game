@@ -102,7 +102,7 @@
       font-size: 1.5rem;
     }
 
-    /* MODE TOGGLE - SUBTLE AND COMPACT */
+    /* MODE TOGGLE - SUBTLE */
     .secondary-controls {
       display: flex;
       justify-content: center;
@@ -228,11 +228,12 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 1rem;
-      align-items: flex-start;
+      align-items: flex-end;
       padding: 3rem 2rem;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.02em;
+      position: relative;
     }
 
     .word {
@@ -243,17 +244,17 @@
       color: #D4AF37;
     }
 
-    /* FLAGPOLE CONTAINER - THIS IS THE KEY STRUCTURE */
+    /* FLAGPOLE CONTAINER - HANGING FROM ABOVE */
     .hotspot-container {
       display: inline-flex;
-      flex-direction: column;
+      flex-direction: column-reverse;
       align-items: center;
       position: relative;
       margin: 0 0.5rem;
       min-height: 60px;
     }
 
-    /* THE NUMBER BUTTON - SHOWN BY DEFAULT */
+    /* THE NUMBER BUTTON - AT SENTENCE LEVEL */
     .hotspot-number {
       display: flex;
       align-items: center;
@@ -285,27 +286,28 @@
       pointer-events: none;
     }
 
-    /* FLAGPOLE - VERTICAL LINE */
+    /* FLAGPOLE - VERTICAL LINE HANGING DOWN FROM ABOVE */
     .flagpole-line {
       width: 4px;
       height: 0;
-      background: linear-gradient(180deg, #D4AF37 0%, rgba(212, 175, 55, 0.5) 100%);
-      margin-top: 0.5rem;
+      background: linear-gradient(180deg, rgba(212, 175, 55, 0.5) 0%, #D4AF37 100%);
+      margin-bottom: 0.5rem;
       transition: height 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
       opacity: 0;
+      order: -1;
     }
 
     .hotspot-container.revealed .flagpole-line {
-      height: 100px;
+      height: 120px;
       opacity: 1;
     }
 
-    /* HANGING CLAUSE BUBBLE - SPEECH BUBBLE STYLE */
+    /* HANGING CLAUSE BUBBLE - ABOVE THE SENTENCE */
     .hanging-clause {
       position: absolute;
-      top: 170px;
+      bottom: 190px;
       left: 50%;
-      transform: translateX(-50%) translateY(20px);
+      transform: translateX(-50%) translateY(-20px);
       background: rgba(42, 42, 42, 0.98);
       border: 3px solid #D4AF37;
       border-radius: 20px;
@@ -317,33 +319,34 @@
       pointer-events: none;
       transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+      order: -2;
     }
 
-    /* SPEECH BUBBLE ARROW POINTING UP */
+    /* SPEECH BUBBLE ARROW POINTING DOWN */
     .hanging-clause::before {
       content: '';
       position: absolute;
-      top: -12px;
+      bottom: -12px;
       left: 50%;
       transform: translateX(-50%);
       width: 0;
       height: 0;
       border-left: 12px solid transparent;
       border-right: 12px solid transparent;
-      border-bottom: 12px solid #D4AF37;
+      border-top: 12px solid #D4AF37;
     }
 
     .hanging-clause::after {
       content: '';
       position: absolute;
-      top: -8px;
+      bottom: -8px;
       left: 50%;
       transform: translateX(-50%);
       width: 0;
       height: 0;
       border-left: 10px solid transparent;
       border-right: 10px solid transparent;
-      border-bottom: 10px solid rgba(42, 42, 42, 0.98);
+      border-top: 10px solid rgba(42, 42, 42, 0.98);
     }
 
     /* SHOW CLAUSE WHEN REVEALED */
@@ -380,7 +383,7 @@
     }
 
     .hotspot-container.matched .flagpole-line {
-      background: linear-gradient(180deg, #10b981 0%, rgba(16, 185, 129, 0.5) 100%);
+      background: linear-gradient(180deg, rgba(16, 185, 129, 0.5) 0%, #10b981 100%);
     }
 
     .hotspot-container.matched .hanging-clause {
@@ -559,6 +562,15 @@
         min-width: 200px;
         max-width: 280px;
         padding: 1.25rem 1.5rem;
+        bottom: 160px;
+      }
+
+      .flagpole-line {
+        height: 90px;
+      }
+
+      .hotspot-container.revealed .flagpole-line {
+        height: 90px;
       }
 
       .clause-content {
@@ -679,12 +691,12 @@ function renderSlides() {
       if (part.type === 'hotspot') {
         return `
           <div class="hotspot-container" data-hotspot-id="${part.id}">
-            <div class="hotspot-number" onclick="revealHotspot(${index}, ${part.id})">${part.id}</div>
-            <div class="flagpole-line"></div>
             <div class="hanging-clause">
               <div class="clause-label">${part.label}</div>
               <div class="clause-content">${part.content}</div>
             </div>
+            <div class="flagpole-line"></div>
+            <div class="hotspot-number" onclick="revealHotspot(${index}, ${part.id})">${part.id}</div>
           </div>
         `;
       } else {
