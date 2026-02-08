@@ -182,6 +182,7 @@
       opacity: 1;
       pointer-events: auto;
       display: flex;
+      z-index: 1;
     }
 
     /* SENTENCE DISPLAY - POSTER STYLE */
@@ -511,6 +512,10 @@
 
     /* MOBILE - FULL SCREEN WITH INTERNAL NAV */
     @media (max-width: 768px) {
+      body {
+        overflow: hidden;
+      }
+
       /* Hide main navigation bar on mobile */
       .navigation-bar {
         display: none;
@@ -525,31 +530,46 @@
         z-index: 2000;
       }
 
-      /* Slides container - full viewport */
+      /* Slides container - absolute full viewport */
       .slides-container {
+        position: fixed;
         top: 0;
+        left: 0;
+        right: 0;
         bottom: 0;
+        width: 100vw;
+        height: 100vh;
         padding: 0;
+        margin: 0;
         display: flex !important;
         align-items: stretch;
-        justify-content: center;
+        justify-content: stretch;
+        overflow: hidden;
       }
 
-      /* Slide - full screen, no card */
+      /* Slide - absolute full screen */
       .slide {
-        max-width: 100%;
-        width: 100%;
-        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        max-width: 100vw;
         border: none;
         border-radius: 0;
         padding: 0;
+        margin: 0;
         gap: 0;
         box-shadow: none;
-        position: relative;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
-        display: flex;
+        display: none;
         flex-direction: column;
+      }
+
+      .slide.active {
+        display: flex !important;
+        z-index: 1;
       }
 
       /* Internal navigation header - compact two rows */
@@ -563,6 +583,8 @@
         position: sticky;
         top: 0;
         z-index: 100;
+        width: 100%;
+        box-sizing: border-box;
       }
 
       /* Category tabs - horizontal scroll */
@@ -655,6 +677,8 @@
         display: flex;
         align-items: center;
         min-height: auto;
+        width: 100%;
+        box-sizing: border-box;
       }
 
       .hotspot-number {
@@ -686,6 +710,8 @@
         margin-top: 0;
         border-top: 1px solid rgba(0, 0, 0, 0.08);
         background: #fafafa;
+        width: 100%;
+        box-sizing: border-box;
       }
 
       .progress-dots {
