@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>INTUITY - Sentence Structures</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>INTUITY - Sentence Structures (Speech Bubbles)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
   
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: 'DM Sans', 'Inter', sans-serif;
-      background: #000;
+      font-family: 'Inter', sans-serif;
+      background: #0f0f0f;
       color: #fff;
       min-height: 100vh;
       overflow: hidden;
@@ -21,81 +21,88 @@
     /* BACK BUTTON */
     .back-btn {
       position: fixed;
-      top: 1rem;
-      left: 1rem;
-      padding: 0.5rem 1rem;
-      background: rgba(0, 0, 0, 0.6);
+      top: 1.5rem;
+      left: 1.5rem;
+      padding: 0.75rem 1.5rem;
+      background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 999px;
-      color: #C9A961;
-      font-size: 0.75rem;
-      font-weight: 600;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      color: #D4AF37;
+      font-size: 0.9rem;
+      font-weight: 800;
       cursor: pointer;
       transition: all 0.3s;
       display: flex;
       align-items: center;
       gap: 0.5rem;
       z-index: 1000;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
     .back-btn:hover {
-      background: rgba(0, 0, 0, 0.8);
-      transform: translateX(-2px);
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateX(-4px);
+      border-color: #D4AF37;
     }
 
-    /* TWO-TIER NAVIGATION - TOP */
+    /* NAVIGATION */
     .navigation-bar {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      background: rgba(20, 20, 22, 0.95);
+      background: rgba(20, 20, 20, 0.98);
       backdrop-filter: blur(40px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.05);
       z-index: 999;
-      padding: 1rem 1rem 0;
+      padding: 1rem 1.5rem 0;
     }
 
-    /* PRIMARY TABS (Categories) */
+    /* PRIMARY TABS */
     .primary-tabs {
       display: flex;
-      gap: 0.5rem;
+      gap: 1rem;
       justify-content: center;
-      margin-bottom: 0.75rem;
+      margin-bottom: 1rem;
       overflow-x: auto;
-      padding-bottom: 0.5rem;
+      padding-bottom: 0.75rem;
     }
 
     .primary-tab {
-      padding: 0.5rem 1.25rem;
+      padding: 0.875rem 1.75rem;
       background: transparent;
       border: none;
-      border-bottom: 3px solid transparent;
-      color: rgba(255, 255, 255, 0.5);
+      border-bottom: 4px solid transparent;
+      color: rgba(255, 255, 255, 0.4);
       cursor: pointer;
-      font-size: 0.8125rem;
-      font-weight: 600;
+      font-size: 1rem;
+      font-weight: 800;
       transition: all 0.3s;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.1em;
       white-space: nowrap;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.625rem;
     }
 
     .primary-tab:hover {
-      color: #C9A961;
-      border-bottom-color: rgba(201, 169, 97, 0.3);
+      color: #D4AF37;
+      border-bottom-color: rgba(212, 175, 55, 0.4);
     }
 
     .primary-tab.active {
-      color: #C9A961;
-      border-bottom-color: #C9A961;
+      color: #D4AF37;
+      border-bottom-color: #D4AF37;
     }
 
-    /* SECONDARY CONTROLS (Mode Toggle) */
+    .primary-tab .icon {
+      font-size: 1.5rem;
+    }
+
+    /* MODE TOGGLE */
     .secondary-controls {
       display: flex;
       justify-content: center;
@@ -104,343 +111,315 @@
 
     .mode-toggle {
       display: flex;
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
       padding: 0.25rem;
       gap: 0.25rem;
     }
 
     .mode-btn {
-      padding: 0.4rem 1rem;
+      padding: 0.5rem 1rem;
       background: transparent;
       border: none;
-      border-radius: 999px;
-      color: rgba(255, 255, 255, 0.5);
-      font-size: 0.6875rem;
+      border-radius: 6px;
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 0.75rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      text-transform: capitalize;
     }
 
     .mode-btn.active {
-      background: #C9A961;
-      color: #000;
+      background: rgba(212, 175, 55, 0.15);
+      color: #D4AF37;
     }
 
-    /* CONTENT AREA */
-    .content-area {
-      position: fixed;
-      top: 130px;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      overflow-y: auto;
-      padding: 2rem;
+    .mode-btn:hover {
+      color: rgba(255, 255, 255, 0.6);
     }
 
-    /* SLIDE MODE CONTAINER */
+    /* SLIDES CONTAINER */
     .slides-container {
       display: none;
       position: fixed;
-      top: 130px;
+      top: 140px;
       left: 0;
       right: 0;
-      bottom: 0;
+      bottom: 80px;
       align-items: center;
       justify-content: center;
-      padding: 2rem 2rem 6rem;
+      padding: 2rem;
+      overflow-y: auto;
     }
 
     .slides-container.active {
       display: flex;
     }
 
-    /* SLIDE CARD */
+    /* SLIDE CARD - POSTER STYLE */
     .slide {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 90%;
-      max-width: 900px;
-      background: rgba(20, 20, 22, 0.95);
-      backdrop-filter: blur(40px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 2rem;
-      padding: 3rem 2.5rem;
+      position: relative;
+      width: 100%;
+      max-width: 1200px;
+      background: #ffffff;
+      border: 4px solid #000000;
+      border-radius: 24px;
+      padding: 4rem 3rem;
       opacity: 0;
       transition: opacity 0.4s ease;
       pointer-events: none;
-      display: flex;
+      display: none;
       flex-direction: column;
       gap: 2rem;
-      min-height: 400px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      min-height: fit-content;
     }
 
     .slide.active {
       opacity: 1;
       pointer-events: auto;
-      z-index: 10;
-    }
-
-    .slide-header {
-      text-align: center;
       display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      margin-bottom: -1rem;
     }
 
-    .sentence-type-label {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: #C9A961;
-    }
-
-    .level-badge {
-      display: inline-block;
-      padding: 0.25rem 0.75rem;
-      border-radius: 999px;
-      font-size: 0.6875rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .level-a2 { background: rgba(34, 197, 94, 0.2); color: #86efac; }
-    .level-b1 { background: rgba(59, 130, 246, 0.2); color: #93c5fd; }
-    .level-b2 { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
-    .level-c1 { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
-
-    /* SENTENCE WITH HOTSPOTS */
+    /* SENTENCE DISPLAY - POSTER STYLE */
     .sentence-display {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 1.5rem;
-      line-height: 1.8;
-      color: #e5e5e7;
+      font-family: 'Inter', sans-serif;
+      font-size: 3rem;
+      line-height: 1.4;
+      color: #000000;
       text-align: center;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 0.5rem;
+      gap: 1rem;
       align-items: center;
+      padding: 2rem 1.5rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.01em;
+      position: relative;
     }
 
     .word {
       display: inline-block;
+      position: relative;
+      text-transform: uppercase;
     }
 
-    /* HOTSPOT PILL */
-    .hotspot {
+    /* HOTSPOT CONTAINER - INLINE */
+    .hotspot-container {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      margin: 0 0.5rem;
+    }
+
+    /* CLICKABLE NUMBER BADGE - RED */
+    .hotspot-number {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 32px;
-      height: 32px;
-      padding: 0 0.5rem;
-      background: rgba(201, 169, 97, 0.2);
-      border: 2px solid rgba(201, 169, 97, 0.5);
-      border-radius: 999px;
-      color: #C9A961;
-      font-size: 0.75rem;
-      font-weight: 700;
+      min-width: 50px;
+      height: 50px;
+      background: #ff3b30;
+      border: none;
+      border-radius: 8px;
       cursor: pointer;
       transition: all 0.3s;
-      animation: pulse 2s ease-in-out infinite;
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: #ffffff;
+      position: relative;
+      z-index: 10;
+      box-shadow: 0 4px 12px rgba(255, 59, 48, 0.4);
+      text-transform: uppercase;
     }
 
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); box-shadow: 0 0 20px rgba(201, 169, 97, 0.4); }
+    .hotspot-number:hover {
+      background: #ff5048;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(255, 59, 48, 0.5);
     }
 
-    .hotspot:hover {
-      background: rgba(201, 169, 97, 0.4);
-      border-color: #C9A961;
-      transform: scale(1.2);
+    /* HIDE NUMBER WHEN REVEALED */
+    .hotspot-container.revealed .hotspot-number {
+      display: none;
     }
 
-    .hotspot.matched {
-      background: rgba(16, 185, 129, 0.3);
-      border-color: #10b981;
+    /* POSTER TEXT - RED - NO BUBBLE */
+    .inline-clause {
+      display: none;
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #ff3b30;
+      position: relative;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      line-height: 1;
+    }
+
+    .hotspot-container.revealed .inline-clause {
+      display: inline-block;
+      animation: posterReveal 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes posterReveal {
+      from { 
+        opacity: 0; 
+        transform: scale(0.9);
+      }
+      to { 
+        opacity: 1; 
+        transform: scale(1);
+      }
+    }
+
+    /* MATCHED STATE (game mode) - GREEN */
+    .hotspot-container.matched .inline-clause {
       color: #10b981;
-      animation: none;
     }
 
-    .hotspot.wrong {
-      background: rgba(239, 68, 68, 0.3);
-      border-color: #ef4444;
-      color: #ef4444;
+    /* WRONG STATE */
+    .hotspot-container.wrong {
       animation: shake 0.5s;
     }
 
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      75% { transform: translateX(5px); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
     }
 
-    /* HOTSPOT MODAL */
-    .hotspot-modal {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0.9);
-      background: rgba(28, 28, 30, 0.98);
-      backdrop-filter: blur(40px);
-      border: 2px solid #C9A961;
-      border-radius: 1.5rem;
-      padding: 2rem;
-      max-width: 500px;
-      width: 90%;
-      z-index: 1100;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
-    }
-
-    .hotspot-modal.show {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
-      pointer-events: auto;
-    }
-
-    .hotspot-modal-close {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #C9A961;
-      font-size: 1.25rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .hotspot-modal-close:hover {
-      transform: scale(1.1);
-    }
-
-    .hotspot-modal-label {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: #8e8e93;
-      margin-bottom: 1rem;
-    }
-
-    .hotspot-modal-content {
-      font-size: 1.125rem;
-      line-height: 1.6;
-      color: #e5e5e7;
-      text-align: center;
-    }
-
-    /* GAME MODE - OPTIONS BANK */
+    /* GAME MODE - OPTIONS BANK - COMPACT & SUBTLE */
     .options-bank {
       display: none;
-      flex-direction: column;
-      gap: 0.75rem;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0.5rem;
       margin-top: 2rem;
-      padding-top: 2rem;
-      border-top: 1px solid rgba(201, 169, 97, 0.2);
+      padding: 1rem 1.5rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.08);
+      max-height: 150px;
+      overflow-y: auto;
+      background: transparent;
+      justify-content: center;
     }
 
     .options-bank.show {
       display: flex;
     }
 
+    /* CUSTOM SCROLLBAR FOR OPTIONS */
+    .options-bank::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    .options-bank::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .options-bank::-webkit-scrollbar-thumb {
+      background: rgba(255, 59, 48, 0.2);
+      border-radius: 10px;
+    }
+
+    .options-bank::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 59, 48, 0.3);
+    }
+
+    /* OPTION CARDS - PILL/TAG STYLE */
     .option-card {
-      background: rgba(60, 60, 64, 0.4);
-      border: 2px solid rgba(255, 255, 255, 0.1);
-      border-radius: 1rem;
-      padding: 1rem 1.5rem;
+      background: #ffffff;
+      border: 2px solid rgba(0, 0, 0, 0.15);
+      border-radius: 20px;
+      padding: 0.5rem 1rem;
       cursor: pointer;
-      transition: all 0.3s;
+      transition: all 0.25s;
       text-align: center;
-      font-size: 1rem;
-      color: #e5e5e7;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: rgba(0, 0, 0, 0.6);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      flex-shrink: 0;
+      white-space: nowrap;
     }
 
     .option-card:hover {
-      background: rgba(60, 60, 64, 0.6);
-      border-color: rgba(201, 169, 97, 0.5);
-      transform: translateY(-2px);
+      border-color: rgba(255, 59, 48, 0.4);
+      color: #000000;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     }
 
     .option-card.selected {
-      background: rgba(201, 169, 97, 0.2);
-      border-color: #C9A961;
-      color: #C9A961;
+      background: #ff3b30;
+      border-color: #ff3b30;
+      color: #ffffff;
+      transform: translateY(-1px);
     }
 
     .option-card.correct {
-      background: rgba(16, 185, 129, 0.2);
+      background: #10b981;
       border-color: #10b981;
-      color: #10b981;
+      color: #ffffff;
       pointer-events: none;
     }
 
     .option-card.incorrect {
-      background: rgba(239, 68, 68, 0.2);
+      background: #ef4444;
       border-color: #ef4444;
-      color: #ef4444;
+      color: #ffffff;
       pointer-events: none;
+      animation: shake 0.5s;
     }
 
     /* NAVIGATION ARROWS */
     .nav-arrows {
       position: fixed;
-      bottom: 2rem;
+      bottom: 1.5rem;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
-      gap: 1rem;
+      gap: 0.75rem;
       z-index: 1000;
     }
 
     .nav-arrow {
-      width: 50px;
-      height: 50px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
-      background: rgba(201, 169, 97, 0.2);
-      border: 2px solid rgba(201, 169, 97, 0.5);
-      color: #C9A961;
-      font-size: 1.25rem;
+      background: rgba(212, 175, 55, 0.1);
+      border: 2px solid rgba(212, 175, 55, 0.3);
+      color: #D4AF37;
+      font-size: 1.2rem;
       cursor: pointer;
       transition: all 0.3s;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-weight: 700;
     }
 
     .nav-arrow:hover:not(:disabled) {
-      background: rgba(201, 169, 97, 0.4);
-      transform: scale(1.1);
+      background: rgba(212, 175, 55, 0.2);
+      transform: scale(1.05);
+      border-color: rgba(212, 175, 55, 0.5);
     }
 
     .nav-arrow:disabled {
-      opacity: 0.3;
+      opacity: 0.15;
       cursor: not-allowed;
     }
 
     /* PROGRESS DOTS */
     .progress-dots {
       position: fixed;
-      bottom: 5rem;
+      bottom: 4.25rem;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
@@ -449,104 +428,112 @@
     }
 
     .progress-dot {
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .progress-dot:hover {
+      transform: scale(1.2);
+      background: rgba(212, 175, 55, 0.4);
     }
 
     .progress-dot.active {
-      background: #C9A961;
-      transform: scale(1.5);
+      background: #D4AF37;
+      border-color: #D4AF37;
+      transform: scale(1.25);
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
     }
 
     /* SCROLLBAR */
-    .primary-tabs::-webkit-scrollbar { height: 4px; }
+    .primary-tabs::-webkit-scrollbar { height: 5px; }
     .primary-tabs::-webkit-scrollbar-track { background: transparent; }
     .primary-tabs::-webkit-scrollbar-thumb {
-      background: rgba(201, 169, 97, 0.3);
-      border-radius: 4px;
+      background: rgba(212, 175, 55, 0.4);
+      border-radius: 5px;
+    }
+
+    /* SLIDES CONTAINER SCROLLBAR */
+    .slides-container::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    .slides-container::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .slides-container::-webkit-scrollbar-thumb {
+      background: rgba(212, 175, 55, 0.3);
+      border-radius: 5px;
     }
 
     /* MOBILE */
     @media (max-width: 768px) {
-      .back-btn {
-        padding: 0.35rem 0.75rem;
-        font-size: 0.6875rem;
-      }
-
-      .navigation-bar {
-        padding: 0.75rem 0.5rem 0;
-      }
-
-      .primary-tab {
-        padding: 0.4rem 0.875rem;
-        font-size: 0.6875rem;
-      }
-
-      .mode-btn {
-        padding: 0.3rem 0.75rem;
-        font-size: 0.625rem;
-      }
-
-      .content-area {
-        top: 120px;
-        padding: 1rem;
-      }
-
-      .slides-container {
-        top: 120px;
-        padding: 1rem 1rem 6rem;
+      .sentence-display {
+        font-size: 1.8rem;
+        padding: 1.5rem 1rem;
+        gap: 0.75rem;
       }
 
       .slide {
         padding: 2rem 1.5rem;
-        min-height: 300px;
+        gap: 1.5rem;
       }
 
-      .sentence-display {
-        font-size: 1.125rem;
+      .hotspot-number {
+        min-width: 44px;
+        height: 44px;
+        font-size: 1.4rem;
       }
 
-      .hotspot {
-        min-width: 28px;
-        height: 28px;
-        font-size: 0.625rem;
+      .inline-clause {
+        font-size: 1.6rem;
+      }
+
+      .nav-arrow {
+        width: 44px;
+        height: 44px;
+        font-size: 1.1rem;
+      }
+
+      .option-card {
+        font-size: 0.7rem;
+        padding: 0.45rem 0.875rem;
+      }
+
+      .options-bank {
+        max-height: 120px;
+        gap: 0.4rem;
+        padding: 0.875rem 1rem;
       }
     }
   </style>
 </head>
 <body>
 
-<button class="back-btn" onclick="window.location.href='../../../index.html?openModal=writing&submenu=sentence-structure'">
+<button class="back-btn" onclick="alert('Back navigation would go here')">
   <span>←</span>
   <span>Back</span>
 </button>
 
-<!-- TWO-TIER NAVIGATION -->
+<!-- NAVIGATION -->
 <nav class="navigation-bar">
-  <!-- PRIMARY TABS (Categories) -->
   <div class="primary-tabs" id="primaryTabs"></div>
   
-  <!-- SECONDARY CONTROLS (Mode Toggle) -->
   <div class="secondary-controls">
     <div class="mode-toggle">
-      <button class="mode-btn active" data-mode="explore" onclick="setMode('explore')">📖 Explore</button>
-      <button class="mode-btn" data-mode="game" onclick="setMode('game')">🎮 Match</button>
+      <button class="mode-btn active" data-mode="explore" onclick="setMode('explore')">Explore</button>
+      <button class="mode-btn" data-mode="game" onclick="setMode('game')">Match</button>
     </div>
   </div>
 </nav>
 
 <!-- SLIDES CONTAINER -->
 <div class="slides-container" id="slidesContainer"></div>
-
-<!-- HOTSPOT MODAL -->
-<div class="hotspot-modal" id="hotspotModal">
-  <button class="hotspot-modal-close" onclick="closeModal()">×</button>
-  <div class="hotspot-modal-label" id="modalLabel"></div>
-  <div class="hotspot-modal-content" id="modalContent"></div>
-</div>
 
 <!-- NAVIGATION -->
 <div class="nav-arrows">
@@ -564,6 +551,7 @@ let currentSlideIndex = 0;
 let mode = 'explore';
 let selectedOption = null;
 let matches = {};
+let revealed = new Set();
 
 // ==================== INIT ====================
 async function init() {
@@ -578,10 +566,11 @@ async function init() {
   } catch (error) {
     console.error('Error loading data:', error);
     document.getElementById('slidesContainer').innerHTML = `
-      <div style="text-align: center; padding: 2rem; color: #fb923c;">
-        <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">⚠️</div>
-        <div>Failed to load sentence data</div>
-        <div style="font-size: 0.75rem; margin-top: 0.5rem;">${error.message}</div>
+      <div style="text-align: center; padding: 2rem; color: #D4AF37;">
+        <div style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
+        <div style="font-size: 1.5rem; font-weight: 700;">Failed to load sentence data</div>
+        <div style="font-size: 1rem; margin-top: 1rem; opacity: 0.6;">${error.message}</div>
+        <div style="font-size: 0.875rem; margin-top: 0.5rem; opacity: 0.4;">Looking for: data/sentence-structures-complete.json</div>
       </div>
     `;
   }
@@ -589,12 +578,14 @@ async function init() {
 
 // ==================== RENDER PRIMARY TABS ====================
 function renderPrimaryTabs() {
+  if (!data) return;
+  
   const container = document.getElementById('primaryTabs');
   
   container.innerHTML = data.categories.map(cat => `
     <button class="primary-tab ${cat.id === currentCategory ? 'active' : ''}" 
             onclick="loadCategory('${cat.id}')">
-      <span>${cat.icon}</span>
+      <span class="icon">${cat.icon}</span>
       <span>${cat.name}</span>
     </button>
   `).join('');
@@ -602,9 +593,12 @@ function renderPrimaryTabs() {
 
 // ==================== LOAD CATEGORY ====================
 function loadCategory(categoryId) {
+  if (!data) return;
+  
   currentCategory = categoryId;
   currentSlideIndex = 0;
   matches = {};
+  revealed = new Set();
   
   renderPrimaryTabs();
   renderSlides();
@@ -623,16 +617,17 @@ function renderSlides() {
   container.innerHTML = slides.map((slide, index) => {
     const sentenceHTML = slide.sentence.map((part, partIndex) => {
       if (part.type === 'hotspot') {
-        return `<span class="hotspot" 
-                      data-slide="${index}" 
-                      data-id="${part.id}" 
-                      onclick="handleHotspotClick(${index}, ${part.id}, '${escapeQuotes(part.content)}', '${escapeQuotes(part.label)}')">${part.id}</span>`;
+        return `
+          <div class="hotspot-container" data-hotspot-id="${part.id}">
+            <div class="inline-clause">${part.content}</div>
+            <div class="hotspot-number" onclick="revealHotspot(${index}, ${part.id})">${part.id}</div>
+          </div>
+        `;
       } else {
         return `<span class="word">${part.text}</span>`;
       }
     }).join(' ');
     
-    // Game mode options
     const options = slide.sentence
       .filter(part => part.type === 'hotspot')
       .sort(() => Math.random() - 0.5)
@@ -644,10 +639,6 @@ function renderSlides() {
     
     return `
       <div class="slide ${index === 0 ? 'active' : ''}" data-index="${index}">
-        <div class="slide-header">
-          <div class="sentence-type-label">${slide.type}</div>
-          <div><span class="level-badge level-${slide.level.toLowerCase()}">${slide.level}</span></div>
-        </div>
         <div class="sentence-display">${sentenceHTML}</div>
         <div class="options-bank" id="options-${currentCategory}-${index}">
           ${options}
@@ -657,8 +648,23 @@ function renderSlides() {
   }).join('');
 }
 
+// ==================== REVEAL HOTSPOT ====================
+function revealHotspot(slideIndex, hotspotId) {
+  const key = `${slideIndex}-${hotspotId}`;
+  
+  if (mode === 'explore') {
+    const container = document.querySelector(`.slide[data-index="${slideIndex}"] .hotspot-container[data-hotspot-id="${hotspotId}"]`);
+    container.classList.add('revealed');
+    revealed.add(key);
+  } else if (mode === 'game') {
+    handleGameHotspotClick(slideIndex, hotspotId);
+  }
+}
+
 // ==================== RENDER PROGRESS DOTS ====================
 function renderProgressDots() {
+  if (!data) return;
+  
   const category = data.categories.find(c => c.id === currentCategory);
   const container = document.getElementById('progressDots');
   
@@ -683,7 +689,6 @@ function updateSlide() {
   prevBtn.disabled = currentSlideIndex === 0;
   nextBtn.disabled = currentSlideIndex === category.slides.length - 1;
   
-  // Show/hide options based on mode
   const optionsBank = document.getElementById(`options-${currentCategory}-${currentSlideIndex}`);
   if (optionsBank) {
     optionsBank.classList.toggle('show', mode === 'game');
@@ -720,28 +725,7 @@ function setMode(newMode) {
   updateSlide();
 }
 
-// ==================== HOTSPOT CLICK ====================
-function handleHotspotClick(slideIndex, hotspotId, content, label) {
-  if (mode === 'explore') {
-    openModal(content, label);
-  } else if (mode === 'game') {
-    handleGameHotspotClick(slideIndex, hotspotId);
-  }
-}
-
-// ==================== MODAL ====================
-function openModal(content, label) {
-  const modal = document.getElementById('hotspotModal');
-  document.getElementById('modalLabel').textContent = label;
-  document.getElementById('modalContent').textContent = content;
-  modal.classList.add('show');
-}
-
-function closeModal() {
-  document.getElementById('hotspotModal').classList.remove('show');
-}
-
-// ==================== GAME MODE ====================
+// ==================== GAME MODE - SELECT OPTION ====================
 function selectOption(slideIndex, optionId) {
   if (mode !== 'game') return;
   
@@ -754,19 +738,21 @@ function selectOption(slideIndex, optionId) {
   selectedOption = optionId;
 }
 
+// ==================== GAME MODE - HANDLE MATCH ====================
 function handleGameHotspotClick(slideIndex, hotspotId) {
   if (!selectedOption) {
-    alert('Please select an option first!');
+    alert('⚠️ CHOOSE AN OPTION FIRST!');
     return;
   }
   
-  const hotspot = document.querySelector(`.slide[data-index="${slideIndex}"] .hotspot[data-id="${hotspotId}"]`);
+  const container = document.querySelector(`.slide[data-index="${slideIndex}"] .hotspot-container[data-hotspot-id="${hotspotId}"]`);
   const option = document.querySelector(`#options-${currentCategory}-${slideIndex} .option-card[data-id="${selectedOption}"]`);
   
   if (selectedOption === hotspotId) {
-    hotspot.classList.add('matched');
+    container.classList.add('revealed', 'matched');
     option.classList.add('correct');
     matches[`${slideIndex}-${hotspotId}`] = true;
+    revealed.add(`${slideIndex}-${hotspotId}`);
     selectedOption = null;
     
     const category = data.categories.find(c => c.id === currentCategory);
@@ -774,19 +760,20 @@ function handleGameHotspotClick(slideIndex, hotspotId) {
     const matchedCount = Object.keys(matches).filter(k => k.startsWith(`${slideIndex}-`)).length;
     
     if (matchedCount === totalHotspots) {
-      setTimeout(() => alert('🎉 Perfect! All matched!'), 500);
+      setTimeout(() => alert('🎉 PERFECT! ALL MATCHED!'), 500);
     }
   } else {
-    hotspot.classList.add('wrong');
+    container.classList.add('wrong');
     option.classList.add('incorrect');
     setTimeout(() => {
-      hotspot.classList.remove('wrong');
+      container.classList.remove('wrong');
       option.classList.remove('incorrect', 'selected');
       selectedOption = null;
     }, 1000);
   }
 }
 
+// ==================== RESET GAME STATE ====================
 function resetGameState() {
   selectedOption = null;
   
@@ -794,23 +781,18 @@ function resetGameState() {
     card.classList.remove('selected', 'correct', 'incorrect');
   });
   
-  document.querySelectorAll('.hotspot').forEach(spot => {
-    spot.classList.remove('matched', 'wrong');
+  document.querySelectorAll('.hotspot-container').forEach(container => {
+    container.classList.remove('revealed', 'matched', 'wrong');
   });
   
   matches = {};
-}
-
-// ==================== HELPERS ====================
-function escapeQuotes(str) {
-  return str.replace(/'/g, "\\'").replace(/"/g, '\\"');
+  revealed = new Set();
 }
 
 // ==================== KEYBOARD NAV ====================
 document.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowLeft') prevSlide();
   if (e.key === 'ArrowRight') nextSlide();
-  if (e.key === 'Escape') closeModal();
 });
 
 // ==================== INIT ====================
