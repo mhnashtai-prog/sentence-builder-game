@@ -228,6 +228,17 @@
       display: none;
     }
 
+    /* SLIDE HEADER - hidden by default */
+    .slide-header {
+      display: none;
+    }
+
+    .slide-categories,
+    .slide-category-tab,
+    .slide-mode-toggle {
+      display: none;
+    }
+
     /* CLICKABLE NUMBER BADGE - RED */
     .hotspot-number {
       display: inline-flex;
@@ -498,7 +509,7 @@
       }
     }
 
-    /* MOBILE - MODAL CARD DESIGN */
+    /* MOBILE - FULL SCREEN WITH INTERNAL NAV */
     @media (max-width: 768px) {
       /* Hide main navigation bar on mobile */
       .navigation-bar {
@@ -507,58 +518,115 @@
 
       /* Back button adjustments */
       .back-btn {
-        top: 1rem;
-        left: 1rem;
-        padding: 0.5rem 1rem;
-        font-size: 0.75rem;
+        top: 0.75rem;
+        left: 0.75rem;
+        padding: 0.45rem 0.9rem;
+        font-size: 0.7rem;
         z-index: 2000;
       }
 
       /* Slides container - full viewport */
       .slides-container {
         top: 0;
-        bottom: 60px;
-        padding: 1rem;
+        bottom: 0;
+        padding: 0;
         display: flex !important;
-        align-items: center;
+        align-items: stretch;
         justify-content: center;
       }
 
-      /* Modal Card - floating style */
+      /* Slide - full screen, no card */
       .slide {
         max-width: 100%;
-        width: calc(100% - 2rem);
-        min-height: auto;
-        max-height: 90vh;
-        height: auto;
-        border: 3px solid #000000;
-        border-radius: 24px;
-        padding: 1.25rem 1rem 1rem;
-        gap: 1rem;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-radius: 0;
+        padding: 0;
+        gap: 0;
+        box-shadow: none;
         position: relative;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
+        display: flex;
+        flex-direction: column;
       }
 
-      /* Internal mode toggle - top right corner */
-      .mobile-mode-toggle {
+      /* Internal navigation header - compact two rows */
+      .slide-header {
         display: flex !important;
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-        background: rgba(0, 0, 0, 0.05);
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        border-radius: 20px;
-        padding: 0.2rem;
-        gap: 0.15rem;
+        flex-direction: column;
+        background: #ffffff;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        padding: 0.5rem 0.75rem 0.5rem;
+        gap: 0.5rem;
+        position: sticky;
+        top: 0;
         z-index: 100;
       }
 
-      .mobile-mode-toggle .mode-btn {
-        padding: 0.35rem 0.65rem;
-        font-size: 0.65rem;
+      /* Category tabs - horizontal scroll */
+      .slide-categories {
+        display: flex !important;
+        gap: 0.4rem;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+
+      .slide-categories::-webkit-scrollbar {
+        display: none;
+      }
+
+      .slide-category-tab {
+        display: flex !important;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.4rem 0.8rem;
+        background: #f5f5f5;
+        border: 1.5px solid rgba(0, 0, 0, 0.1);
         border-radius: 16px;
+        font-size: 0.65rem;
+        font-weight: 800;
+        color: rgba(0, 0, 0, 0.5);
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        white-space: nowrap;
+        cursor: pointer;
+        transition: all 0.2s;
+        flex-shrink: 0;
+      }
+
+      .slide-category-tab.active {
+        background: #000000;
+        border-color: #000000;
+        color: #ffffff;
+      }
+
+      .slide-category-tab .icon {
+        font-size: 0.95rem;
+      }
+
+      /* Mode toggle - second row */
+      .slide-mode-toggle {
+        display: flex !important;
+        justify-content: center;
+      }
+
+      .mobile-mode-toggle {
+        display: flex !important;
+        background: rgba(0, 0, 0, 0.04);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 18px;
+        padding: 0.2rem;
+        gap: 0.15rem;
+      }
+
+      .mobile-mode-toggle .mode-btn {
+        padding: 0.35rem 0.9rem;
+        font-size: 0.65rem;
+        border-radius: 14px;
         background: transparent;
         border: none;
         color: rgba(0, 0, 0, 0.4);
@@ -578,86 +646,73 @@
         display: none !important;
       }
 
+      /* Sentence display - takes remaining space */
       .sentence-display {
-        font-size: 1.5rem;
-        padding: 2.5rem 0.75rem 1rem;
-        gap: 0.55rem;
+        font-size: 1.6rem;
+        padding: 2rem 1rem 1rem;
+        gap: 0.6rem;
         flex: 1;
         display: flex;
         align-items: center;
-        min-height: 200px;
+        min-height: auto;
       }
 
       .hotspot-number {
-        min-width: 38px;
-        height: 38px;
-        font-size: 1.2rem;
-        border-radius: 6px;
+        min-width: 42px;
+        height: 42px;
+        font-size: 1.3rem;
+        border-radius: 7px;
       }
 
       .inline-clause {
-        font-size: 1.3rem;
+        font-size: 1.4rem;
       }
 
       .nav-arrow {
-        width: 46px;
-        height: 46px;
-        font-size: 1.2rem;
+        width: 50px;
+        height: 50px;
+        font-size: 1.3rem;
       }
 
       .option-card {
-        font-size: 0.65rem;
-        padding: 0.4rem 0.75rem;
+        font-size: 0.7rem;
+        padding: 0.45rem 0.85rem;
       }
 
       .options-bank {
-        max-height: 120px;
-        gap: 0.35rem;
-        padding: 0.75rem 0.5rem;
-        margin-top: 0.75rem;
-        border-top: 1px solid rgba(0, 0, 0, 0.1);
-      }
-
-      /* Mobile category switcher at bottom left */
-      .mobile-category {
-        display: flex !important;
-        position: fixed;
-        bottom: 1rem;
-        left: 1rem;
-        padding: 0.5rem 1rem;
-        background: rgba(255, 255, 255, 0.95);
-        border: 2px solid #000000;
-        border-radius: 20px;
-        font-size: 0.7rem;
-        font-weight: 800;
-        color: #000000;
-        text-transform: uppercase;
-        letter-spacing: 0.03em;
-        z-index: 1001;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        align-items: center;
-        gap: 0.5rem;
-      }
-
-      .mobile-category .icon {
-        font-size: 1.1rem;
+        max-height: 140px;
+        gap: 0.4rem;
+        padding: 0.85rem 0.75rem;
+        margin-top: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+        background: #fafafa;
       }
 
       .progress-dots {
-        bottom: 3.5rem;
+        bottom: 4rem;
+        left: 50%;
+        transform: translateX(-50%);
       }
 
       .nav-arrows {
-        bottom: 1rem;
-        right: 1rem;
-        left: auto;
-        transform: none;
+        bottom: 1.25rem;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      /* Hide mobile category indicator - using internal tabs now */
+      .mobile-category {
+        display: none !important;
       }
     }
 
     /* Desktop - show normal toggle, hide mobile toggle */
     @media (min-width: 769px) {
       .mobile-mode-toggle {
+        display: none !important;
+      }
+      
+      .slide-header {
         display: none !important;
       }
     }
@@ -783,6 +838,15 @@ function renderSlides() {
   const category = data.categories.find(c => c.id === currentCategory);
   const slides = category.slides;
   
+  // Generate category tabs HTML
+  const categoryTabsHTML = data.categories.map(cat => `
+    <button class="slide-category-tab ${cat.id === currentCategory ? 'active' : ''}" 
+            onclick="loadCategory('${cat.id}')">
+      <span class="icon">${cat.icon}</span>
+      <span>${cat.name}</span>
+    </button>
+  `).join('');
+  
   container.innerHTML = slides.map((slide, index) => {
     const sentenceHTML = slide.sentence.map((part, partIndex) => {
       if (part.type === 'hotspot') {
@@ -808,9 +872,16 @@ function renderSlides() {
     
     return `
       <div class="slide ${index === 0 ? 'active' : ''}" data-index="${index}">
-        <div class="mobile-mode-toggle">
-          <button class="mode-btn ${mode === 'explore' ? 'active' : ''}" data-mode="explore" onclick="setMode('explore')">Explore</button>
-          <button class="mode-btn ${mode === 'game' ? 'active' : ''}" data-mode="game" onclick="setMode('game')">Match</button>
+        <div class="slide-header">
+          <div class="slide-categories">
+            ${categoryTabsHTML}
+          </div>
+          <div class="slide-mode-toggle">
+            <div class="mobile-mode-toggle">
+              <button class="mode-btn ${mode === 'explore' ? 'active' : ''}" data-mode="explore" onclick="setMode('explore')">Explore</button>
+              <button class="mode-btn ${mode === 'game' ? 'active' : ''}" data-mode="game" onclick="setMode('game')">Match</button>
+            </div>
+          </div>
         </div>
         <div class="sentence-display">${sentenceHTML}</div>
         <div class="options-bank" id="options-${currentCategory}-${index}">
