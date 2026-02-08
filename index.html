@@ -4,14 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>INTUITY - Sentence Structures</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
   
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: 'DM Sans', 'Inter', sans-serif;
-      background: #000;
+      font-family: 'Inter', sans-serif;
+      background: #0f0f0f;
       color: #fff;
       min-height: 100vh;
       overflow: hidden;
@@ -21,81 +21,88 @@
     /* BACK BUTTON */
     .back-btn {
       position: fixed;
-      top: 1rem;
-      left: 1rem;
-      padding: 0.5rem 1rem;
-      background: rgba(0, 0, 0, 0.6);
+      top: 1.5rem;
+      left: 1.5rem;
+      padding: 0.75rem 1.5rem;
+      background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 999px;
-      color: #C9A961;
-      font-size: 0.75rem;
-      font-weight: 600;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      color: #D4AF37;
+      font-size: 0.9rem;
+      font-weight: 800;
       cursor: pointer;
       transition: all 0.3s;
       display: flex;
       align-items: center;
       gap: 0.5rem;
       z-index: 1000;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
     .back-btn:hover {
-      background: rgba(0, 0, 0, 0.8);
-      transform: translateX(-2px);
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateX(-4px);
+      border-color: #D4AF37;
     }
 
-    /* TWO-TIER NAVIGATION - TOP */
+    /* NAVIGATION */
     .navigation-bar {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      background: rgba(20, 20, 22, 0.95);
+      background: rgba(20, 20, 20, 0.98);
       backdrop-filter: blur(40px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.05);
       z-index: 999;
-      padding: 1rem 1rem 0;
+      padding: 1rem 1.5rem 0;
     }
 
-    /* PRIMARY TABS (Categories) */
+    /* PRIMARY TABS */
     .primary-tabs {
       display: flex;
-      gap: 0.5rem;
+      gap: 1rem;
       justify-content: center;
-      margin-bottom: 0.75rem;
+      margin-bottom: 1rem;
       overflow-x: auto;
-      padding-bottom: 0.5rem;
+      padding-bottom: 0.75rem;
     }
 
     .primary-tab {
-      padding: 0.5rem 1.25rem;
+      padding: 0.875rem 1.75rem;
       background: transparent;
       border: none;
-      border-bottom: 3px solid transparent;
-      color: rgba(255, 255, 255, 0.5);
+      border-bottom: 4px solid transparent;
+      color: rgba(255, 255, 255, 0.4);
       cursor: pointer;
-      font-size: 0.8125rem;
-      font-weight: 600;
+      font-size: 1rem;
+      font-weight: 800;
       transition: all 0.3s;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.1em;
       white-space: nowrap;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.625rem;
     }
 
     .primary-tab:hover {
-      color: #C9A961;
-      border-bottom-color: rgba(201, 169, 97, 0.3);
+      color: #D4AF37;
+      border-bottom-color: rgba(212, 175, 55, 0.4);
     }
 
     .primary-tab.active {
-      color: #C9A961;
-      border-bottom-color: #C9A961;
+      color: #D4AF37;
+      border-bottom-color: #D4AF37;
     }
 
-    /* SECONDARY CONTROLS (Mode Toggle) */
+    .primary-tab .icon {
+      font-size: 1.5rem;
+    }
+
+    /* MODE TOGGLE - SUBTLE */
     .secondary-controls {
       display: flex;
       justify-content: center;
@@ -104,54 +111,47 @@
 
     .mode-toggle {
       display: flex;
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
       padding: 0.25rem;
       gap: 0.25rem;
     }
 
     .mode-btn {
-      padding: 0.4rem 1rem;
+      padding: 0.5rem 1rem;
       background: transparent;
       border: none;
-      border-radius: 999px;
-      color: rgba(255, 255, 255, 0.5);
-      font-size: 0.6875rem;
+      border-radius: 6px;
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 0.75rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      text-transform: capitalize;
+      letter-spacing: 0;
     }
 
     .mode-btn.active {
-      background: #C9A961;
-      color: #000;
+      background: rgba(212, 175, 55, 0.15);
+      color: #D4AF37;
     }
 
-    /* CONTENT AREA */
-    .content-area {
-      position: fixed;
-      top: 130px;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      overflow-y: auto;
-      padding: 2rem;
+    .mode-btn:hover {
+      color: rgba(255, 255, 255, 0.6);
     }
 
-    /* SLIDE MODE CONTAINER */
+    /* SLIDES CONTAINER */
     .slides-container {
       display: none;
       position: fixed;
-      top: 130px;
+      top: 140px;
       left: 0;
       right: 0;
       bottom: 0;
       align-items: center;
       justify-content: center;
-      padding: 2rem 2rem 6rem;
+      padding: 2rem 2rem 5.5rem;
     }
 
     .slides-container.active {
@@ -165,20 +165,19 @@
       left: 50%;
       transform: translate(-50%, -50%);
       width: 90%;
-      max-width: 900px;
-      background: rgba(20, 20, 22, 0.95);
-      backdrop-filter: blur(40px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 2rem;
-      padding: 3rem 2.5rem;
+      max-width: 1000px;
+      background: #2a2a2a;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-radius: 32px;
+      padding: 4rem 3.5rem;
       opacity: 0;
       transition: opacity 0.4s ease;
       pointer-events: none;
       display: flex;
       flex-direction: column;
-      gap: 2rem;
-      min-height: 400px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+      gap: 3rem;
+      min-height: 500px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
     }
 
     .slide.active {
@@ -191,278 +190,229 @@
       text-align: center;
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
-      margin-bottom: -1rem;
+      gap: 1rem;
     }
 
     .sentence-type-label {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1rem;
+      font-size: 1.25rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: #C9A961;
+      letter-spacing: 0.15em;
+      color: rgba(255, 255, 255, 0.5);
     }
 
     .level-badge {
       display: inline-block;
-      padding: 0.25rem 0.75rem;
-      border-radius: 999px;
-      font-size: 0.6875rem;
-      font-weight: 700;
+      padding: 0.5rem 1.25rem;
+      border-radius: 12px;
+      font-size: 0.875rem;
+      font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.1em;
     }
 
-    .level-a2 { background: rgba(34, 197, 94, 0.2); color: #86efac; }
-    .level-b1 { background: rgba(59, 130, 246, 0.2); color: #93c5fd; }
-    .level-b2 { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
-    .level-c1 { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
+    .level-a2 { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 2px solid #4ade80; }
+    .level-b1 { background: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 2px solid #60a5fa; }
+    .level-b2 { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 2px solid #fbbf24; }
+    .level-c1 { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 2px solid #f87171; }
 
-    /* SENTENCE WITH HOTSPOTS */
+    /* SENTENCE DISPLAY */
     .sentence-display {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 1.5rem;
-      line-height: 2.2;
-      color: #e5e5e7;
+      font-family: 'Inter', sans-serif;
+      font-size: 2.25rem;
+      line-height: 1.6;
+      color: #ffffff;
       text-align: center;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 0.5rem;
-      align-items: center;
-      padding: 2rem 1rem;
+      gap: 1rem;
+      align-items: flex-end;
+      padding: 3rem 2rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      position: relative;
     }
 
     .word {
       display: inline-block;
     }
 
-    /* INSERTION POINT BRACKET */
-    .insertion-bracket {
-      display: inline-block;
-      position: relative;
-      width: 8px;
-      height: 30px;
-      margin: 0 0.25rem;
+    .word.highlight {
+      color: #D4AF37;
     }
 
-    .insertion-bracket::before,
-    .insertion-bracket::after {
-      content: '';
-      position: absolute;
-      width: 8px;
-      height: 50%;
-      border: 2px solid rgba(201, 169, 97, 0.4);
-    }
-
-    .insertion-bracket::before {
-      top: 0;
-      border-bottom: none;
-      border-top-left-radius: 4px;
-      border-top-right-radius: 4px;
-    }
-
-    .insertion-bracket::after {
-      bottom: 0;
-      border-top: none;
-      border-bottom-left-radius: 4px;
-      border-bottom-right-radius: 4px;
-    }
-
-    /* HOTSPOT FLAG - VISUAL INSERTION MARKER */
-    .hotspot {
+    /* FLAGPOLE CONTAINER - HANGING FROM ABOVE */
+    .hotspot-container {
       display: inline-flex;
+      flex-direction: column-reverse;
       align-items: center;
-      justify-content: center;
       position: relative;
-      min-width: 40px;
-      height: 40px;
-      padding: 0 0.5rem;
-      background: transparent;
-      cursor: pointer;
-      transition: all 0.3s;
-      margin: 0 0.25rem;
+      margin: 0 0.5rem;
+      min-height: 60px;
     }
 
-    .hotspot::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 3px;
-      height: 60px;
-      background: linear-gradient(180deg, transparent 0%, rgba(201, 169, 97, 0.6) 20%, rgba(201, 169, 97, 0.9) 50%, rgba(201, 169, 97, 0.6) 80%, transparent 100%);
-      animation: flagPulse 2s ease-in-out infinite;
-    }
-
-    .hotspot::after {
-      content: attr(data-id);
-      position: absolute;
-      top: -25px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 28px;
-      height: 28px;
-      background: rgba(201, 169, 97, 0.9);
-      border: 2px solid #C9A961;
-      border-radius: 50%;
-      color: #000;
-      font-size: 0.75rem;
-      font-weight: 700;
+    /* THE NUMBER BUTTON - AT SENTENCE LEVEL */
+    .hotspot-number {
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 0 20px rgba(201, 169, 97, 0.4);
+      min-width: 60px;
+      height: 60px;
+      background: rgba(212, 175, 55, 0.15);
+      border: 3px solid #D4AF37;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: all 0.4s;
+      font-size: 1.75rem;
+      font-weight: 900;
+      color: #D4AF37;
+      position: relative;
+      z-index: 10;
     }
 
-    @keyframes flagPulse {
-      0%, 100% { opacity: 0.6; }
-      50% { opacity: 1; box-shadow: 0 0 30px rgba(201, 169, 97, 0.6); }
+    .hotspot-number:hover {
+      background: rgba(212, 175, 55, 0.25);
+      transform: scale(1.1);
+      box-shadow: 0 0 40px rgba(212, 175, 55, 0.5);
     }
 
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); box-shadow: 0 0 20px rgba(201, 169, 97, 0.4); }
+    /* HIDE NUMBER WHEN REVEALED */
+    .hotspot-container.revealed .hotspot-number {
+      opacity: 0;
+      transform: scale(0);
+      pointer-events: none;
     }
 
-    .hotspot:hover::before {
-      background: linear-gradient(180deg, transparent 0%, rgba(201, 169, 97, 0.8) 20%, #C9A961 50%, rgba(201, 169, 97, 0.8) 80%, transparent 100%);
+    /* FLAGPOLE - VERTICAL LINE HANGING DOWN FROM ABOVE */
+    .flagpole-line {
       width: 4px;
-      height: 70px;
+      height: 0;
+      background: linear-gradient(180deg, rgba(212, 175, 55, 0.5) 0%, #D4AF37 100%);
+      margin-bottom: 0.5rem;
+      transition: height 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      opacity: 0;
+      order: -1;
     }
 
-    .hotspot:hover::after {
-      transform: translateX(-50%) scale(1.15);
-      background: #C9A961;
-      box-shadow: 0 0 30px rgba(201, 169, 97, 0.8);
+    .hotspot-container.revealed .flagpole-line {
+      height: 120px;
+      opacity: 1;
     }
 
-    .hotspot.matched::before {
-      background: linear-gradient(180deg, transparent 0%, rgba(16, 185, 129, 0.6) 20%, rgba(16, 185, 129, 0.9) 50%, rgba(16, 185, 129, 0.6) 80%, transparent 100%);
-      animation: none;
-    }
-
-    .hotspot.matched::after {
-      background: rgba(16, 185, 129, 0.9);
-      border-color: #10b981;
-      color: #000;
-    }
-
-    .hotspot.wrong::before {
-      background: linear-gradient(180deg, transparent 0%, rgba(239, 68, 68, 0.6) 20%, rgba(239, 68, 68, 0.9) 50%, rgba(239, 68, 68, 0.6) 80%, transparent 100%);
-      animation: shake 0.5s;
-    }
-
-    .hotspot.wrong::after {
-      background: rgba(239, 68, 68, 0.9);
-      border-color: #ef4444;
-      animation: shake 0.5s;
-    }
-
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      75% { transform: translateX(5px); }
-    }
-
-    /* HOTSPOT MODAL - CONTEXTUAL TOOLTIP */
-    .hotspot-modal {
+    /* HANGING CLAUSE BUBBLE - ABOVE THE SENTENCE */
+    .hanging-clause {
       position: absolute;
-      top: 0;
-      left: 0;
-      transform: translateY(-20px);
-      background: rgba(28, 28, 30, 0.98);
-      backdrop-filter: blur(40px);
-      border: 2px solid #C9A961;
-      border-radius: 1rem;
-      padding: 1.25rem 1.5rem;
-      max-width: 400px;
-      min-width: 280px;
-      z-index: 1100;
+      bottom: 190px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: rgba(42, 42, 42, 0.98);
+      border: 3px solid #D4AF37;
+      border-radius: 20px;
+      padding: 1.5rem 2rem;
+      min-width: 250px;
+      max-width: 350px;
+      text-align: center;
       opacity: 0;
       pointer-events: none;
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.9);
+      transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+      order: -2;
     }
 
-    .hotspot-modal.show {
-      opacity: 1;
-      transform: translateY(0);
-      pointer-events: auto;
-    }
-
-    /* TOOLTIP ARROW */
-    .hotspot-modal::after {
+    /* SPEECH BUBBLE ARROW POINTING DOWN */
+    .hanging-clause::before {
       content: '';
       position: absolute;
-      bottom: -10px;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 12px solid transparent;
+      border-right: 12px solid transparent;
+      border-top: 12px solid #D4AF37;
+    }
+
+    .hanging-clause::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
       left: 50%;
       transform: translateX(-50%);
       width: 0;
       height: 0;
       border-left: 10px solid transparent;
       border-right: 10px solid transparent;
-      border-top: 10px solid #C9A961;
+      border-top: 10px solid rgba(42, 42, 42, 0.98);
     }
 
-    /* TOOLTIP BELOW (when near top of screen) */
-    .hotspot-modal.below::after {
-      bottom: auto;
-      top: -10px;
-      border-top: none;
-      border-bottom: 10px solid #C9A961;
+    /* SHOW CLAUSE WHEN REVEALED */
+    .hotspot-container.revealed .hanging-clause {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
     }
 
-    .hotspot-modal-close {
-      position: absolute;
-      top: 0.5rem;
-      right: 0.5rem;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #C9A961;
-      font-size: 1rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s;
-    }
-
-    .hotspot-modal-close:hover {
-      transform: scale(1.1);
-      background: rgba(0, 0, 0, 0.6);
-    }
-
-    .hotspot-modal-label {
-      font-size: 0.625rem;
+    /* CLAUSE LABEL */
+    .clause-label {
+      font-size: 0.75rem;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: #8e8e93;
-      margin-bottom: 0.5rem;
-      font-weight: 600;
+      letter-spacing: 0.15em;
+      color: #D4AF37;
+      margin-bottom: 0.75rem;
+      font-weight: 800;
     }
 
-    .hotspot-modal-content {
-      font-size: 1rem;
+    /* CLAUSE CONTENT */
+    .clause-content {
+      font-size: 1.125rem;
       line-height: 1.5;
-      color: #e5e5e7;
-      text-align: left;
-      font-weight: 500;
+      color: #ffffff;
+      font-weight: 700;
+      text-transform: none;
+    }
+
+    /* MATCHED STATE (for game mode) */
+    .hotspot-container.matched .hotspot-number {
+      background: rgba(16, 185, 129, 0.25);
+      border-color: #10b981;
+      color: #10b981;
+    }
+
+    .hotspot-container.matched .flagpole-line {
+      background: linear-gradient(180deg, rgba(16, 185, 129, 0.5) 0%, #10b981 100%);
+    }
+
+    .hotspot-container.matched .hanging-clause {
+      border-color: #10b981;
+    }
+
+    .hotspot-container.matched .clause-label {
+      color: #10b981;
+    }
+
+    /* WRONG STATE (for game mode) */
+    .hotspot-container.wrong .hotspot-number {
+      animation: shake 0.5s;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      75% { transform: translateX(8px); }
     }
 
     /* GAME MODE - OPTIONS BANK */
     .options-bank {
       display: none;
       flex-direction: column;
-      gap: 0.75rem;
+      gap: 1rem;
       margin-top: 2rem;
       padding-top: 2rem;
-      border-top: 1px solid rgba(201, 169, 97, 0.2);
+      border-top: 2px solid rgba(212, 175, 55, 0.2);
     }
 
     .options-bank.show {
@@ -470,47 +420,52 @@
     }
 
     .option-card {
-      background: rgba(60, 60, 64, 0.4);
-      border: 2px solid rgba(255, 255, 255, 0.1);
-      border-radius: 1rem;
-      padding: 1rem 1.5rem;
+      background: rgba(60, 60, 64, 0.5);
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 1.5rem 2rem;
       cursor: pointer;
       transition: all 0.3s;
       text-align: center;
-      font-size: 1rem;
-      color: #e5e5e7;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
     .option-card:hover {
-      background: rgba(60, 60, 64, 0.6);
-      border-color: rgba(201, 169, 97, 0.5);
-      transform: translateY(-2px);
+      background: rgba(60, 60, 64, 0.8);
+      border-color: rgba(212, 175, 55, 0.5);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
     }
 
     .option-card.selected {
-      background: rgba(201, 169, 97, 0.2);
-      border-color: #C9A961;
-      color: #C9A961;
+      background: rgba(212, 175, 55, 0.25);
+      border-color: #D4AF37;
+      color: #D4AF37;
     }
 
     .option-card.correct {
-      background: rgba(16, 185, 129, 0.2);
+      background: rgba(16, 185, 129, 0.25);
       border-color: #10b981;
       color: #10b981;
       pointer-events: none;
     }
 
     .option-card.incorrect {
-      background: rgba(239, 68, 68, 0.2);
+      background: rgba(239, 68, 68, 0.25);
       border-color: #ef4444;
       color: #ef4444;
       pointer-events: none;
+      animation: shake 0.5s;
     }
 
-    /* NAVIGATION ARROWS */
+    /* NAVIGATION ARROWS - COMPACT */
     .nav-arrows {
       position: fixed;
-      bottom: 2rem;
+      bottom: 1.5rem;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
@@ -522,31 +477,33 @@
       width: 50px;
       height: 50px;
       border-radius: 50%;
-      background: rgba(201, 169, 97, 0.2);
-      border: 2px solid rgba(201, 169, 97, 0.5);
-      color: #C9A961;
+      background: rgba(212, 175, 55, 0.1);
+      border: 2px solid rgba(212, 175, 55, 0.3);
+      color: #D4AF37;
       font-size: 1.25rem;
       cursor: pointer;
       transition: all 0.3s;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-weight: 700;
     }
 
     .nav-arrow:hover:not(:disabled) {
-      background: rgba(201, 169, 97, 0.4);
-      transform: scale(1.1);
+      background: rgba(212, 175, 55, 0.2);
+      transform: scale(1.05);
+      border-color: rgba(212, 175, 55, 0.5);
     }
 
     .nav-arrow:disabled {
-      opacity: 0.3;
+      opacity: 0.15;
       cursor: not-allowed;
     }
 
-    /* PROGRESS DOTS */
+    /* PROGRESS DOTS - COMPACT */
     .progress-dots {
       position: fixed;
-      bottom: 5rem;
+      bottom: 4.5rem;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
@@ -558,67 +515,77 @@
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .progress-dot:hover {
+      transform: scale(1.2);
+      background: rgba(212, 175, 55, 0.4);
     }
 
     .progress-dot.active {
-      background: #C9A961;
-      transform: scale(1.5);
+      background: #D4AF37;
+      border-color: #D4AF37;
+      transform: scale(1.3);
+      box-shadow: 0 0 12px rgba(212, 175, 55, 0.6);
     }
 
     /* SCROLLBAR */
-    .primary-tabs::-webkit-scrollbar { height: 4px; }
+    .primary-tabs::-webkit-scrollbar { height: 6px; }
     .primary-tabs::-webkit-scrollbar-track { background: transparent; }
     .primary-tabs::-webkit-scrollbar-thumb {
-      background: rgba(201, 169, 97, 0.3);
-      border-radius: 4px;
+      background: rgba(212, 175, 55, 0.4);
+      border-radius: 6px;
     }
 
     /* MOBILE */
     @media (max-width: 768px) {
-      .back-btn {
-        padding: 0.35rem 0.75rem;
-        font-size: 0.6875rem;
-      }
-
-      .navigation-bar {
-        padding: 0.75rem 0.5rem 0;
-      }
-
-      .primary-tab {
-        padding: 0.4rem 0.875rem;
-        font-size: 0.6875rem;
-      }
-
-      .mode-btn {
-        padding: 0.3rem 0.75rem;
-        font-size: 0.625rem;
-      }
-
-      .content-area {
-        top: 120px;
-        padding: 1rem;
-      }
-
-      .slides-container {
-        top: 120px;
-        padding: 1rem 1rem 6rem;
+      .sentence-display {
+        font-size: 1.5rem;
+        padding: 2rem 1rem;
       }
 
       .slide {
-        padding: 2rem 1.5rem;
-        min-height: 300px;
+        padding: 2.5rem 2rem;
       }
 
-      .sentence-display {
+      .hotspot-number {
+        min-width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+      }
+
+      .hanging-clause {
+        min-width: 200px;
+        max-width: 280px;
+        padding: 1.25rem 1.5rem;
+        bottom: 160px;
+      }
+
+      .flagpole-line {
+        height: 90px;
+      }
+
+      .hotspot-container.revealed .flagpole-line {
+        height: 90px;
+      }
+
+      .clause-content {
+        font-size: 1rem;
+      }
+
+      .nav-arrow {
+        width: 45px;
+        height: 45px;
         font-size: 1.125rem;
       }
 
-      .hotspot {
-        min-width: 28px;
-        height: 28px;
-        font-size: 0.625rem;
+      .option-card {
+        font-size: 1rem;
+        padding: 1.25rem 1.5rem;
       }
     }
   </style>
@@ -630,29 +597,20 @@
   <span>Back</span>
 </button>
 
-<!-- TWO-TIER NAVIGATION -->
+<!-- NAVIGATION -->
 <nav class="navigation-bar">
-  <!-- PRIMARY TABS (Categories) -->
   <div class="primary-tabs" id="primaryTabs"></div>
   
-  <!-- SECONDARY CONTROLS (Mode Toggle) -->
   <div class="secondary-controls">
     <div class="mode-toggle">
-      <button class="mode-btn active" data-mode="explore" onclick="setMode('explore')">📖 Explore</button>
-      <button class="mode-btn" data-mode="game" onclick="setMode('game')">🎮 Match</button>
+      <button class="mode-btn active" data-mode="explore" onclick="setMode('explore')">Explore</button>
+      <button class="mode-btn" data-mode="game" onclick="setMode('game')">Match</button>
     </div>
   </div>
 </nav>
 
 <!-- SLIDES CONTAINER -->
 <div class="slides-container" id="slidesContainer"></div>
-
-<!-- HOTSPOT MODAL -->
-<div class="hotspot-modal" id="hotspotModal">
-  <button class="hotspot-modal-close" onclick="closeModal()">×</button>
-  <div class="hotspot-modal-label" id="modalLabel"></div>
-  <div class="hotspot-modal-content" id="modalContent"></div>
-</div>
 
 <!-- NAVIGATION -->
 <div class="nav-arrows">
@@ -670,6 +628,7 @@ let currentSlideIndex = 0;
 let mode = 'explore';
 let selectedOption = null;
 let matches = {};
+let revealed = new Set();
 
 // ==================== INIT ====================
 async function init() {
@@ -684,10 +643,10 @@ async function init() {
   } catch (error) {
     console.error('Error loading data:', error);
     document.getElementById('slidesContainer').innerHTML = `
-      <div style="text-align: center; padding: 2rem; color: #fb923c;">
-        <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">⚠️</div>
-        <div>Failed to load sentence data</div>
-        <div style="font-size: 0.75rem; margin-top: 0.5rem;">${error.message}</div>
+      <div style="text-align: center; padding: 2rem; color: #D4AF37;">
+        <div style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
+        <div style="font-size: 1.5rem; font-weight: 700;">Failed to load sentence data</div>
+        <div style="font-size: 1rem; margin-top: 1rem; opacity: 0.6;">${error.message}</div>
       </div>
     `;
   }
@@ -700,7 +659,7 @@ function renderPrimaryTabs() {
   container.innerHTML = data.categories.map(cat => `
     <button class="primary-tab ${cat.id === currentCategory ? 'active' : ''}" 
             onclick="loadCategory('${cat.id}')">
-      <span>${cat.icon}</span>
+      <span class="icon">${cat.icon}</span>
       <span>${cat.name}</span>
     </button>
   `).join('');
@@ -711,6 +670,7 @@ function loadCategory(categoryId) {
   currentCategory = categoryId;
   currentSlideIndex = 0;
   matches = {};
+  revealed = new Set();
   
   renderPrimaryTabs();
   renderSlides();
@@ -729,12 +689,19 @@ function renderSlides() {
   container.innerHTML = slides.map((slide, index) => {
     const sentenceHTML = slide.sentence.map((part, partIndex) => {
       if (part.type === 'hotspot') {
-        return `<span class="hotspot" 
-                      data-slide="${index}" 
-                      data-id="${part.id}" 
-                      onclick="handleHotspotClick(${index}, ${part.id}, '${escapeQuotes(part.content)}', '${escapeQuotes(part.label)}', event)">${part.id}</span>`;
+        return `
+          <div class="hotspot-container" data-hotspot-id="${part.id}">
+            <div class="hanging-clause">
+              <div class="clause-label">${part.label}</div>
+              <div class="clause-content">${part.content}</div>
+            </div>
+            <div class="flagpole-line"></div>
+            <div class="hotspot-number" onclick="revealHotspot(${index}, ${part.id})">${part.id}</div>
+          </div>
+        `;
       } else {
-        return `<span class="word">${part.text}</span>`;
+        const shouldHighlight = Math.random() > 0.7;
+        return `<span class="word ${shouldHighlight ? 'highlight' : ''}">${part.text}</span>`;
       }
     }).join(' ');
     
@@ -761,6 +728,21 @@ function renderSlides() {
       </div>
     `;
   }).join('');
+}
+
+// ==================== REVEAL HOTSPOT ====================
+function revealHotspot(slideIndex, hotspotId) {
+  const key = `${slideIndex}-${hotspotId}`;
+  
+  if (mode === 'explore') {
+    // In explore mode, just reveal
+    const container = document.querySelector(`.slide[data-index="${slideIndex}"] .hotspot-container[data-hotspot-id="${hotspotId}"]`);
+    container.classList.add('revealed');
+    revealed.add(key);
+  } else if (mode === 'game') {
+    // In game mode, check match
+    handleGameHotspotClick(slideIndex, hotspotId);
+  }
 }
 
 // ==================== RENDER PROGRESS DOTS ====================
@@ -826,59 +808,7 @@ function setMode(newMode) {
   updateSlide();
 }
 
-// ==================== HOTSPOT CLICK ====================
-function handleHotspotClick(slideIndex, hotspotId, content, label, event) {
-  const hotspotElement = event ? event.currentTarget : null;
-  
-  if (mode === 'explore') {
-    openModal(content, label, hotspotElement);
-  } else if (mode === 'game') {
-    handleGameHotspotClick(slideIndex, hotspotId);
-  }
-}
-
-// ==================== MODAL ====================
-function openModal(content, label, hotspotElement) {
-  const modal = document.getElementById('hotspotModal');
-  document.getElementById('modalLabel').textContent = label;
-  document.getElementById('modalContent').textContent = content;
-  
-  // Position modal at hotspot
-  if (hotspotElement) {
-    const rect = hotspotElement.getBoundingClientRect();
-    const modalWidth = 320; // Approximate modal width
-    const modalHeight = 150; // Approximate modal height
-    
-    // Calculate position (above the hotspot)
-    let left = rect.left + (rect.width / 2) - (modalWidth / 2);
-    let top = rect.top - modalHeight - 20; // 20px gap above hotspot
-    
-    // Keep within viewport
-    if (left < 10) left = 10;
-    if (left + modalWidth > window.innerWidth - 10) {
-      left = window.innerWidth - modalWidth - 10;
-    }
-    
-    // If too close to top, show below instead
-    if (top < 10) {
-      top = rect.bottom + 20;
-      modal.classList.add('below');
-    } else {
-      modal.classList.remove('below');
-    }
-    
-    modal.style.left = `${left}px`;
-    modal.style.top = `${top}px`;
-  }
-  
-  modal.classList.add('show');
-}
-
-function closeModal() {
-  document.getElementById('hotspotModal').classList.remove('show');
-}
-
-// ==================== GAME MODE ====================
+// ==================== GAME MODE - SELECT OPTION ====================
 function selectOption(slideIndex, optionId) {
   if (mode !== 'game') return;
   
@@ -891,19 +821,22 @@ function selectOption(slideIndex, optionId) {
   selectedOption = optionId;
 }
 
+// ==================== GAME MODE - HANDLE MATCH ====================
 function handleGameHotspotClick(slideIndex, hotspotId) {
   if (!selectedOption) {
-    alert('Please select an option first!');
+    alert('⚠️ CHOOSE AN OPTION FIRST!');
     return;
   }
   
-  const hotspot = document.querySelector(`.slide[data-index="${slideIndex}"] .hotspot[data-id="${hotspotId}"]`);
+  const container = document.querySelector(`.slide[data-index="${slideIndex}"] .hotspot-container[data-hotspot-id="${hotspotId}"]`);
   const option = document.querySelector(`#options-${currentCategory}-${slideIndex} .option-card[data-id="${selectedOption}"]`);
   
   if (selectedOption === hotspotId) {
-    hotspot.classList.add('matched');
+    // Correct match
+    container.classList.add('revealed', 'matched');
     option.classList.add('correct');
     matches[`${slideIndex}-${hotspotId}`] = true;
+    revealed.add(`${slideIndex}-${hotspotId}`);
     selectedOption = null;
     
     const category = data.categories.find(c => c.id === currentCategory);
@@ -911,19 +844,21 @@ function handleGameHotspotClick(slideIndex, hotspotId) {
     const matchedCount = Object.keys(matches).filter(k => k.startsWith(`${slideIndex}-`)).length;
     
     if (matchedCount === totalHotspots) {
-      setTimeout(() => alert('🎉 Perfect! All matched!'), 500);
+      setTimeout(() => alert('🎉 PERFECT! ALL MATCHED!'), 500);
     }
   } else {
-    hotspot.classList.add('wrong');
+    // Wrong match
+    container.classList.add('wrong');
     option.classList.add('incorrect');
     setTimeout(() => {
-      hotspot.classList.remove('wrong');
+      container.classList.remove('wrong');
       option.classList.remove('incorrect', 'selected');
       selectedOption = null;
     }, 1000);
   }
 }
 
+// ==================== RESET GAME STATE ====================
 function resetGameState() {
   selectedOption = null;
   
@@ -931,23 +866,18 @@ function resetGameState() {
     card.classList.remove('selected', 'correct', 'incorrect');
   });
   
-  document.querySelectorAll('.hotspot').forEach(spot => {
-    spot.classList.remove('matched', 'wrong');
+  document.querySelectorAll('.hotspot-container').forEach(container => {
+    container.classList.remove('revealed', 'matched', 'wrong');
   });
   
   matches = {};
-}
-
-// ==================== HELPERS ====================
-function escapeQuotes(str) {
-  return str.replace(/'/g, "\\'").replace(/"/g, '\\"');
+  revealed = new Set();
 }
 
 // ==================== KEYBOARD NAV ====================
 document.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowLeft') prevSlide();
   if (e.key === 'ArrowRight') nextSlide();
-  if (e.key === 'Escape') closeModal();
 });
 
 // ==================== INIT ====================
