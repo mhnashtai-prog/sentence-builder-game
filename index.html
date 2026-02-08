@@ -152,6 +152,7 @@
       justify-content: center;
       padding: 2rem;
       overflow-y: auto;
+      overflow-x: hidden;
     }
 
     .slides-container.active {
@@ -215,6 +216,16 @@
       align-items: center;
       position: relative;
       margin: 0 0.5rem;
+    }
+
+    /* MOBILE MODE TOGGLE - hidden by default */
+    .mobile-mode-toggle {
+      display: none;
+    }
+
+    /* MOBILE CATEGORY INDICATOR - hidden by default */
+    .mobile-category {
+      display: none;
     }
 
     /* CLICKABLE NUMBER BADGE - RED */
@@ -471,44 +482,183 @@
       border-radius: 5px;
     }
 
-    /* MOBILE */
-    @media (max-width: 768px) {
-      .sentence-display {
-        font-size: 1.8rem;
-        padding: 1.5rem 1rem;
-        gap: 0.75rem;
-      }
-
+    /* TABLET - MEDIUM SCREENS */
+    @media (max-width: 1024px) and (min-width: 769px) {
       .slide {
-        padding: 2rem 1.5rem;
-        gap: 1.5rem;
+        max-width: 95%;
+        padding: 3rem 2rem;
       }
 
-      .hotspot-number {
-        min-width: 44px;
-        height: 44px;
-        font-size: 1.4rem;
+      .sentence-display {
+        font-size: 2.2rem;
       }
 
       .inline-clause {
-        font-size: 1.6rem;
+        font-size: 1.8rem;
+      }
+    }
+
+    /* MOBILE - MODAL CARD DESIGN */
+    @media (max-width: 768px) {
+      /* Hide main navigation bar on mobile */
+      .navigation-bar {
+        display: none;
+      }
+
+      /* Back button adjustments */
+      .back-btn {
+        top: 1rem;
+        left: 1rem;
+        padding: 0.5rem 1rem;
+        font-size: 0.75rem;
+        z-index: 2000;
+      }
+
+      /* Slides container - full viewport */
+      .slides-container {
+        top: 0;
+        bottom: 60px;
+        padding: 1rem;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Modal Card - floating style */
+      .slide {
+        max-width: 100%;
+        width: calc(100% - 2rem);
+        min-height: auto;
+        max-height: 90vh;
+        height: auto;
+        border: 3px solid #000000;
+        border-radius: 24px;
+        padding: 1.25rem 1rem 1rem;
+        gap: 1rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        position: relative;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      /* Internal mode toggle - top right corner */
+      .mobile-mode-toggle {
+        display: flex !important;
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 20px;
+        padding: 0.2rem;
+        gap: 0.15rem;
+        z-index: 100;
+      }
+
+      .mobile-mode-toggle .mode-btn {
+        padding: 0.35rem 0.65rem;
+        font-size: 0.65rem;
+        border-radius: 16px;
+        background: transparent;
+        border: none;
+        color: rgba(0, 0, 0, 0.4);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+        transition: all 0.2s;
+      }
+
+      .mobile-mode-toggle .mode-btn.active {
+        background: #ff3b30;
+        color: #ffffff;
+      }
+
+      /* Hide desktop mode toggle on mobile */
+      .secondary-controls {
+        display: none !important;
+      }
+
+      .sentence-display {
+        font-size: 1.5rem;
+        padding: 2.5rem 0.75rem 1rem;
+        gap: 0.55rem;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        min-height: 200px;
+      }
+
+      .hotspot-number {
+        min-width: 38px;
+        height: 38px;
+        font-size: 1.2rem;
+        border-radius: 6px;
+      }
+
+      .inline-clause {
+        font-size: 1.3rem;
       }
 
       .nav-arrow {
-        width: 44px;
-        height: 44px;
-        font-size: 1.1rem;
+        width: 46px;
+        height: 46px;
+        font-size: 1.2rem;
       }
 
       .option-card {
-        font-size: 0.7rem;
-        padding: 0.45rem 0.875rem;
+        font-size: 0.65rem;
+        padding: 0.4rem 0.75rem;
       }
 
       .options-bank {
         max-height: 120px;
-        gap: 0.4rem;
-        padding: 0.875rem 1rem;
+        gap: 0.35rem;
+        padding: 0.75rem 0.5rem;
+        margin-top: 0.75rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+      }
+
+      /* Mobile category switcher at bottom left */
+      .mobile-category {
+        display: flex !important;
+        position: fixed;
+        bottom: 1rem;
+        left: 1rem;
+        padding: 0.5rem 1rem;
+        background: rgba(255, 255, 255, 0.95);
+        border: 2px solid #000000;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: 800;
+        color: #000000;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        z-index: 1001;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .mobile-category .icon {
+        font-size: 1.1rem;
+      }
+
+      .progress-dots {
+        bottom: 3.5rem;
+      }
+
+      .nav-arrows {
+        bottom: 1rem;
+        right: 1rem;
+        left: auto;
+        transform: none;
+      }
+    }
+
+    /* Desktop - show normal toggle, hide mobile toggle */
+    @media (min-width: 769px) {
+      .mobile-mode-toggle {
+        display: none !important;
       }
     }
   </style>
@@ -534,6 +684,9 @@
 
 <!-- SLIDES CONTAINER -->
 <div class="slides-container" id="slidesContainer"></div>
+
+<!-- MOBILE CATEGORY INDICATOR -->
+<div class="mobile-category" id="mobileCategoryIndicator"></div>
 
 <!-- NAVIGATION -->
 <div class="nav-arrows">
@@ -562,6 +715,7 @@ async function init() {
     data = await response.json();
     renderPrimaryTabs();
     loadCategory(currentCategory);
+    updateMobileCategoryIndicator();
     
   } catch (error) {
     console.error('Error loading data:', error);
@@ -604,6 +758,21 @@ function loadCategory(categoryId) {
   renderSlides();
   renderProgressDots();
   updateSlide();
+  updateMobileCategoryIndicator();
+}
+
+// ==================== UPDATE MOBILE CATEGORY INDICATOR ====================
+function updateMobileCategoryIndicator() {
+  const indicator = document.getElementById('mobileCategoryIndicator');
+  if (!indicator) return;
+  
+  const category = data.categories.find(c => c.id === currentCategory);
+  if (category) {
+    indicator.innerHTML = `
+      <span class="icon">${category.icon}</span>
+      <span>${category.name}</span>
+    `;
+  }
 }
 
 // ==================== RENDER SLIDES ====================
@@ -639,6 +808,10 @@ function renderSlides() {
     
     return `
       <div class="slide ${index === 0 ? 'active' : ''}" data-index="${index}">
+        <div class="mobile-mode-toggle">
+          <button class="mode-btn ${mode === 'explore' ? 'active' : ''}" data-mode="explore" onclick="setMode('explore')">Explore</button>
+          <button class="mode-btn ${mode === 'game' ? 'active' : ''}" data-mode="game" onclick="setMode('game')">Match</button>
+        </div>
         <div class="sentence-display">${sentenceHTML}</div>
         <div class="options-bank" id="options-${currentCategory}-${index}">
           ${options}
@@ -717,6 +890,7 @@ function nextSlide() {
 function setMode(newMode) {
   mode = newMode;
   
+  // Update all mode buttons (desktop and mobile)
   document.querySelectorAll('.mode-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.mode === mode);
   });
