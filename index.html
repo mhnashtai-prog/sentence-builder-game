@@ -367,66 +367,92 @@
       75% { transform: translateX(5px); }
     }
 
-    /* HOTSPOT MODAL */
+    /* HOTSPOT MODAL - CONTEXTUAL TOOLTIP */
     .hotspot-modal {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0.9);
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translateY(-20px);
       background: rgba(28, 28, 30, 0.98);
       backdrop-filter: blur(40px);
       border: 2px solid #C9A961;
-      border-radius: 1.5rem;
-      padding: 2rem;
-      max-width: 500px;
-      width: 90%;
+      border-radius: 1rem;
+      padding: 1.25rem 1.5rem;
+      max-width: 400px;
+      min-width: 280px;
       z-index: 1100;
       opacity: 0;
       pointer-events: none;
       transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.9);
     }
 
     .hotspot-modal.show {
       opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
+      transform: translateY(0);
       pointer-events: auto;
+    }
+
+    /* TOOLTIP ARROW */
+    .hotspot-modal::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px solid #C9A961;
+    }
+
+    /* TOOLTIP BELOW (when near top of screen) */
+    .hotspot-modal.below::after {
+      bottom: auto;
+      top: -10px;
+      border-top: none;
+      border-bottom: 10px solid #C9A961;
     }
 
     .hotspot-modal-close {
       position: absolute;
-      top: 1rem;
-      right: 1rem;
-      width: 32px;
-      height: 32px;
+      top: 0.5rem;
+      right: 0.5rem;
+      width: 24px;
+      height: 24px;
       border-radius: 50%;
       background: rgba(0, 0, 0, 0.4);
       border: 1px solid rgba(255, 255, 255, 0.1);
       color: #C9A961;
-      font-size: 1.25rem;
+      font-size: 1rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: all 0.3s;
     }
 
     .hotspot-modal-close:hover {
       transform: scale(1.1);
+      background: rgba(0, 0, 0, 0.6);
     }
 
     .hotspot-modal-label {
-      font-size: 0.75rem;
+      font-size: 0.625rem;
       text-transform: uppercase;
       letter-spacing: 0.1em;
       color: #8e8e93;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
     }
 
     .hotspot-modal-content {
-      font-size: 1.125rem;
-      line-height: 1.6;
+      font-size: 1rem;
+      line-height: 1.5;
       color: #e5e5e7;
-      text-align: center;
+      text-align: left;
+      font-weight: 500;
     }
 
     /* GAME MODE - OPTIONS BANK */
@@ -706,7 +732,7 @@ function renderSlides() {
         return `<span class="hotspot" 
                       data-slide="${index}" 
                       data-id="${part.id}" 
-                      onclick="handleHotspotClick(${index}, ${part.id}, '${escapeQuotes(part.content)}', '${escapeQuotes(part.label)}')">${part.id}</span>`;
+                      onclick="handleHotspotClick(${index}, ${part.id}, '${escapeQuotes(part.content)}', '${escapeQuotes(part.label)}', event)">${part.id}</span>`;
       } else {
         return `<span class="word">${part.text}</span>`;
       }
@@ -801,19 +827,50 @@ function setMode(newMode) {
 }
 
 // ==================== HOTSPOT CLICK ====================
-function handleHotspotClick(slideIndex, hotspotId, content, label) {
+function handleHotspotClick(slideIndex, hotspotId, content, label, event) {
+  const hotspotElement = event ? event.currentTarget : null;
+  
   if (mode === 'explore') {
-    openModal(content, label);
+    openModal(content, label, hotspotElement);
   } else if (mode === 'game') {
     handleGameHotspotClick(slideIndex, hotspotId);
   }
 }
 
 // ==================== MODAL ====================
-function openModal(content, label) {
+function openModal(content, label, hotspotElement) {
   const modal = document.getElementById('hotspotModal');
   document.getElementById('modalLabel').textContent = label;
   document.getElementById('modalContent').textContent = content;
+  
+  // Position modal at hotspot
+  if (hotspotElement) {
+    const rect = hotspotElement.getBoundingClientRect();
+    const modalWidth = 320; // Approximate modal width
+    const modalHeight = 150; // Approximate modal height
+    
+    // Calculate position (above the hotspot)
+    let left = rect.left + (rect.width / 2) - (modalWidth / 2);
+    let top = rect.top - modalHeight - 20; // 20px gap above hotspot
+    
+    // Keep within viewport
+    if (left < 10) left = 10;
+    if (left + modalWidth > window.innerWidth - 10) {
+      left = window.innerWidth - modalWidth - 10;
+    }
+    
+    // If too close to top, show below instead
+    if (top < 10) {
+      top = rect.bottom + 20;
+      modal.classList.add('below');
+    } else {
+      modal.classList.remove('below');
+    }
+    
+    modal.style.left = `${left}px`;
+    modal.style.top = `${top}px`;
+  }
+  
   modal.classList.add('show');
 }
 
