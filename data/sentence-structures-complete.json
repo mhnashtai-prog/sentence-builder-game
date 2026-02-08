@@ -1,0 +1,379 @@
+{
+  "categories": [
+    {
+      "id": "simple",
+      "name": "Simple Sentences",
+      "icon": "⚡",
+      "description": "Basic sentence structures with one independent clause",
+      "slides": [
+        {
+          "type": "Subject + Verb",
+          "level": "A2",
+          "sentence": [
+            { "text": "The dog" },
+            { "type": "hotspot", "id": 1, "content": "a golden retriever", "label": "Noun Appositive" },
+            { "type": "hotspot", "id": 2, "content": "from next door", "label": "Prepositional Phrase" },
+            { "text": "barked loudly" },
+            { "type": "hotspot", "id": 3, "content": "throughout the night", "label": "Time Phrase" }
+          ]
+        },
+        {
+          "type": "Subject + Verb + Object",
+          "level": "A2",
+          "sentence": [
+            { "text": "Maria" },
+            { "type": "hotspot", "id": 1, "content": "my best friend", "label": "Appositive" },
+            { "type": "hotspot", "id": 2, "content": "who lives in Madrid", "label": "Relative Clause" },
+            { "text": "loves chocolate" },
+            { "type": "hotspot", "id": 3, "content": "especially dark chocolate", "label": "Specification" }
+          ]
+        },
+        {
+          "type": "Subject + Verb + Complement",
+          "level": "A2",
+          "sentence": [
+            { "text": "The weather" },
+            { "type": "hotspot", "id": 1, "content": "this morning", "label": "Time Reference" },
+            { "text": "was beautiful" },
+            { "type": "hotspot", "id": 2, "content": "with clear blue skies", "label": "Descriptive Detail" },
+            { "type": "hotspot", "id": 3, "content": "perfect for hiking", "label": "Purpose/Suitability" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "compound",
+      "name": "Compound Sentences",
+      "icon": "🔗",
+      "description": "Two or more independent clauses joined by coordinating conjunctions",
+      "slides": [
+        {
+          "type": "Coordinating Conjunction (FANBOYS)",
+          "level": "B1",
+          "sentence": [
+            { "text": "The concert was sold out" },
+            { "type": "hotspot", "id": 1, "content": "weeks in advance", "label": "Time Detail" },
+            { "text": "but we managed to get tickets" },
+            { "type": "hotspot", "id": 2, "content": "through a friend", "label": "Method" },
+            { "type": "hotspot", "id": 3, "content": "at the last minute", "label": "Timing" }
+          ]
+        },
+        {
+          "type": "Semicolon Connection",
+          "level": "B2",
+          "sentence": [
+            { "text": "The project deadline is approaching" },
+            { "type": "hotspot", "id": 1, "content": "faster than expected", "label": "Rate Comparison" },
+            { "text": "; everyone is working overtime" },
+            { "type": "hotspot", "id": 2, "content": "including weekends", "label": "Extent" },
+            { "type": "hotspot", "id": 3, "content": "to meet the target", "label": "Purpose" }
+          ]
+        },
+        {
+          "type": "Conjunctive Adverb",
+          "level": "B2",
+          "sentence": [
+            { "text": "The storm damaged the roof" },
+            { "type": "hotspot", "id": 1, "content": "causing significant leaks", "label": "Result" },
+            { "text": "; therefore, we need immediate repairs" },
+            { "type": "hotspot", "id": 2, "content": "before the next rainfall", "label": "Time Constraint" },
+            { "type": "hotspot", "id": 3, "content": "estimated at £5,000", "label": "Cost Detail" }
+          ]
+        },
+        {
+          "type": "Correlative Conjunctions",
+          "level": "B2",
+          "sentence": [
+            { "text": "Not only did she win the competition" },
+            { "type": "hotspot", "id": 1, "content": "against 200 contestants", "label": "Competition Scale" },
+            { "text": "but she also broke the record" },
+            { "type": "hotspot", "id": 2, "content": "set 10 years ago", "label": "Historical Context" },
+            { "type": "hotspot", "id": 3, "content": "by nearly 5 seconds", "label": "Margin" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "complex",
+      "name": "Complex Sentences",
+      "icon": "🧩",
+      "description": "One independent clause combined with one or more dependent clauses",
+      "slides": [
+        {
+          "type": "Subordinate Clause (Time)",
+          "level": "B1",
+          "sentence": [
+            { "type": "hotspot", "id": 1, "content": "While waiting at the station", "label": "Time Clause" },
+            { "type": "hotspot", "id": 2, "content": "for over an hour", "label": "Duration" },
+            { "text": "I read the entire newspaper" },
+            { "type": "hotspot", "id": 3, "content": "from cover to cover", "label": "Completeness" }
+          ]
+        },
+        {
+          "type": "Subordinate Clause (Reason)",
+          "level": "B1",
+          "sentence": [
+            { "text": "Because the traffic was terrible" },
+            { "type": "hotspot", "id": 1, "content": "due to an accident", "label": "Cause" },
+            { "type": "hotspot", "id": 2, "content": "on the motorway", "label": "Location" },
+            { "text": "we missed the beginning of the film" },
+            { "type": "hotspot", "id": 3, "content": "including the opening scene", "label": "Specification" }
+          ]
+        },
+        {
+          "type": "Subordinate Clause (Condition)",
+          "level": "B1",
+          "sentence": [
+            { "text": "If you study consistently" },
+            { "type": "hotspot", "id": 1, "content": "at least two hours daily", "label": "Frequency Detail" },
+            { "type": "hotspot", "id": 2, "content": "using varied resources", "label": "Method" },
+            { "text": "you will pass the exam" },
+            { "type": "hotspot", "id": 3, "content": "with flying colours", "label": "Manner" }
+          ]
+        },
+        {
+          "type": "Relative Clause (Defining)",
+          "level": "B1",
+          "sentence": [
+            { "text": "The student who sits in the front row" },
+            { "type": "hotspot", "id": 1, "content": "always asking questions", "label": "Characteristic" },
+            { "type": "hotspot", "id": 2, "content": "with the red backpack", "label": "Identifying Detail" },
+            { "text": "got the highest grade" },
+            { "type": "hotspot", "id": 3, "content": "scoring 98%", "label": "Specific Result" }
+          ]
+        },
+        {
+          "type": "Relative Clause (Non-defining)",
+          "level": "B2",
+          "sentence": [
+            { "text": "Dr. Smith" },
+            { "type": "hotspot", "id": 1, "content": "who has been teaching here for 20 years", "label": "Background Info" },
+            { "type": "hotspot", "id": 2, "content": "renowned for his research", "label": "Reputation" },
+            { "text": "is retiring next month" },
+            { "type": "hotspot", "id": 3, "content": "after a distinguished career", "label": "Career Summary" }
+          ]
+        },
+        {
+          "type": "Noun Clause",
+          "level": "B2",
+          "sentence": [
+            { "text": "What surprised everyone" },
+            { "type": "hotspot", "id": 1, "content": "including the judges", "label": "Scope" },
+            { "text": "was that she performed flawlessly" },
+            { "type": "hotspot", "id": 2, "content": "despite her nerves", "label": "Contrast" },
+            { "type": "hotspot", "id": 3, "content": "without a single mistake", "label": "Perfection Detail" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "compound-complex",
+      "name": "Compound-Complex",
+      "icon": "🎯",
+      "description": "Two or more independent clauses with at least one dependent clause",
+      "slides": [
+        {
+          "type": "Multiple Clauses - Time",
+          "level": "C1",
+          "sentence": [
+            { "text": "Although the weather was stormy" },
+            { "type": "hotspot", "id": 1, "content": "with winds reaching 80mph", "label": "Intensity" },
+            { "text": ", the match continued" },
+            { "type": "hotspot", "id": 2, "content": "to everyone's surprise", "label": "Reaction" },
+            { "text": "and the team won" },
+            { "type": "hotspot", "id": 3, "content": "scoring in the final minute", "label": "Timing Detail" }
+          ]
+        },
+        {
+          "type": "Multiple Clauses - Reason & Result",
+          "level": "C1",
+          "sentence": [
+            { "text": "Because funding was cut" },
+            { "type": "hotspot", "id": 1, "content": "by nearly 40%", "label": "Extent" },
+            { "type": "hotspot", "id": 2, "content": "without warning", "label": "Manner" },
+            { "text": ", the project was suspended" },
+            { "text": "but we found alternative sponsors" },
+            { "type": "hotspot", "id": 3, "content": "within two weeks", "label": "Recovery Time" }
+          ]
+        },
+        {
+          "type": "Multiple Clauses - Contrast",
+          "level": "C1",
+          "sentence": [
+            { "text": "While most students struggled with the assignment" },
+            { "type": "hotspot", "id": 1, "content": "spending hours on research", "label": "Effort Detail" },
+            { "text": ", Sarah completed it effortlessly" },
+            { "type": "hotspot", "id": 2, "content": "in under an hour", "label": "Time Contrast" },
+            { "text": "and she even helped others" },
+            { "type": "hotspot", "id": 3, "content": "throughout the weekend", "label": "Extended Action" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "advanced",
+      "name": "Advanced Structures",
+      "icon": "🎓",
+      "description": "Sophisticated sentence patterns with multiple modifying elements",
+      "slides": [
+        {
+          "type": "Participial Phrase (Present)",
+          "level": "B2",
+          "sentence": [
+            { "type": "hotspot", "id": 1, "content": "Having studied medicine for seven years", "label": "Background Duration" },
+            { "type": "hotspot", "id": 2, "content": "at three different universities", "label": "Educational Path" },
+            { "text": ", she finally qualified as a surgeon" },
+            { "type": "hotspot", "id": 3, "content": "specializing in cardiology", "label": "Specialization" },
+            { "type": "hotspot", "id": 4, "content": "at the age of 28", "label": "Achievement Timing" }
+          ]
+        },
+        {
+          "type": "Participial Phrase (Past)",
+          "level": "B2",
+          "sentence": [
+            { "type": "hotspot", "id": 1, "content": "Exhausted from the journey", "label": "Physical State" },
+            { "type": "hotspot", "id": 2, "content": "having traveled for 24 hours", "label": "Duration" },
+            { "text": "the team collapsed into their hotel beds" },
+            { "type": "hotspot", "id": 3, "content": "without even unpacking", "label": "Immediate Action" },
+            { "type": "hotspot", "id": 4, "content": "sleeping for 12 hours straight", "label": "Recovery" }
+          ]
+        },
+        {
+          "type": "Absolute Phrase",
+          "level": "C1",
+          "sentence": [
+            { "type": "hotspot", "id": 1, "content": "Her hands trembling with anticipation", "label": "Physical Expression" },
+            { "type": "hotspot", "id": 2, "content": "heart pounding in her chest", "label": "Internal State" },
+            { "text": ", she opened the envelope" },
+            { "type": "hotspot", "id": 3, "content": "containing the exam results", "label": "Content" },
+            { "type": "hotspot", "id": 4, "content": "that would determine her future", "label": "Significance" }
+          ]
+        },
+        {
+          "type": "Appositive Phrase",
+          "level": "B2",
+          "sentence": [
+            { "text": "Mr. Jones" },
+            { "type": "hotspot", "id": 1, "content": "already in his 70s", "label": "Age Context" },
+            { "type": "hotspot", "id": 2, "content": "having first run in 1975", "label": "Historical Background" },
+            { "type": "hotspot", "id": 3, "content": "known for his oratory skills", "label": "Reputation" },
+            { "text": "has been elected as the new MP for Leeds" },
+            { "type": "hotspot", "id": 4, "content": "a small town in the north of England", "label": "Location Detail" },
+            { "type": "hotspot", "id": 5, "content": "making him the oldest MP ever", "label": "Record Achievement" }
+          ]
+        },
+        {
+          "type": "Infinitive Phrase",
+          "level": "B2",
+          "sentence": [
+            { "text": "To succeed in this field" },
+            { "type": "hotspot", "id": 1, "content": "requiring years of dedication", "label": "Demand" },
+            { "type": "hotspot", "id": 2, "content": "often sacrificing personal time", "label": "Cost" },
+            { "text": ", you must work constantly" },
+            { "type": "hotspot", "id": 3, "content": "updating your skills", "label": "Ongoing Requirement" },
+            { "type": "hotspot", "id": 4, "content": "staying ahead of trends", "label": "Competitive Edge" }
+          ]
+        },
+        {
+          "type": "Gerund Phrase",
+          "level": "B2",
+          "sentence": [
+            { "type": "hotspot", "id": 1, "content": "Running a marathon", "label": "Main Activity" },
+            { "type": "hotspot", "id": 2, "content": "covering 26.2 miles", "label": "Distance" },
+            { "type": "hotspot", "id": 3, "content": "without proper training", "label": "Condition" },
+            { "text": "is extremely dangerous" },
+            { "type": "hotspot", "id": 4, "content": "risking serious injury", "label": "Consequence" }
+          ]
+        },
+        {
+          "type": "Inverted Structure",
+          "level": "C1",
+          "sentence": [
+            { "type": "hotspot", "id": 1, "content": "Never before", "label": "Time Emphasis" },
+            { "text": "had we witnessed such determination" },
+            { "type": "hotspot", "id": 2, "content": "displayed by an athlete", "label": "Agent" },
+            { "type": "hotspot", "id": 3, "content": "facing impossible odds", "label": "Challenge Context" },
+            { "type": "hotspot", "id": 4, "content": "refusing to give up", "label": "Persistence" }
+          ]
+        },
+        {
+          "type": "Cleft Sentence",
+          "level": "C1",
+          "sentence": [
+            { "text": "It was his persistence" },
+            { "type": "hotspot", "id": 1, "content": "demonstrated over decades", "label": "Duration" },
+            { "type": "hotspot", "id": 2, "content": "through countless setbacks", "label": "Adversity" },
+            { "text": "that led to his success" },
+            { "type": "hotspot", "id": 3, "content": "ultimately changing the industry", "label": "Impact" },
+            { "type": "hotspot", "id": 4, "content": "inspiring millions worldwide", "label": "Influence" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rhetorical",
+      "name": "Rhetorical Devices",
+      "icon": "✨",
+      "description": "Stylistic sentence structures for persuasive and expressive writing",
+      "slides": [
+        {
+          "type": "Parallelism",
+          "level": "C1",
+          "sentence": [
+            { "text": "She studied diligently" },
+            { "type": "hotspot", "id": 1, "content": "burning the midnight oil", "label": "Intensity" },
+            { "text": ", she practiced constantly" },
+            { "type": "hotspot", "id": 2, "content": "repeating every exercise", "label": "Method" },
+            { "text": ", and she never gave up" },
+            { "type": "hotspot", "id": 3, "content": "despite numerous failures", "label": "Persistence Context" }
+          ]
+        },
+        {
+          "type": "Anaphora (Repetition)",
+          "level": "C1",
+          "sentence": [
+            { "text": "We shall fight on the beaches" },
+            { "type": "hotspot", "id": 1, "content": "defending every inch", "label": "Commitment" },
+            { "text": ", we shall fight on the landing grounds" },
+            { "type": "hotspot", "id": 2, "content": "with unwavering resolve", "label": "Determination" },
+            { "text": ", we shall never surrender" },
+            { "type": "hotspot", "id": 3, "content": "no matter the cost", "label": "Absolute Stance" }
+          ]
+        },
+        {
+          "type": "Antithesis (Contrast)",
+          "level": "C1",
+          "sentence": [
+            { "text": "It was the best of times" },
+            { "type": "hotspot", "id": 1, "content": "filled with hope and prosperity", "label": "Positive Detail" },
+            { "text": ", it was the worst of times" },
+            { "type": "hotspot", "id": 2, "content": "marked by despair and poverty", "label": "Negative Detail" },
+            { "type": "hotspot", "id": 3, "content": "creating stark divisions in society", "label": "Impact" }
+          ]
+        },
+        {
+          "type": "Periodic Sentence",
+          "level": "C1",
+          "sentence": [
+            { "type": "hotspot", "id": 1, "content": "Despite facing bankruptcy", "label": "Major Obstacle" },
+            { "type": "hotspot", "id": 2, "content": "losing key investors", "label": "Additional Challenge" },
+            { "type": "hotspot", "id": 3, "content": "and being doubted by everyone", "label": "Social Pressure" },
+            { "text": ", she built a billion-dollar empire" },
+            { "type": "hotspot", "id": 4, "content": "within five years", "label": "Achievement Timeframe" }
+          ]
+        },
+        {
+          "type": "Cumulative Sentence",
+          "level": "C1",
+          "sentence": [
+            { "text": "The athlete crossed the finish line" },
+            { "type": "hotspot", "id": 1, "content": "arms raised in triumph", "label": "Victory Gesture" },
+            { "type": "hotspot", "id": 2, "content": "tears streaming down her face", "label": "Emotion" },
+            { "type": "hotspot", "id": 3, "content": "having broken the world record", "label": "Achievement" },
+            { "type": "hotspot", "id": 4, "content": "by more than a second", "label": "Margin Detail" }
+          ]
+        }
+      ]
+    }
+  ]
+}
