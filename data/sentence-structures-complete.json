@@ -321,10 +321,12 @@
           "level": "C1",
           "sentence": [
             { "text": "She studied diligently" },
-            { "type": "hotspot", "id": 1, "content": "burning the midnight oil", "label": "Intensity" },
-            { "text": ", she practiced constantly" },
-            { "type": "hotspot", "id": 2, "content": "repeating every exercise", "label": "Method" },
-            { "text": ", and she never gave up" },
+            { "type": "hotspot", "id": 1, "content": "burning the midnight oil", "label": "Intensity Detail" },
+            { "text": "," },
+            { "text": "she practiced constantly" },
+            { "type": "hotspot", "id": 2, "content": "repeating every exercise", "label": "Method Detail" },
+            { "text": "," },
+            { "text": "and she never gave up" },
             { "type": "hotspot", "id": 3, "content": "despite numerous failures", "label": "Persistence Context" }
           ]
         },
