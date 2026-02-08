@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>INTUITY - Sentence Structures</title>
+  <title>INTUITY - Sentence Structures (Compact)</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
   
   <style>
@@ -102,7 +102,7 @@
       font-size: 1.5rem;
     }
 
-    /* MODE TOGGLE - SUBTLE */
+    /* MODE TOGGLE */
     .secondary-controls {
       display: flex;
       justify-content: center;
@@ -129,7 +129,6 @@
       cursor: pointer;
       transition: all 0.3s;
       text-transform: capitalize;
-      letter-spacing: 0;
     }
 
     .mode-btn.active {
@@ -165,18 +164,17 @@
       left: 50%;
       transform: translate(-50%, -50%);
       width: 90%;
-      max-width: 1000px;
+      max-width: 1100px;
       background: #2a2a2a;
       border: 3px solid rgba(255, 255, 255, 0.1);
       border-radius: 32px;
-      padding: 4rem 3.5rem;
+      padding: 3rem 3rem;
       opacity: 0;
       transition: opacity 0.4s ease;
       pointer-events: none;
       display: flex;
       flex-direction: column;
-      gap: 3rem;
-      min-height: 500px;
+      gap: 2rem;
       box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
     }
 
@@ -190,12 +188,12 @@
       text-align: center;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 0.75rem;
     }
 
     .sentence-type-label {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.25rem;
+      font-size: 1.15rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.15em;
@@ -204,9 +202,9 @@
 
     .level-badge {
       display: inline-block;
-      padding: 0.5rem 1.25rem;
-      border-radius: 12px;
-      font-size: 0.875rem;
+      padding: 0.4rem 1rem;
+      border-radius: 10px;
+      font-size: 0.8rem;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.1em;
@@ -217,23 +215,24 @@
     .level-b2 { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 2px solid #fbbf24; }
     .level-c1 { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 2px solid #f87171; }
 
-    /* SENTENCE DISPLAY */
+    /* SENTENCE DISPLAY - COMPACT */
     .sentence-display {
       font-family: 'Inter', sans-serif;
-      font-size: 2.25rem;
-      line-height: 1.6;
+      font-size: 2rem;
+      line-height: 1.5;
       color: #ffffff;
       text-align: center;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 1rem;
+      gap: 0.75rem;
       align-items: flex-end;
-      padding: 3rem 2rem;
+      padding: 1.5rem 2rem;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.02em;
       position: relative;
+      min-height: 200px;
     }
 
     .word {
@@ -244,29 +243,28 @@
       color: #D4AF37;
     }
 
-    /* FLAGPOLE CONTAINER - HANGING FROM ABOVE */
+    /* COMPACT HOTSPOT CONTAINER */
     .hotspot-container {
       display: inline-flex;
       flex-direction: column-reverse;
       align-items: center;
       position: relative;
-      margin: 0 0.5rem;
-      min-height: 60px;
+      margin: 0 0.3rem;
     }
 
-    /* THE NUMBER BUTTON - AT SENTENCE LEVEL */
+    /* NUMBER BUTTON - SMALLER */
     .hotspot-number {
       display: flex;
       align-items: center;
       justify-content: center;
-      min-width: 60px;
-      height: 60px;
+      min-width: 48px;
+      height: 48px;
       background: rgba(212, 175, 55, 0.15);
       border: 3px solid #D4AF37;
-      border-radius: 16px;
+      border-radius: 14px;
       cursor: pointer;
       transition: all 0.4s;
-      font-size: 1.75rem;
+      font-size: 1.5rem;
       font-weight: 900;
       color: #D4AF37;
       position: relative;
@@ -275,107 +273,139 @@
 
     .hotspot-number:hover {
       background: rgba(212, 175, 55, 0.25);
-      transform: scale(1.1);
-      box-shadow: 0 0 40px rgba(212, 175, 55, 0.5);
+      transform: scale(1.08);
+      box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
     }
 
-    /* HIDE NUMBER WHEN REVEALED */
     .hotspot-container.revealed .hotspot-number {
       opacity: 0;
       transform: scale(0);
       pointer-events: none;
     }
 
-    /* FLAGPOLE - VERTICAL LINE HANGING DOWN FROM ABOVE */
+    /* COMPACT FLAGPOLE - SHORTER */
     .flagpole-line {
-      width: 4px;
+      width: 3px;
       height: 0;
-      background: linear-gradient(180deg, rgba(212, 175, 55, 0.5) 0%, #D4AF37 100%);
-      margin-bottom: 0.5rem;
-      transition: height 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      background: linear-gradient(180deg, rgba(212, 175, 55, 0.4) 0%, #D4AF37 100%);
+      margin-bottom: 0.4rem;
+      transition: height 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
       opacity: 0;
       order: -1;
     }
 
     .hotspot-container.revealed .flagpole-line {
-      height: 120px;
       opacity: 1;
     }
 
-    /* HANGING CLAUSE BUBBLE - ABOVE THE SENTENCE */
+    /* COMPACT HANGING CLAUSE - CLOSER TO SENTENCE */
     .hanging-clause {
       position: absolute;
-      bottom: 190px;
+      bottom: 105px;
       left: 50%;
-      transform: translateX(-50%) translateY(-20px);
+      transform: translateX(-50%) translateY(-15px);
       background: rgba(42, 42, 42, 0.98);
-      border: 3px solid #D4AF37;
-      border-radius: 20px;
-      padding: 1.5rem 2rem;
-      min-width: 250px;
-      max-width: 350px;
+      border: 2.5px solid #D4AF37;
+      border-radius: 16px;
+      padding: 1rem 1.5rem;
+      min-width: 200px;
+      max-width: 320px;
       text-align: center;
       opacity: 0;
       pointer-events: none;
-      transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+      transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8);
       order: -2;
+      z-index: 100;
     }
 
-    /* SPEECH BUBBLE ARROW POINTING DOWN */
+    /* STAGGER CLAUSES TO PREVENT OVERLAP */
+    .hotspot-container[data-hotspot-id="1"] .hanging-clause {
+      bottom: 105px;
+    }
+
+    .hotspot-container[data-hotspot-id="2"] .hanging-clause {
+      bottom: 180px;
+    }
+
+    .hotspot-container[data-hotspot-id="3"] .hanging-clause {
+      bottom: 255px;
+    }
+
+    .hotspot-container[data-hotspot-id="4"] .hanging-clause {
+      bottom: 330px;
+    }
+
+    /* ADJUST FLAGPOLE FOR EACH LEVEL */
+    .hotspot-container[data-hotspot-id="1"].revealed .flagpole-line {
+      height: 50px;
+    }
+
+    .hotspot-container[data-hotspot-id="2"].revealed .flagpole-line {
+      height: 125px;
+    }
+
+    .hotspot-container[data-hotspot-id="3"].revealed .flagpole-line {
+      height: 200px;
+    }
+
+    .hotspot-container[data-hotspot-id="4"].revealed .flagpole-line {
+      height: 275px;
+    }
+
+    /* SPEECH BUBBLE ARROW - SMALLER */
     .hanging-clause::before {
       content: '';
       position: absolute;
-      bottom: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 0;
-      height: 0;
-      border-left: 12px solid transparent;
-      border-right: 12px solid transparent;
-      border-top: 12px solid #D4AF37;
-    }
-
-    .hanging-clause::after {
-      content: '';
-      position: absolute;
-      bottom: -8px;
+      bottom: -10px;
       left: 50%;
       transform: translateX(-50%);
       width: 0;
       height: 0;
       border-left: 10px solid transparent;
       border-right: 10px solid transparent;
-      border-top: 10px solid rgba(42, 42, 42, 0.98);
+      border-top: 10px solid #D4AF37;
     }
 
-    /* SHOW CLAUSE WHEN REVEALED */
+    .hanging-clause::after {
+      content: '';
+      position: absolute;
+      bottom: -7px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 8px solid rgba(42, 42, 42, 0.98);
+    }
+
     .hotspot-container.revealed .hanging-clause {
       opacity: 1;
       transform: translateX(-50%) translateY(0);
       pointer-events: auto;
     }
 
-    /* CLAUSE LABEL */
+    /* CLAUSE LABEL - SMALLER */
     .clause-label {
-      font-size: 0.75rem;
+      font-size: 0.65rem;
       text-transform: uppercase;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.12em;
       color: #D4AF37;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.5rem;
       font-weight: 800;
     }
 
-    /* CLAUSE CONTENT */
+    /* CLAUSE CONTENT - SMALLER */
     .clause-content {
-      font-size: 1.125rem;
-      line-height: 1.5;
+      font-size: 0.95rem;
+      line-height: 1.4;
       color: #ffffff;
       font-weight: 700;
       text-transform: none;
     }
 
-    /* MATCHED STATE (for game mode) */
+    /* MATCHED STATE */
     .hotspot-container.matched .hotspot-number {
       background: rgba(16, 185, 129, 0.25);
       border-color: #10b981;
@@ -383,7 +413,7 @@
     }
 
     .hotspot-container.matched .flagpole-line {
-      background: linear-gradient(180deg, rgba(16, 185, 129, 0.5) 0%, #10b981 100%);
+      background: linear-gradient(180deg, rgba(16, 185, 129, 0.4) 0%, #10b981 100%);
     }
 
     .hotspot-container.matched .hanging-clause {
@@ -394,24 +424,24 @@
       color: #10b981;
     }
 
-    /* WRONG STATE (for game mode) */
+    /* WRONG STATE */
     .hotspot-container.wrong .hotspot-number {
       animation: shake 0.5s;
     }
 
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-8px); }
-      75% { transform: translateX(8px); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
     }
 
     /* GAME MODE - OPTIONS BANK */
     .options-bank {
       display: none;
       flex-direction: column;
-      gap: 1rem;
-      margin-top: 2rem;
-      padding-top: 2rem;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
       border-top: 2px solid rgba(212, 175, 55, 0.2);
     }
 
@@ -421,13 +451,13 @@
 
     .option-card {
       background: rgba(60, 60, 64, 0.5);
-      border: 3px solid rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      padding: 1.5rem 2rem;
+      border: 2.5px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 1.25rem 1.75rem;
       cursor: pointer;
       transition: all 0.3s;
       text-align: center;
-      font-size: 1.25rem;
+      font-size: 1.1rem;
       font-weight: 700;
       color: #ffffff;
       text-transform: uppercase;
@@ -437,8 +467,8 @@
     .option-card:hover {
       background: rgba(60, 60, 64, 0.8);
       border-color: rgba(212, 175, 55, 0.5);
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
     }
 
     .option-card.selected {
@@ -462,25 +492,25 @@
       animation: shake 0.5s;
     }
 
-    /* NAVIGATION ARROWS - COMPACT */
+    /* NAVIGATION ARROWS */
     .nav-arrows {
       position: fixed;
       bottom: 1.5rem;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
-      gap: 1rem;
+      gap: 0.75rem;
       z-index: 1000;
     }
 
     .nav-arrow {
-      width: 50px;
-      height: 50px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
       background: rgba(212, 175, 55, 0.1);
       border: 2px solid rgba(212, 175, 55, 0.3);
       color: #D4AF37;
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       cursor: pointer;
       transition: all 0.3s;
       display: flex;
@@ -500,10 +530,10 @@
       cursor: not-allowed;
     }
 
-    /* PROGRESS DOTS - COMPACT */
+    /* PROGRESS DOTS */
     .progress-dots {
       position: fixed;
-      bottom: 4.5rem;
+      bottom: 4.25rem;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
@@ -512,8 +542,8 @@
     }
 
     .progress-dot {
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.15);
       border: 1px solid rgba(255, 255, 255, 0.2);
@@ -529,70 +559,100 @@
     .progress-dot.active {
       background: #D4AF37;
       border-color: #D4AF37;
-      transform: scale(1.3);
-      box-shadow: 0 0 12px rgba(212, 175, 55, 0.6);
+      transform: scale(1.25);
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
     }
 
     /* SCROLLBAR */
-    .primary-tabs::-webkit-scrollbar { height: 6px; }
+    .primary-tabs::-webkit-scrollbar { height: 5px; }
     .primary-tabs::-webkit-scrollbar-track { background: transparent; }
     .primary-tabs::-webkit-scrollbar-thumb {
       background: rgba(212, 175, 55, 0.4);
-      border-radius: 6px;
+      border-radius: 5px;
     }
 
     /* MOBILE */
     @media (max-width: 768px) {
       .sentence-display {
-        font-size: 1.5rem;
-        padding: 2rem 1rem;
+        font-size: 1.4rem;
+        padding: 1.25rem 1rem;
+        gap: 0.6rem;
+        min-height: 180px;
       }
 
       .slide {
-        padding: 2.5rem 2rem;
+        padding: 2rem 1.75rem;
+        gap: 1.5rem;
       }
 
       .hotspot-number {
-        min-width: 50px;
-        height: 50px;
-        font-size: 1.5rem;
+        min-width: 42px;
+        height: 42px;
+        font-size: 1.3rem;
       }
 
       .hanging-clause {
-        min-width: 200px;
-        max-width: 280px;
-        padding: 1.25rem 1.5rem;
+        min-width: 180px;
+        max-width: 260px;
+        padding: 0.875rem 1.25rem;
+      }
+
+      .hotspot-container[data-hotspot-id="1"] .hanging-clause {
+        bottom: 95px;
+      }
+
+      .hotspot-container[data-hotspot-id="2"] .hanging-clause {
         bottom: 160px;
       }
 
-      .flagpole-line {
-        height: 90px;
+      .hotspot-container[data-hotspot-id="3"] .hanging-clause {
+        bottom: 225px;
       }
 
-      .hotspot-container.revealed .flagpole-line {
-        height: 90px;
+      .hotspot-container[data-hotspot-id="4"] .hanging-clause {
+        bottom: 290px;
+      }
+
+      .hotspot-container[data-hotspot-id="1"].revealed .flagpole-line {
+        height: 42px;
+      }
+
+      .hotspot-container[data-hotspot-id="2"].revealed .flagpole-line {
+        height: 107px;
+      }
+
+      .hotspot-container[data-hotspot-id="3"].revealed .flagpole-line {
+        height: 172px;
+      }
+
+      .hotspot-container[data-hotspot-id="4"].revealed .flagpole-line {
+        height: 237px;
       }
 
       .clause-content {
-        font-size: 1rem;
+        font-size: 0.875rem;
+      }
+
+      .clause-label {
+        font-size: 0.6rem;
       }
 
       .nav-arrow {
-        width: 45px;
-        height: 45px;
-        font-size: 1.125rem;
+        width: 44px;
+        height: 44px;
+        font-size: 1.1rem;
       }
 
       .option-card {
-        font-size: 1rem;
-        padding: 1.25rem 1.5rem;
+        font-size: 0.95rem;
+        padding: 1.125rem 1.5rem;
       }
     }
   </style>
 </head>
 <body>
 
-<button class="back-btn" onclick="window.location.href='../../../index.html?openModal=writing&submenu=sentence-structure'">
+<button class="back-btn" onclick="alert('Back navigation would go here')">
   <span>←</span>
   <span>Back</span>
 </button>
@@ -647,6 +707,7 @@ async function init() {
         <div style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
         <div style="font-size: 1.5rem; font-weight: 700;">Failed to load sentence data</div>
         <div style="font-size: 1rem; margin-top: 1rem; opacity: 0.6;">${error.message}</div>
+        <div style="font-size: 0.875rem; margin-top: 0.5rem; opacity: 0.4;">Looking for: data/sentence-structures-complete.json</div>
       </div>
     `;
   }
@@ -654,6 +715,8 @@ async function init() {
 
 // ==================== RENDER PRIMARY TABS ====================
 function renderPrimaryTabs() {
+  if (!data) return;
+  
   const container = document.getElementById('primaryTabs');
   
   container.innerHTML = data.categories.map(cat => `
@@ -667,6 +730,8 @@ function renderPrimaryTabs() {
 
 // ==================== LOAD CATEGORY ====================
 function loadCategory(categoryId) {
+  if (!data) return;
+  
   currentCategory = categoryId;
   currentSlideIndex = 0;
   matches = {};
@@ -700,12 +765,11 @@ function renderSlides() {
           </div>
         `;
       } else {
-        const shouldHighlight = Math.random() > 0.7;
+        const shouldHighlight = Math.random() > 0.6;
         return `<span class="word ${shouldHighlight ? 'highlight' : ''}">${part.text}</span>`;
       }
     }).join(' ');
     
-    // Game mode options
     const options = slide.sentence
       .filter(part => part.type === 'hotspot')
       .sort(() => Math.random() - 0.5)
@@ -735,12 +799,10 @@ function revealHotspot(slideIndex, hotspotId) {
   const key = `${slideIndex}-${hotspotId}`;
   
   if (mode === 'explore') {
-    // In explore mode, just reveal
     const container = document.querySelector(`.slide[data-index="${slideIndex}"] .hotspot-container[data-hotspot-id="${hotspotId}"]`);
     container.classList.add('revealed');
     revealed.add(key);
   } else if (mode === 'game') {
-    // In game mode, check match
     handleGameHotspotClick(slideIndex, hotspotId);
   }
 }
@@ -771,7 +833,6 @@ function updateSlide() {
   prevBtn.disabled = currentSlideIndex === 0;
   nextBtn.disabled = currentSlideIndex === category.slides.length - 1;
   
-  // Show/hide options based on mode
   const optionsBank = document.getElementById(`options-${currentCategory}-${currentSlideIndex}`);
   if (optionsBank) {
     optionsBank.classList.toggle('show', mode === 'game');
@@ -832,7 +893,6 @@ function handleGameHotspotClick(slideIndex, hotspotId) {
   const option = document.querySelector(`#options-${currentCategory}-${slideIndex} .option-card[data-id="${selectedOption}"]`);
   
   if (selectedOption === hotspotId) {
-    // Correct match
     container.classList.add('revealed', 'matched');
     option.classList.add('correct');
     matches[`${slideIndex}-${hotspotId}`] = true;
@@ -847,7 +907,6 @@ function handleGameHotspotClick(slideIndex, hotspotId) {
       setTimeout(() => alert('🎉 PERFECT! ALL MATCHED!'), 500);
     }
   } else {
-    // Wrong match
     container.classList.add('wrong');
     option.classList.add('incorrect');
     setTimeout(() => {
