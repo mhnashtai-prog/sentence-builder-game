@@ -808,9 +808,9 @@
         color: #ffffff;
       }
 
-      /* Sentence display - REDUCED BY 15% HEIGHT, 10% WIDTH */
+      /* Sentence display - 30% font reduction */
       .sentence-display {
-        font-size: 3.15rem;
+        font-size: 2.1rem;
         line-height: 1.19;
         padding: 2.5rem 1.5rem;
         flex: 1;
@@ -835,9 +835,9 @@
 
       .hotspot-number {
         display: inline-flex;
-        min-width: 54px;
-        height: 51px;
-        font-size: 1.8rem;
+        min-width: 38px;
+        height: 36px;
+        font-size: 1.26rem;
         border-radius: 10px;
         margin: 0 0.2rem;
         vertical-align: middle;
@@ -845,7 +845,7 @@
 
       .inline-clause {
         display: none;
-        font-size: 3.15rem;
+        font-size: 2.1rem;
         color: #000000;
       }
 
@@ -949,19 +949,19 @@
     /* Extra small phones */
     @media (max-width: 375px) {
       .sentence-display {
-        font-size: 2.7rem;
+        font-size: 1.89rem;
         padding: 2rem 1.25rem;
         line-height: 1.15;
       }
 
       .inline-clause {
-        font-size: 2.7rem;
+        font-size: 1.89rem;
       }
 
       .hotspot-number {
-        min-width: 48px;
-        height: 46px;
-        font-size: 1.58rem;
+        min-width: 34px;
+        height: 32px;
+        font-size: 1.1rem;
       }
     }
 
@@ -1017,17 +1017,19 @@ let revealed = new Set();
 // ==================== INIT ====================
 async function init() {
   try {
-    const response = await fetch('data/sentence-structures-complete.json');
+    const response = await fetch('sentence-structures-b2-comprehensive.json');
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     
     data = await response.json();
     
-    // Use the first category if current doesn't exist
-    if (data.categories.length > 0) {
-      const categoryExists = data.categories.find(c => c.id === currentCategory);
-      if (!categoryExists) {
-        currentCategory = data.categories[0].id;
-      }
+    // Validate data structure
+    if (!data || !data.categories || !Array.isArray(data.categories)) {
+      throw new Error('Invalid JSON structure: missing categories array');
+    }
+    
+    // Set first category as default if current doesn't exist
+    if (data.categories.length > 0 && !data.categories.find(c => c.id === currentCategory)) {
+      currentCategory = data.categories[0].id;
     }
     
     renderPrimaryTabs();
@@ -1040,7 +1042,7 @@ async function init() {
         <div style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
         <div style="font-size: 1.5rem; font-weight: 700;">Failed to load sentence data</div>
         <div style="font-size: 1rem; margin-top: 1rem; opacity: 0.6;">${error.message}</div>
-        <div style="font-size: 0.875rem; margin-top: 0.5rem; opacity: 0.4;">Looking for: data/sentence-structures-complete.json</div>
+        <div style="font-size: 0.875rem; margin-top: 0.5rem; opacity: 0.4;">Looking for: sentence-structures-b2-comprehensive.json</div>
       </div>
     `;
   }
@@ -1089,7 +1091,7 @@ function renderSlides() {
   // Create dropdown menu items - minimal Steve Jobs style
   const dropdownItemsHTML = data.categories.map(cat => `
     <button class="category-dropdown-item ${cat.id === currentCategory ? 'active' : ''}" 
-            onclick="selectCategoryFromDropdown('${cat.id}')">
+            onclick="selectCategoryFromDropdown('${cat.id}', event)">
       <div class="category-dropdown-title">${cat.name}</div>
     </button>
   `).join('');
@@ -1121,7 +1123,7 @@ function renderSlides() {
         <div class="slide-header">
           <div class="category-menu-section">
             <span class="category-label">Categories</span>
-            <button class="category-menu-btn" onclick="toggleCategoryDropdown()">
+            <button class="category-menu-btn" onclick="toggleCategoryDropdown(event)">
               <span class="menu-dot"></span>
               <span class="menu-dot"></span>
               <span class="menu-dot"></span>
@@ -1451,19 +1453,29 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ==================== CATEGORY DROPDOWN ====================
-function toggleCategoryDropdown() {
-  const dropdown = document.getElementById('categoryDropdown');
+function toggleCategoryDropdown(event) {
+  if (event) {
+    event.stopPropagation();
+  }
+  
+  const currentSlide = document.querySelector('.slide.active');
+  if (!currentSlide) return;
+  
+  const dropdown = currentSlide.querySelector('.category-dropdown');
   if (dropdown) {
     dropdown.classList.toggle('show');
   }
 }
 
-function selectCategoryFromDropdown(categoryId) {
-  // Close dropdown
-  const dropdown = document.getElementById('categoryDropdown');
-  if (dropdown) {
-    dropdown.classList.remove('show');
+function selectCategoryFromDropdown(categoryId, event) {
+  if (event) {
+    event.stopPropagation();
   }
+  
+  // Close all dropdowns
+  document.querySelectorAll('.category-dropdown').forEach(dd => {
+    dd.classList.remove('show');
+  });
   
   // Load the category
   loadCategory(categoryId);
@@ -1471,13 +1483,10 @@ function selectCategoryFromDropdown(categoryId) {
 
 // Close dropdown when clicking outside
 document.addEventListener('click', (e) => {
-  const dropdown = document.getElementById('categoryDropdown');
-  const menuBtn = document.querySelector('.category-menu-btn');
-  
-  if (dropdown && menuBtn) {
-    if (!dropdown.contains(e.target) && !menuBtn.contains(e.target)) {
+  if (!e.target.closest('.category-menu-btn') && !e.target.closest('.category-dropdown')) {
+    document.querySelectorAll('.category-dropdown').forEach(dropdown => {
       dropdown.classList.remove('show');
-    }
+    });
   }
 });
 
