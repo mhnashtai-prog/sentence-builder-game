@@ -660,56 +660,40 @@
         -ms-overflow-style: none;
         flex: 1;
         position: relative;
-        padding-right: 1.5rem;
+        padding-right: 2rem;
+        mask-image: linear-gradient(to right, black 85%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
       }
 
       .slide-categories::-webkit-scrollbar {
         display: none;
       }
 
-      /* Gradient fade to indicate more content */
-      .slide-categories::after {
-        content: '';
-        position: absolute;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        width: 2rem;
-        background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.95));
-        pointer-events: none;
-      }
-
-      /* Subtle scroll hint arrows */
-      .slide-header::before {
-        content: '‹';
-        position: absolute;
-        left: 0.2rem;
-        top: 50%;
-        transform: translateY(-50%);
-        color: rgba(0, 0, 0, 0.15);
-        font-size: 1.2rem;
-        font-weight: 900;
-        pointer-events: none;
-        z-index: 1;
-      }
-
+      /* Big obvious swipe indicator */
       .slide-header::after {
-        content: '›';
+        content: '››';
         position: absolute;
-        right: 5.5rem;
+        right: 5.2rem;
         top: 50%;
         transform: translateY(-50%);
-        color: rgba(0, 0, 0, 0.3);
-        font-size: 1.2rem;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.5rem;
         font-weight: 900;
         pointer-events: none;
-        z-index: 1;
-        animation: pulseArrow 2s infinite;
+        z-index: 10;
+        animation: swipeHint 2s ease-in-out infinite;
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
       }
 
-      @keyframes pulseArrow {
-        0%, 100% { opacity: 0.3; transform: translateY(-50%) translateX(0); }
-        50% { opacity: 0.8; transform: translateY(-50%) translateX(3px); }
+      @keyframes swipeHint {
+        0%, 100% { 
+          opacity: 0.4; 
+          transform: translateY(-50%) translateX(0); 
+        }
+        50% { 
+          opacity: 1; 
+          transform: translateY(-50%) translateX(5px); 
+        }
       }
 
       .slide-category-tab {
