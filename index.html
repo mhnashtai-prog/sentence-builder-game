@@ -657,7 +657,23 @@
         display: none !important;
       }
 
-      /* iOS-style menu button - left side */
+      /* Categories menu section - left side */
+      .category-menu-section {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        flex-shrink: 0;
+      }
+
+      .category-label {
+        font-size: 0.65rem;
+        font-weight: 700;
+        color: rgba(0, 0, 0, 0.5);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      /* iOS-style menu button */
       .category-menu-btn {
         width: 36px;
         height: 36px;
@@ -665,7 +681,7 @@
         border: none;
         border-radius: 50%;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
         justify-content: center;
         gap: 3px;
@@ -1094,11 +1110,14 @@ function renderSlides() {
     return `
       <div class="slide ${index === 0 ? 'active' : ''}" data-index="${index}">
         <div class="slide-header">
-          <button class="category-menu-btn" onclick="toggleCategoryDropdown()">
-            <span class="menu-dot"></span>
-            <span class="menu-dot"></span>
-            <span class="menu-dot"></span>
-          </button>
+          <div class="category-menu-section">
+            <span class="category-label">Categories</span>
+            <button class="category-menu-btn" onclick="toggleCategoryDropdown()">
+              <span class="menu-dot"></span>
+              <span class="menu-dot"></span>
+              <span class="menu-dot"></span>
+            </button>
+          </div>
           <div class="category-dropdown" id="categoryDropdown">
             ${dropdownItemsHTML}
           </div>
