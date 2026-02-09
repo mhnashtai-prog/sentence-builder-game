@@ -238,6 +238,21 @@
       box-shadow: 0 4px 12px rgba(255, 59, 48, 0.4);
     }
 
+    .hotspot-number.next-to-match {
+      animation: pulse 1.5s infinite;
+      box-shadow: 0 0 0 4px rgba(255, 59, 48, 0.3);
+      transform: scale(1.05);
+    }
+
+    @keyframes pulse {
+      0%, 100% { 
+        box-shadow: 0 0 0 4px rgba(255, 59, 48, 0.3);
+      }
+      50% { 
+        box-shadow: 0 0 0 8px rgba(255, 59, 48, 0.1);
+      }
+    }
+
     .hotspot-number:active {
       transform: scale(0.95);
     }
@@ -275,14 +290,18 @@
       color: #3b82f6;
     }
 
+    .hotspot-container.wrong .inline-clause {
+      color: #ef4444;
+    }
+
     .hotspot-container.wrong {
       animation: shake 0.5s;
     }
 
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-6px); }
-      75% { transform: translateX(6px); }
+      25% { transform: translateX(-8px); }
+      75% { transform: translateX(8px); }
     }
 
     /* OPTIONS BANK - BOTTOM OF SLIDE */
@@ -408,15 +427,18 @@
       background: #3b82f6;
       border-color: #3b82f6;
       color: #ffffff;
-      pointer-events: none;
     }
 
     .option-card.incorrect {
       background: #ef4444;
       border-color: #ef4444;
       color: #ffffff;
-      pointer-events: none;
       animation: shake 0.5s;
+    }
+
+    .option-card.used {
+      opacity: 0.3;
+      pointer-events: none;
     }
 
     /* NAVIGATION ARROWS */
@@ -850,6 +872,8 @@ function loadCategory(categoryId) {
 
 // ==================== RENDER SLIDES ====================
 function renderSlides() {
+  if (!data) return;
+  
   const container = document.getElementById('slidesContainer');
   container.classList.add('active');
   
@@ -921,19 +945,11 @@ function renderSlides() {
 function handleHotspotClick(slideIndex, hotspotId) {
   if (mode === 'explore') {
     revealHotspot(slideIndex, hotspotId);
-  } else if (mode === 'game') {
-    handleGameHotspotClick(slideIndex, hotspotId);
   }
-}
-
-// ==================== GAME MODE - HANDLE MATCH ====================
-function handleGameHotspotClick(slideIndex, hotspotId) {
   // In game mode, clicking numbers does nothing
-  // Users must select option and click submit
-  return;
 }
 
-// ==================== REVEAL HOTSPOT ====================
+// ==================== REVEAL HOTSPOT (Explore Mode) ====================
 function revealHotspot(slideIndex, hotspotId) {
   const key = `${slideIndex}-${hotspotId}`;
   const container = document.querySelector(`.slide[data-index="${slideIndex}"] .hotspot-container[data-hotspot-id="${hotspotId}"]`);
@@ -941,79 +957,134 @@ function revealHotspot(slideIndex, hotspotId) {
   revealed.add(key);
 }
 
-// ==================== SELECT OPTION ====================
+// ==================== SELECT OPTION (Game Mode) ====================
 function selectOption(slideIndex, optionId) {
   if (mode !== 'game') return;
-  
-  document.querySelectorAll(`#options-${currentCategory}-${slideIndex} .option-card`).forEach(card => {
-    card.classList.remove('selected');
-  });
-  
-  const card = document.querySelector(`#options-${currentCategory}-${slideIndex} .option-card[data-id="${optionId}"]`);
-  card.classList.add('selected');
-  selectedOption = optionId;
-  
-  // Enable submit button
-  const submitBtn = document.querySelector(`#options-${currentCategory}-${slideIndex} .submit-btn`);
-  if (submitBtn) submitBtn.disabled = false;
-}
-
-// ==================== SUBMIT ANSWER ====================
-function submitAnswer(slideIndex) {
-  if (!selectedOption) return;
   
   const category = data.categories.find(c => c.id === currentCategory);
   const slide = category.slides[slideIndex];
   
-  // Find first unmatched hotspot
+  // Find first unmatched hotspot (not yet assigned a selection)
   const unmatched = slide.sentence.find(part => 
     part.type === 'hotspot' && !matches[`${slideIndex}-${part.id}`]
   );
   
-  if (!unmatched) return;
+  if (!unmatched) return; // All slots filled
   
+  // Store the user's choice (may be right or wrong)
+  matches[`${slideIndex}-${unmatched.id}`] = optionId;
+  
+  // Reveal the clause in place of the number
   const container = document.querySelector(`.slide[data-index="${slideIndex}"] .hotspot-container[data-hotspot-id="${unmatched.id}"]`);
-  const option = document.querySelector(`#options-${currentCategory}-${slideIndex} .option-card[data-id="${selectedOption}"]`);
-  const submitBtn = document.querySelector(`#options-${currentCategory}-${slideIndex} .submit-btn`);
+  container.classList.add('revealed');
+  container.dataset.selectedOption = optionId;
   
-  if (selectedOption === unmatched.id) {
-    // CORRECT
-    container.classList.add('revealed', 'matched');
-    option.classList.add('correct');
-    matches[`${slideIndex}-${unmatched.id}`] = true;
-    revealed.add(`${slideIndex}-${unmatched.id}`);
-    
-    // Clear selection
-    selectedOption = null;
-    
-    // Update score
-    const matchedCount = Object.keys(matches).filter(k => k.startsWith(`${slideIndex}-`)).length;
-    const totalHotspots = slide.sentence.filter(p => p.type === 'hotspot').length;
-    const scoreDisplay = document.getElementById(`score-${currentCategory}-${slideIndex}`);
-    if (scoreDisplay) scoreDisplay.textContent = `${matchedCount}/${totalHotspots}`;
-    
-    // Disable submit button after correct answer
-    submitBtn.disabled = true;
-    
-    // Remove selected state from all options
-    document.querySelectorAll(`#options-${currentCategory}-${slideIndex} .option-card`).forEach(card => {
-      card.classList.remove('selected');
-    });
-    
-    if (matchedCount === totalHotspots) {
-      setTimeout(() => alert('🎉 PERFECT! ALL MATCHED!'), 500);
+  // Update the displayed text to show selected option
+  const selectedClause = slide.sentence.find(p => p.id === optionId);
+  if (selectedClause) {
+    const inlineClause = container.querySelector('.inline-clause');
+    inlineClause.textContent = selectedClause.content;
+  }
+  
+  // Mark option as used
+  const option = document.querySelector(`#options-${currentCategory}-${slideIndex} .option-card[data-id="${optionId}"]`);
+  option.classList.add('used');
+  
+  // Check if all slots are filled
+  const totalHotspots = slide.sentence.filter(p => p.type === 'hotspot').length;
+  const filledCount = Object.keys(matches).filter(k => k.startsWith(`${slideIndex}-`)).length;
+  
+  if (filledCount === totalHotspots) {
+    // Enable submit button when all slots filled
+    const submitBtn = document.querySelector(`#options-${currentCategory}-${slideIndex} .submit-btn`);
+    submitBtn.disabled = false;
+  }
+  
+  // Highlight next empty hotspot
+  highlightNextHotspot(slideIndex);
+}
+
+// ==================== SUBMIT ANSWER ====================
+function submitAnswer(slideIndex) {
+  const category = data.categories.find(c => c.id === currentCategory);
+  const slide = category.slides[slideIndex];
+  
+  let correctCount = 0;
+  const totalHotspots = slide.sentence.filter(p => p.type === 'hotspot').length;
+  
+  // Check each match
+  slide.sentence.forEach(part => {
+    if (part.type === 'hotspot') {
+      const key = `${slideIndex}-${part.id}`;
+      const userChoice = matches[key];
+      const container = document.querySelector(`.slide[data-index="${slideIndex}"] .hotspot-container[data-hotspot-id="${part.id}"]`);
+      const option = document.querySelector(`#options-${currentCategory}-${slideIndex} .option-card[data-id="${userChoice}"]`);
+      
+      if (userChoice === part.id) {
+        // CORRECT
+        container.classList.add('matched');
+        container.classList.remove('wrong');
+        if (option) {
+          option.classList.remove('used');
+          option.classList.add('correct');
+        }
+        correctCount++;
+      } else {
+        // WRONG
+        container.classList.add('wrong');
+        container.classList.remove('matched');
+        if (option) {
+          option.classList.remove('used');
+          option.classList.add('incorrect');
+        }
+      }
     }
-  } else {
-    // WRONG - shake animation
-    container.classList.add('wrong');
-    option.classList.add('incorrect');
-    
+  });
+  
+  // Update score display
+  const scoreDisplay = document.getElementById(`score-${currentCategory}-${slideIndex}`);
+  if (scoreDisplay) {
+    scoreDisplay.textContent = `${correctCount}/${totalHotspots}`;
+  }
+  
+  // Disable submit button after checking
+  const submitBtn = document.querySelector(`#options-${currentCategory}-${slideIndex} .submit-btn`);
+  submitBtn.disabled = true;
+  
+  // Show result
+  if (correctCount === totalHotspots) {
     setTimeout(() => {
-      container.classList.remove('wrong');
-      option.classList.remove('incorrect');
-      // Keep the selection so user can try again
-      // Don't clear selectedOption or disable button
-    }, 800);
+      alert('🎉 PERFECT! ALL CORRECT!');
+    }, 500);
+  } else {
+    setTimeout(() => {
+      alert(`Score: ${correctCount}/${totalHotspots}\nTry again or move to next slide.`);
+    }, 500);
+  }
+}
+
+// ==================== HIGHLIGHT NEXT HOTSPOT ====================
+function highlightNextHotspot(slideIndex) {
+  const category = data.categories.find(c => c.id === currentCategory);
+  const slide = category.slides[slideIndex];
+  
+  // Clear all highlights
+  document.querySelectorAll(`.slide[data-index="${slideIndex}"] .hotspot-number`).forEach(num => {
+    num.classList.remove('next-to-match');
+  });
+  
+  // Find and highlight next empty slot
+  const unmatched = slide.sentence.find(part => 
+    part.type === 'hotspot' && !matches[`${slideIndex}-${part.id}`]
+  );
+  
+  if (unmatched) {
+    const nextHotspot = document.querySelector(
+      `.slide[data-index="${slideIndex}"] .hotspot-container[data-hotspot-id="${unmatched.id}"] .hotspot-number`
+    );
+    if (nextHotspot) {
+      nextHotspot.classList.add('next-to-match');
+    }
   }
 }
 
@@ -1048,6 +1119,11 @@ function updateSlide() {
   const optionsBank = document.getElementById(`options-${currentCategory}-${currentSlideIndex}`);
   if (optionsBank) {
     optionsBank.classList.toggle('show', mode === 'game');
+  }
+  
+  // Highlight first hotspot in game mode
+  if (mode === 'game') {
+    highlightNextHotspot(currentSlideIndex);
   }
 }
 
@@ -1085,20 +1161,24 @@ function setMode(newMode) {
 function resetGameState() {
   selectedOption = null;
   
+  // Clear all visual states
   document.querySelectorAll('.option-card').forEach(card => {
-    card.classList.remove('selected', 'correct', 'incorrect');
+    card.classList.remove('used', 'correct', 'incorrect');
   });
   
   document.querySelectorAll('.hotspot-container').forEach(container => {
     container.classList.remove('revealed', 'matched', 'wrong');
+    delete container.dataset.selectedOption;
   });
   
   document.querySelectorAll('.submit-btn').forEach(btn => {
     btn.disabled = true;
   });
   
+  // Reset scores
   document.querySelectorAll('.score-display').forEach(score => {
-    const slideIndex = parseInt(score.id.split('-').pop());
+    const parts = score.id.split('-');
+    const slideIndex = parseInt(parts[parts.length - 1]);
     const category = data.categories.find(c => c.id === currentCategory);
     if (category && category.slides[slideIndex]) {
       const totalHotspots = category.slides[slideIndex].sentence.filter(p => p.type === 'hotspot').length;
@@ -1106,8 +1186,14 @@ function resetGameState() {
     }
   });
   
-  matches = {};
-  revealed = new Set();
+  // Clear match data for current slide only
+  const currentMatches = Object.keys(matches).filter(k => k.startsWith(`${currentSlideIndex}-`));
+  currentMatches.forEach(k => delete matches[k]);
+  
+  // Re-highlight first hotspot in game mode
+  if (mode === 'game') {
+    setTimeout(() => highlightNextHotspot(currentSlideIndex), 100);
+  }
 }
 
 // ==================== KEYBOARD NAV ====================
