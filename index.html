@@ -2,23 +2,34 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>INTUITY - Sentence Structures (Modal)</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>INTUITY - Sentence Structures</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&display=swap" rel="stylesheet">
   
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      position: fixed;
+    }
 
     body {
       font-family: 'Inter', sans-serif;
       background: #0f0f0f;
       color: #fff;
-      min-height: 100vh;
-      overflow: hidden;
-      position: relative;
+      -webkit-font-smoothing: antialiased;
+      touch-action: pan-y;
     }
 
-    /* BACK BUTTON - OUTSIDE SLIDES */
+    /* BACK BUTTON */
     .back-btn {
       position: fixed;
       top: 1.5rem;
@@ -60,7 +71,6 @@
       padding: 1rem 1.5rem 0;
     }
 
-    /* PRIMARY TABS */
     .primary-tabs {
       display: flex;
       gap: 1rem;
@@ -68,7 +78,10 @@
       margin-bottom: 1rem;
       overflow-x: auto;
       padding-bottom: 0.75rem;
+      scrollbar-width: none;
     }
+
+    .primary-tabs::-webkit-scrollbar { display: none; }
 
     .primary-tab {
       padding: 0.875rem 1.75rem;
@@ -136,10 +149,6 @@
       color: #D4AF37;
     }
 
-    .mode-btn:hover {
-      color: rgba(255, 255, 255, 0.6);
-    }
-
     /* SLIDES CONTAINER */
     .slides-container {
       display: none;
@@ -151,15 +160,14 @@
       align-items: center;
       justify-content: center;
       padding: 2rem;
-      overflow-y: auto;
-      overflow-x: hidden;
+      overflow: hidden;
     }
 
     .slides-container.active {
       display: flex;
     }
 
-    /* SLIDE CARD */
+    /* SLIDE CARD - DESKTOP */
     .slide {
       position: relative;
       width: 100%;
@@ -175,7 +183,6 @@
       flex-direction: column;
       gap: 2rem;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-      min-height: fit-content;
     }
 
     .slide.active {
@@ -185,32 +192,29 @@
       z-index: 1;
     }
 
-    /* SENTENCE DISPLAY - LINEAR BLOCK */
+    /* SENTENCE DISPLAY - LEFT-ALIGNED BLOCK */
     .sentence-display {
       font-family: 'Inter', sans-serif;
       font-size: 3rem;
       line-height: 1.5;
       color: #000000;
-      text-align: center;
+      text-align: left;
       padding: 2rem 1.5rem;
       font-weight: 900;
       text-transform: uppercase;
       letter-spacing: 0.01em;
-      position: relative;
-      display: block;
     }
 
     .word {
       display: inline;
     }
 
-    /* HOTSPOT - INLINE */
     .hotspot-container {
       display: inline;
       position: relative;
     }
 
-    /* CLICKABLE NUMBER BADGE */
+    /* NUMBER BADGE */
     .hotspot-number {
       display: inline-flex;
       align-items: center;
@@ -225,23 +229,20 @@
       font-size: 1.6rem;
       font-weight: 900;
       color: #ffffff;
-      position: relative;
       vertical-align: middle;
       margin: 0 0.25rem;
       box-shadow: 0 4px 12px rgba(255, 59, 48, 0.4);
     }
 
-    .hotspot-number:hover {
-      background: #ff5048;
-      transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(255, 59, 48, 0.5);
+    .hotspot-number:active {
+      transform: scale(0.95);
     }
 
     .hotspot-container.revealed .hotspot-number {
       display: none;
     }
 
-    /* INLINE TEXT - GROWS IN */
+    /* INLINE TEXT */
     .inline-clause {
       display: none;
       font-size: 3rem;
@@ -266,12 +267,10 @@
       }
     }
 
-    /* MATCHED STATE */
     .hotspot-container.matched .inline-clause {
       color: #10b981;
     }
 
-    /* WRONG STATE */
     .hotspot-container.wrong {
       animation: shake 0.5s;
     }
@@ -282,129 +281,68 @@
       75% { transform: translateX(6px); }
     }
 
-    /* MODAL OVERLAY */
-    .modal-overlay {
+    /* OPTIONS BANK - BOTTOM OF SLIDE */
+    .options-bank {
       display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(8px);
-      z-index: 3000;
-      align-items: flex-end;
-      justify-content: center;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .modal-overlay.show {
-      display: flex;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    /* MODAL CARD */
-    .modal-card {
-      background: #ffffff;
-      border-radius: 24px 24px 0 0;
-      width: 100%;
-      max-width: 600px;
-      max-height: 60vh;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 1rem 1.5rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.08);
+      max-height: 150px;
       overflow-y: auto;
-      animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.3);
-      position: relative;
-    }
-
-    @keyframes slideUp {
-      from { transform: translateY(100%); }
-      to { transform: translateY(0); }
-    }
-
-    /* MODAL HEADER */
-    .modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.5rem 1.5rem 1rem;
-      border-bottom: 2px solid rgba(0, 0, 0, 0.08);
-      position: sticky;
-      top: 0;
-      background: #ffffff;
-      z-index: 10;
-    }
-
-    .modal-title {
-      font-size: 1rem;
-      font-weight: 800;
-      color: #000000;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .modal-close {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: rgba(0, 0, 0, 0.05);
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
+      background: transparent;
       justify-content: center;
-      font-size: 1.5rem;
-      color: rgba(0, 0, 0, 0.6);
-      transition: all 0.3s;
     }
 
-    .modal-close:hover {
-      background: rgba(0, 0, 0, 0.1);
-      color: #000000;
+    .options-bank.show {
+      display: flex;
     }
 
-    /* OPTIONS GRID */
-    .options-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 0.75rem;
-      padding: 1.5rem;
+    .options-bank::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    .options-bank::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .options-bank::-webkit-scrollbar-thumb {
+      background: rgba(255, 59, 48, 0.2);
+      border-radius: 10px;
+    }
+
+    .options-bank::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 59, 48, 0.3);
     }
 
     .option-card {
-      background: #f5f5f5;
-      border: 2px solid rgba(0, 0, 0, 0.1);
-      border-radius: 12px;
-      padding: 1rem;
+      background: #ffffff;
+      border: 2px solid rgba(0, 0, 0, 0.15);
+      border-radius: 20px;
+      padding: 0.5rem 1rem;
       cursor: pointer;
       transition: all 0.25s;
       text-align: center;
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       font-weight: 700;
-      color: rgba(0, 0, 0, 0.7);
+      color: rgba(0, 0, 0, 0.6);
       text-transform: uppercase;
       letter-spacing: 0.03em;
-      min-height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      flex-shrink: 0;
+      white-space: nowrap;
     }
 
-    .option-card:hover {
-      border-color: rgba(255, 59, 48, 0.4);
-      color: #000000;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    .option-card:active {
+      transform: scale(0.98);
     }
 
     .option-card.selected {
       background: #ff3b30;
       border-color: #ff3b30;
       color: #ffffff;
-      transform: translateY(-2px);
+      transform: translateY(-1px);
     }
 
     .option-card.correct {
@@ -449,10 +387,8 @@
       font-weight: 700;
     }
 
-    .nav-arrow:hover:not(:disabled) {
-      background: rgba(212, 175, 55, 0.2);
-      transform: scale(1.05);
-      border-color: rgba(212, 175, 55, 0.5);
+    .nav-arrow:active {
+      transform: scale(0.95);
     }
 
     .nav-arrow:disabled {
@@ -481,11 +417,6 @@
       cursor: pointer;
     }
 
-    .progress-dot:hover {
-      transform: scale(1.2);
-      background: rgba(212, 175, 55, 0.4);
-    }
-
     .progress-dot.active {
       background: #D4AF37;
       border-color: #D4AF37;
@@ -493,53 +424,43 @@
       box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
     }
 
-    /* SLIDE HEADER - MOBILE ONLY */
+    /* MOBILE HEADER */
     .slide-header {
       display: none;
     }
 
-    /* SCROLLBAR */
-    .primary-tabs::-webkit-scrollbar { height: 5px; }
-    .primary-tabs::-webkit-scrollbar-track { background: transparent; }
-    .primary-tabs::-webkit-scrollbar-thumb {
-      background: rgba(212, 175, 55, 0.4);
-      border-radius: 5px;
-    }
-
-    .slides-container::-webkit-scrollbar {
-      width: 10px;
-    }
-
-    .slides-container::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .slides-container::-webkit-scrollbar-thumb {
-      background: rgba(212, 175, 55, 0.3);
-      border-radius: 5px;
-    }
-
-    /* MOBILE */
+    /* ============================================ */
+    /* MOBILE OPTIMIZATIONS - PERFECT FIT */
+    /* ============================================ */
     @media (max-width: 768px) {
-      body {
+      html, body {
+        width: 100vw;
+        height: 100vh;
+        height: -webkit-fill-available;
         overflow: hidden;
+        position: fixed;
       }
 
-      /* Back button - outside slide */
-      .back-btn {
-        top: 0.75rem;
-        left: 0.75rem;
-        padding: 0.5rem 1rem;
-        font-size: 0.7rem;
-        z-index: 2001;
+      body {
+        background: #0f0f0f;
       }
 
-      /* Hide desktop navigation */
+      /* Hide desktop nav */
       .navigation-bar {
         display: none;
       }
 
-      /* Slides container - full screen */
+      /* Back button - top-left, smaller */
+      .back-btn {
+        top: 0.5rem;
+        left: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.7rem;
+        z-index: 5000;
+        gap: 0.25rem;
+      }
+
+      /* Full screen container */
       .slides-container {
         position: fixed;
         top: 0;
@@ -548,21 +469,21 @@
         bottom: 0;
         width: 100vw;
         height: 100vh;
+        height: -webkit-fill-available;
         padding: 0;
         margin: 0;
         display: flex !important;
-        align-items: stretch;
-        justify-content: stretch;
         overflow: hidden;
       }
 
-      /* Slide - full screen */
+      /* Slide - perfectly sized full screen */
       .slide {
         position: fixed;
         top: 0;
         left: 0;
         width: 100vw;
         height: 100vh;
+        height: -webkit-fill-available;
         max-width: 100vw;
         border: none;
         border-radius: 0;
@@ -570,35 +491,30 @@
         margin: 0;
         gap: 0;
         box-shadow: none;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
         display: none;
         flex-direction: column;
+        overflow: hidden;
       }
 
       .slide.active {
         display: flex !important;
-        z-index: 1;
       }
 
-      /* Mobile header */
+      /* Top navigation header - compact */
       .slide-header {
         display: flex !important;
         flex-direction: column;
         background: #ffffff;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-        padding: 0.75rem;
-        gap: 0.5rem;
-        position: sticky;
-        top: 0;
-        z-index: 100;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        padding: 0.5rem 0.65rem;
+        gap: 0.4rem;
+        flex-shrink: 0;
         width: 100%;
-        box-sizing: border-box;
       }
 
       .slide-categories {
         display: flex !important;
-        gap: 0.4rem;
+        gap: 0.35rem;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
@@ -612,18 +528,17 @@
       .slide-category-tab {
         display: flex !important;
         align-items: center;
-        gap: 0.35rem;
-        padding: 0.45rem 0.9rem;
+        gap: 0.3rem;
+        padding: 0.4rem 0.75rem;
         background: #f5f5f5;
-        border: 1.5px solid rgba(0, 0, 0, 0.1);
-        border-radius: 16px;
-        font-size: 0.65rem;
+        border: 1.5px solid rgba(0, 0, 0, 0.08);
+        border-radius: 14px;
+        font-size: 0.6rem;
         font-weight: 800;
         color: rgba(0, 0, 0, 0.5);
         text-transform: uppercase;
         letter-spacing: 0.03em;
         white-space: nowrap;
-        cursor: pointer;
         transition: all 0.2s;
         flex-shrink: 0;
       }
@@ -635,7 +550,7 @@
       }
 
       .slide-category-tab .icon {
-        font-size: 0.95rem;
+        font-size: 0.85rem;
       }
 
       .slide-mode-toggle {
@@ -645,17 +560,17 @@
 
       .mobile-mode-toggle {
         display: flex !important;
-        background: rgba(0, 0, 0, 0.04);
-        border: 1px solid rgba(0, 0, 0, 0.08);
-        border-radius: 18px;
-        padding: 0.2rem;
-        gap: 0.15rem;
+        background: rgba(0, 0, 0, 0.03);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        border-radius: 16px;
+        padding: 0.15rem;
+        gap: 0.1rem;
       }
 
       .mobile-mode-toggle .mode-btn {
-        padding: 0.4rem 1rem;
-        font-size: 0.65rem;
-        border-radius: 14px;
+        padding: 0.35rem 0.9rem;
+        font-size: 0.6rem;
+        border-radius: 12px;
         background: transparent;
         border: none;
         color: rgba(0, 0, 0, 0.4);
@@ -670,71 +585,95 @@
         color: #ffffff;
       }
 
-      /* Sentence display - centered, linear */
+      /* Sentence display - LEFT-ALIGNED BLOCK */
       .sentence-display {
-        font-size: 1.8rem;
-        line-height: 1.6;
-        padding: 3rem 1.5rem;
+        font-size: 1.75rem;
+        line-height: 1.65;
+        padding: 1.5rem 1.25rem;
         flex: 1;
         display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
+        align-items: flex-start;
+        justify-content: flex-start;
         flex-wrap: wrap;
+        text-align: left;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
       }
 
       .hotspot-number {
-        min-width: 44px;
-        height: 44px;
-        font-size: 1.4rem;
+        min-width: 42px;
+        height: 42px;
+        font-size: 1.3rem;
         border-radius: 7px;
-        margin: 0 0.2rem;
+        margin: 0 0.15rem;
       }
 
       .inline-clause {
-        font-size: 1.8rem;
+        font-size: 1.75rem;
       }
 
-      /* Modal adjustments */
-      .modal-card {
-        max-height: 70vh;
-        border-radius: 20px 20px 0 0;
-      }
-
-      .options-grid {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-        gap: 0.6rem;
-        padding: 1.25rem;
-      }
-
+      /* Modal - perfect mobile sizing */
       .option-card {
-        font-size: 0.75rem;
-        padding: 0.85rem;
-        min-height: 55px;
+        font-size: 0.7rem;
+        padding: 0.45rem 0.85rem;
       }
 
-      /* Navigation */
+      .options-bank {
+        max-height: 140px;
+        gap: 0.4rem;
+        padding: 0.85rem 0.75rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+        background: #fafafa;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      /* Bottom navigation - compact */
       .nav-arrows {
-        bottom: 1.25rem;
+        bottom: 1rem;
+        gap: 0.6rem;
       }
 
       .nav-arrow {
-        width: 50px;
-        height: 50px;
-        font-size: 1.3rem;
+        width: 48px;
+        height: 48px;
+        font-size: 1.2rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.2);
       }
 
       .progress-dots {
-        bottom: 4rem;
+        bottom: 3.5rem;
+        gap: 0.4rem;
+      }
+
+      .progress-dot {
+        width: 6px;
+        height: 6px;
+      }
+    }
+
+    /* Extra small phones */
+    @media (max-width: 375px) {
+      .sentence-display {
+        font-size: 1.5rem;
+        padding: 1.25rem 1rem;
+      }
+
+      .inline-clause {
+        font-size: 1.5rem;
+      }
+
+      .hotspot-number {
+        min-width: 38px;
+        height: 38px;
+        font-size: 1.2rem;
       }
     }
 
     /* Desktop - hide mobile elements */
     @media (min-width: 769px) {
-      .mobile-mode-toggle {
-        display: none !important;
-      }
-      
+      .mobile-mode-toggle,
       .slide-header {
         display: none !important;
       }
@@ -763,17 +702,6 @@
 <!-- SLIDES CONTAINER -->
 <div class="slides-container" id="slidesContainer"></div>
 
-<!-- MODAL OVERLAY -->
-<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
-  <div class="modal-card" onclick="event.stopPropagation()">
-    <div class="modal-header">
-      <div class="modal-title">Select an option</div>
-      <button class="modal-close" onclick="closeModal()">✕</button>
-    </div>
-    <div class="options-grid" id="optionsGrid"></div>
-  </div>
-</div>
-
 <!-- NAVIGATION -->
 <div class="nav-arrows">
   <button class="nav-arrow" onclick="prevSlide()">←</button>
@@ -791,7 +719,6 @@ let mode = 'explore';
 let selectedOption = null;
 let matches = {};
 let revealed = new Set();
-let currentTargetHotspot = null;
 
 // ==================== INIT ====================
 async function init() {
@@ -876,6 +803,15 @@ function renderSlides() {
       }
     }).join(' ');
     
+    const options = slide.sentence
+      .filter(part => part.type === 'hotspot')
+      .sort(() => Math.random() - 0.5)
+      .map(part => `
+        <div class="option-card" data-id="${part.id}" onclick="selectOption(${index}, ${part.id})">
+          ${part.content}
+        </div>
+      `).join('');
+    
     return `
       <div class="slide ${index === 0 ? 'active' : ''}" data-index="${index}">
         <div class="slide-header">
@@ -890,6 +826,9 @@ function renderSlides() {
           </div>
         </div>
         <div class="sentence-display">${sentenceHTML}</div>
+        <div class="options-bank" id="options-${currentCategory}-${index}">
+          ${options}
+        </div>
       </div>
     `;
   }).join('');
@@ -900,8 +839,42 @@ function handleHotspotClick(slideIndex, hotspotId) {
   if (mode === 'explore') {
     revealHotspot(slideIndex, hotspotId);
   } else if (mode === 'game') {
-    currentTargetHotspot = hotspotId;
-    openModal(slideIndex);
+    handleGameHotspotClick(slideIndex, hotspotId);
+  }
+}
+
+// ==================== GAME MODE - HANDLE MATCH ====================
+function handleGameHotspotClick(slideIndex, hotspotId) {
+  if (!selectedOption) {
+    alert('⚠️ CHOOSE AN OPTION FIRST!');
+    return;
+  }
+  
+  const container = document.querySelector(`.slide[data-index="${slideIndex}"] .hotspot-container[data-hotspot-id="${hotspotId}"]`);
+  const option = document.querySelector(`#options-${currentCategory}-${slideIndex} .option-card[data-id="${selectedOption}"]`);
+  
+  if (selectedOption === hotspotId) {
+    container.classList.add('revealed', 'matched');
+    option.classList.add('correct');
+    matches[`${slideIndex}-${hotspotId}`] = true;
+    revealed.add(`${slideIndex}-${hotspotId}`);
+    selectedOption = null;
+    
+    const category = data.categories.find(c => c.id === currentCategory);
+    const totalHotspots = category.slides[slideIndex].sentence.filter(p => p.type === 'hotspot').length;
+    const matchedCount = Object.keys(matches).filter(k => k.startsWith(`${slideIndex}-`)).length;
+    
+    if (matchedCount === totalHotspots) {
+      setTimeout(() => alert('🎉 PERFECT! ALL MATCHED!'), 500);
+    }
+  } else {
+    container.classList.add('wrong');
+    option.classList.add('incorrect');
+    setTimeout(() => {
+      container.classList.remove('wrong');
+      option.classList.remove('incorrect', 'selected');
+      selectedOption = null;
+    }, 1000);
   }
 }
 
@@ -913,63 +886,17 @@ function revealHotspot(slideIndex, hotspotId) {
   revealed.add(key);
 }
 
-// ==================== MODAL FUNCTIONS ====================
-function openModal(slideIndex) {
-  const category = data.categories.find(c => c.id === currentCategory);
-  const slide = category.slides[slideIndex];
-  const options = slide.sentence
-    .filter(part => part.type === 'hotspot')
-    .sort(() => Math.random() - 0.5);
-  
-  const optionsGrid = document.getElementById('optionsGrid');
-  optionsGrid.innerHTML = options.map(part => `
-    <div class="option-card" data-id="${part.id}" onclick="selectOption(${slideIndex}, ${part.id})">
-      ${part.content}
-    </div>
-  `).join('');
-  
-  document.getElementById('modalOverlay').classList.add('show');
-}
-
-function closeModal(event) {
-  if (event && event.target.classList.contains('option-card')) return;
-  document.getElementById('modalOverlay').classList.remove('show');
-  selectedOption = null;
-  currentTargetHotspot = null;
-}
-
 // ==================== SELECT OPTION ====================
 function selectOption(slideIndex, optionId) {
-  if (!currentTargetHotspot) return;
+  if (mode !== 'game') return;
   
-  const container = document.querySelector(`.slide[data-index="${slideIndex}"] .hotspot-container[data-hotspot-id="${currentTargetHotspot}"]`);
-  const option = document.querySelector(`#optionsGrid .option-card[data-id="${optionId}"]`);
+  document.querySelectorAll(`#options-${currentCategory}-${slideIndex} .option-card`).forEach(card => {
+    card.classList.remove('selected');
+  });
   
-  if (optionId === currentTargetHotspot) {
-    container.classList.add('revealed', 'matched');
-    option.classList.add('correct');
-    matches[`${slideIndex}-${currentTargetHotspot}`] = true;
-    revealed.add(`${slideIndex}-${currentTargetHotspot}`);
-    
-    setTimeout(() => {
-      closeModal();
-      
-      const category = data.categories.find(c => c.id === currentCategory);
-      const totalHotspots = category.slides[slideIndex].sentence.filter(p => p.type === 'hotspot').length;
-      const matchedCount = Object.keys(matches).filter(k => k.startsWith(`${slideIndex}-`)).length;
-      
-      if (matchedCount === totalHotspots) {
-        setTimeout(() => alert('🎉 PERFECT! ALL MATCHED!'), 300);
-      }
-    }, 600);
-  } else {
-    container.classList.add('wrong');
-    option.classList.add('incorrect');
-    setTimeout(() => {
-      container.classList.remove('wrong');
-      option.classList.remove('incorrect');
-    }, 1000);
-  }
+  const card = document.querySelector(`#options-${currentCategory}-${slideIndex} .option-card[data-id="${optionId}"]`);
+  card.classList.add('selected');
+  selectedOption = optionId;
 }
 
 // ==================== RENDER PROGRESS DOTS ====================
@@ -999,6 +926,11 @@ function updateSlide() {
   const nextBtn = document.querySelector('.nav-arrow:last-child');
   prevBtn.disabled = currentSlideIndex === 0;
   nextBtn.disabled = currentSlideIndex === category.slides.length - 1;
+  
+  const optionsBank = document.getElementById(`options-${currentCategory}-${currentSlideIndex}`);
+  if (optionsBank) {
+    optionsBank.classList.toggle('show', mode === 'game');
+  }
 }
 
 // ==================== NAVIGATION ====================
@@ -1028,13 +960,12 @@ function setMode(newMode) {
   });
   
   resetGameState();
+  updateSlide();
 }
 
 // ==================== RESET GAME STATE ====================
 function resetGameState() {
   selectedOption = null;
-  currentTargetHotspot = null;
-  closeModal();
   
   document.querySelectorAll('.option-card').forEach(card => {
     card.classList.remove('selected', 'correct', 'incorrect');
@@ -1052,8 +983,14 @@ function resetGameState() {
 document.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowLeft') prevSlide();
   if (e.key === 'ArrowRight') nextSlide();
-  if (e.key === 'Escape') closeModal();
 });
+
+// Prevent pull-to-refresh on mobile
+document.body.addEventListener('touchmove', function(e) {
+  if (e.target === document.body) {
+    e.preventDefault();
+  }
+}, { passive: false });
 
 // ==================== INIT ====================
 init();
