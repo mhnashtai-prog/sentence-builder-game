@@ -1004,8 +1004,6 @@ function revealHotspot(slideIndex, hotspotId) {
 }
 
 // ==================== TAP-TO-MATCH SYSTEM ====================
-let selectedOptionCard = null;
-
 function initializeTapToMatch(slideIndex) {
   const slide = document.querySelector(`.slide[data-index="${slideIndex}"]`);
   if (!slide) return;
