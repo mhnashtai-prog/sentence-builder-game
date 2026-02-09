@@ -777,6 +777,19 @@
         display: inline;
       }
 
+      /* After submission - green for correct, orange for wrong */
+      body.game-mode .hotspot-container.matched .inline-clause,
+      body.explore-mode .hotspot-container.matched .inline-clause,
+      .hotspot-container.matched .inline-clause {
+        color: #10b981 !important;
+      }
+
+      body.game-mode .hotspot-container.wrong .inline-clause,
+      body.explore-mode .hotspot-container.wrong .inline-clause,
+      .hotspot-container.wrong .inline-clause {
+        color: #e3a268 !important;
+      }
+
       .hotspot-container.revealed .hotspot-number {
         display: none;
       }
