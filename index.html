@@ -238,10 +238,14 @@
       box-shadow: 0 4px 12px rgba(255, 59, 48, 0.4);
     }
 
-    .hotspot-number.drag-over {
-      background: #34c759;
-      transform: scale(1.15);
-      box-shadow: 0 0 0 4px rgba(52, 199, 89, 0.3);
+    .hotspot-number.waiting-match {
+      animation: bounce 1s infinite;
+      box-shadow: 0 0 0 4px rgba(255, 59, 48, 0.3);
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
     }
 
     .hotspot-number:active {
@@ -423,7 +427,7 @@
       border: 2px solid rgba(0, 0, 0, 0.15);
       border-radius: 20px;
       padding: 0.5rem 1rem;
-      cursor: grab;
+      cursor: pointer;
       transition: all 0.25s;
       text-align: center;
       font-size: 0.75rem;
@@ -433,20 +437,26 @@
       letter-spacing: 0.03em;
       flex-shrink: 0;
       white-space: nowrap;
-      touch-action: none;
+      user-select: none;
     }
 
-    .option-card.dragging {
-      opacity: 0.5;
-      cursor: grabbing;
-      transform: scale(1.05);
+    .option-card:active {
+      transform: scale(0.95);
+    }
+
+    .option-card.selected {
+      background: #ff3b30;
+      border-color: #ff3b30;
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255, 59, 48, 0.3);
     }
 
     .option-card.correct {
       background: #3b82f6;
       border-color: #3b82f6;
       color: #ffffff;
-      cursor: default;
+      pointer-events: none;
     }
 
     .option-card.incorrect {
@@ -454,7 +464,7 @@
       border-color: #ef4444;
       color: #ffffff;
       animation: shake 0.5s;
-      cursor: default;
+      pointer-events: none;
     }
 
     .option-card.used {
@@ -844,7 +854,7 @@ let data = null;
 let currentCategory = 'simple';
 let currentSlideIndex = 0;
 let mode = 'explore';
-let selectedOption = null;
+let selectedOptionCard = null;
 let matches = {};
 let revealed = new Set();
 
@@ -939,8 +949,7 @@ function renderSlides() {
       .map(part => `
         <div class="option-card" 
              data-id="${part.id}" 
-             data-content="${part.content.replace(/"/g, '&quot;')}"
-             draggable="true">
+             data-content="${part.content.replace(/"/g, '&quot;')}">
           ${part.content}
         </div>
       `).join('');
@@ -981,8 +990,9 @@ function renderSlides() {
 function handleHotspotClick(slideIndex, hotspotId) {
   if (mode === 'explore') {
     revealHotspot(slideIndex, hotspotId);
+  } else if (mode === 'game') {
+    handleNumberClick(hotspotId, slideIndex);
   }
-  // In game mode, clicking numbers does nothing
 }
 
 // ==================== REVEAL HOTSPOT (Explore Mode) ====================
@@ -993,100 +1003,79 @@ function revealHotspot(slideIndex, hotspotId) {
   revealed.add(key);
 }
 
-// ==================== DRAG AND DROP HANDLERS ====================
-function initializeDragAndDrop(slideIndex) {
+// ==================== TAP-TO-MATCH SYSTEM ====================
+let selectedOptionCard = null;
+
+function initializeTapToMatch(slideIndex) {
   const slide = document.querySelector(`.slide[data-index="${slideIndex}"]`);
   if (!slide) return;
 
-  // Make option cards draggable
+  // Add click handlers to option cards
   const optionCards = slide.querySelectorAll('.option-card');
   optionCards.forEach(card => {
-    card.addEventListener('dragstart', handleDragStart);
-    card.addEventListener('dragend', handleDragEnd);
+    card.addEventListener('click', () => handleOptionClick(card, slideIndex));
   });
+}
 
-  // Make hotspot numbers drop zones
+function handleOptionClick(card, slideIndex) {
+  if (mode !== 'game') return;
+  if (card.classList.contains('used')) return;
+  
+  // Deselect previous selection
+  const allCards = document.querySelectorAll(`#options-${currentCategory}-${slideIndex} .option-card`);
+  allCards.forEach(c => c.classList.remove('selected'));
+  
+  // Select this card
+  card.classList.add('selected');
+  selectedOptionCard = card;
+  
+  // Make unfilled numbers bounce to indicate they're ready
+  const slide = document.querySelector(`.slide[data-index="${slideIndex}"]`);
   const hotspotNumbers = slide.querySelectorAll('.hotspot-number');
-  hotspotNumbers.forEach(number => {
-    number.addEventListener('dragover', handleDragOver);
-    number.addEventListener('dragleave', handleDragLeave);
-    number.addEventListener('drop', handleDrop);
+  hotspotNumbers.forEach(num => {
+    const container = num.closest('.hotspot-container');
+    const hotspotId = parseInt(container.dataset.hotspotId);
+    if (!matches[`${slideIndex}-${hotspotId}`]) {
+      num.classList.add('waiting-match');
+    }
   });
 }
 
-function handleDragStart(e) {
+function handleNumberClick(hotspotId, slideIndex) {
   if (mode !== 'game') return;
+  if (!selectedOptionCard) return;
   
-  e.dataTransfer.effectAllowed = 'move';
-  e.dataTransfer.setData('text/html', e.target.innerHTML);
-  e.dataTransfer.setData('optionId', e.target.dataset.id);
-  e.dataTransfer.setData('content', e.target.dataset.content);
+  const key = `${slideIndex}-${hotspotId}`;
   
-  e.target.classList.add('dragging');
-}
-
-function handleDragEnd(e) {
-  e.target.classList.remove('dragging');
-}
-
-function handleDragOver(e) {
-  if (mode !== 'game') return;
+  // Don't allow clicking already filled slots
+  if (matches[key]) return;
   
-  e.preventDefault();
-  e.dataTransfer.dropEffect = 'move';
-  
-  const hotspotContainer = e.target.closest('.hotspot-container');
-  const hotspotId = parseInt(hotspotContainer.dataset.hotspotId);
-  
-  // Only allow drop on unfilled hotspots
-  if (!matches[`${currentSlideIndex}-${hotspotId}`]) {
-    e.target.classList.add('drag-over');
-  }
-  
-  return false;
-}
-
-function handleDragLeave(e) {
-  e.target.classList.remove('drag-over');
-}
-
-function handleDrop(e) {
-  if (mode !== 'game') return;
-  
-  e.stopPropagation();
-  e.preventDefault();
-  
-  e.target.classList.remove('drag-over');
-  
-  const hotspotContainer = e.target.closest('.hotspot-container');
-  const hotspotId = parseInt(hotspotContainer.dataset.hotspotId);
-  const key = `${currentSlideIndex}-${hotspotId}`;
-  
-  // Don't allow dropping on already filled slots
-  if (matches[key]) return false;
-  
-  const optionId = parseInt(e.dataTransfer.getData('optionId'));
-  const content = e.dataTransfer.getData('content');
+  const optionId = parseInt(selectedOptionCard.dataset.id);
+  const content = selectedOptionCard.dataset.content;
   
   // Store the match
   matches[key] = optionId;
   
   // Reveal the clause
+  const hotspotContainer = document.querySelector(`.slide[data-index="${slideIndex}"] .hotspot-container[data-hotspot-id="${hotspotId}"]`);
   hotspotContainer.classList.add('revealed');
   const inlineClause = hotspotContainer.querySelector('.inline-clause');
   inlineClause.textContent = content;
   
   // Mark option as used
-  const optionCard = document.querySelector(`#options-${currentCategory}-${currentSlideIndex} .option-card[data-id="${optionId}"]`);
-  if (optionCard) {
-    optionCard.classList.add('used');
-    optionCard.draggable = false;
-  }
+  selectedOptionCard.classList.remove('selected');
+  selectedOptionCard.classList.add('used');
   
-  // Check if all filled
+  // Clear selection
+  selectedOptionCard = null;
+  
+  // Remove bounce animation from all numbers
+  const slide = document.querySelector(`.slide[data-index="${slideIndex}"]`);
+  const hotspotNumbers = slide.querySelectorAll('.hotspot-number');
+  hotspotNumbers.forEach(num => num.classList.remove('waiting-match'));
+  
+  // Check if complete
   checkIfComplete();
-  
-  return false;
 }
 
 // ==================== CHECK IF COMPLETE ====================
@@ -1160,16 +1149,7 @@ function submitAnswer(slideIndex) {
   const submitBtn = document.querySelector(`#options-${currentCategory}-${slideIndex} .submit-btn`);
   submitBtn.disabled = true;
   
-  // Show result
-  if (correctCount === totalHotspots) {
-    setTimeout(() => {
-      alert('🎉 PERFECT! ALL CORRECT!');
-    }, 500);
-  } else {
-    setTimeout(() => {
-      alert(`Score: ${correctCount}/${totalHotspots}\nTry again or move to next slide.`);
-    }, 500);
-  }
+  // No alert - score display is enough feedback
 }
 
 // ==================== RENDER PROGRESS DOTS ====================
@@ -1205,9 +1185,9 @@ function updateSlide() {
     optionsBank.classList.toggle('show', mode === 'game');
   }
   
-  // Initialize drag and drop for game mode
+  // Initialize tap-to-match for game mode
   if (mode === 'game') {
-    setTimeout(() => initializeDragAndDrop(currentSlideIndex), 100);
+    setTimeout(() => initializeTapToMatch(currentSlideIndex), 100);
   }
 }
 
@@ -1243,12 +1223,11 @@ function setMode(newMode) {
 
 // ==================== RESET GAME STATE ====================
 function resetGameState() {
-  selectedOption = null;
+  selectedOptionCard = null;
   
   // Clear all visual states
   document.querySelectorAll('.option-card').forEach(card => {
-    card.classList.remove('used', 'correct', 'incorrect', 'dragging');
-    card.draggable = true;
+    card.classList.remove('used', 'correct', 'incorrect', 'selected');
   });
   
   document.querySelectorAll('.hotspot-container').forEach(container => {
@@ -1257,7 +1236,7 @@ function resetGameState() {
   });
   
   document.querySelectorAll('.hotspot-number').forEach(num => {
-    num.classList.remove('drag-over');
+    num.classList.remove('waiting-match');
   });
   
   document.querySelectorAll('.submit-btn').forEach(btn => {
@@ -1283,9 +1262,9 @@ function resetGameState() {
   const currentMatches = Object.keys(matches).filter(k => k.startsWith(`${currentSlideIndex}-`));
   currentMatches.forEach(k => delete matches[k]);
   
-  // Reinitialize drag and drop
+  // Reinitialize tap-to-match
   if (mode === 'game') {
-    setTimeout(() => initializeDragAndDrop(currentSlideIndex), 100);
+    setTimeout(() => initializeTapToMatch(currentSlideIndex), 100);
   }
 }
 
