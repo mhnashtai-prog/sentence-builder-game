@@ -238,19 +238,10 @@
       box-shadow: 0 4px 12px rgba(255, 59, 48, 0.4);
     }
 
-    .hotspot-number.next-to-match {
-      animation: pulse 1.5s infinite;
-      box-shadow: 0 0 0 4px rgba(255, 59, 48, 0.3);
-      transform: scale(1.05);
-    }
-
-    @keyframes pulse {
-      0%, 100% { 
-        box-shadow: 0 0 0 4px rgba(255, 59, 48, 0.3);
-      }
-      50% { 
-        box-shadow: 0 0 0 8px rgba(255, 59, 48, 0.1);
-      }
+    .hotspot-number.drag-over {
+      background: #34c759;
+      transform: scale(1.15);
+      box-shadow: 0 0 0 4px rgba(52, 199, 89, 0.3);
     }
 
     .hotspot-number:active {
@@ -358,11 +349,43 @@
     }
 
     .score-display {
-      font-size: 0.7rem;
-      font-weight: 700;
-      color: rgba(0, 0, 0, 0.5);
+      font-size: 0.65rem;
+      font-weight: 900;
+      color: #ff3b30;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.08em;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(255, 59, 48, 0.08);
+      padding: 0.4rem 0.75rem;
+      border-radius: 20px;
+      border: 1.5px solid rgba(255, 59, 48, 0.15);
+    }
+
+    .score-display::before {
+      content: "🎯";
+      font-size: 0.9rem;
+    }
+
+    .score-number {
+      font-size: 0.75rem;
+      font-weight: 900;
+      color: #ff3b30;
+    }
+
+    .score-perfect {
+      background: rgba(52, 199, 89, 0.12);
+      border-color: rgba(52, 199, 89, 0.2);
+      color: #34c759;
+    }
+
+    .score-perfect .score-number {
+      color: #34c759;
+    }
+
+    .score-perfect::before {
+      content: "🌟";
     }
 
     .submit-btn {
@@ -400,7 +423,7 @@
       border: 2px solid rgba(0, 0, 0, 0.15);
       border-radius: 20px;
       padding: 0.5rem 1rem;
-      cursor: pointer;
+      cursor: grab;
       transition: all 0.25s;
       text-align: center;
       font-size: 0.75rem;
@@ -410,23 +433,20 @@
       letter-spacing: 0.03em;
       flex-shrink: 0;
       white-space: nowrap;
+      touch-action: none;
     }
 
-    .option-card:active {
-      transform: scale(0.98);
-    }
-
-    .option-card.selected {
-      background: #ff3b30;
-      border-color: #ff3b30;
-      color: #ffffff;
-      transform: translateY(-1px);
+    .option-card.dragging {
+      opacity: 0.5;
+      cursor: grabbing;
+      transform: scale(1.05);
     }
 
     .option-card.correct {
       background: #3b82f6;
       border-color: #3b82f6;
       color: #ffffff;
+      cursor: default;
     }
 
     .option-card.incorrect {
@@ -434,6 +454,7 @@
       border-color: #ef4444;
       color: #ffffff;
       animation: shake 0.5s;
+      cursor: default;
     }
 
     .option-card.used {
@@ -711,12 +732,22 @@
         gap: 0.4rem;
       }
 
-      .submit-bar {
-        padding-top: 0.4rem;
+      .score-display {
+        font-size: 0.6rem;
+        padding: 0.35rem 0.65rem;
+        gap: 0.3rem;
       }
 
-      .score-display {
-        font-size: 0.65rem;
+      .score-display::before {
+        font-size: 0.8rem;
+      }
+
+      .score-number {
+        font-size: 0.68rem;
+      }
+
+      .submit-bar {
+        padding-top: 0.4rem;
       }
 
       .submit-btn {
@@ -906,7 +937,10 @@ function renderSlides() {
       .filter(part => part.type === 'hotspot')
       .sort(() => Math.random() - 0.5)
       .map(part => `
-        <div class="option-card" data-id="${part.id}" onclick="selectOption(${index}, ${part.id})">
+        <div class="option-card" 
+             data-id="${part.id}" 
+             data-content="${part.content.replace(/"/g, '&quot;')}"
+             draggable="true">
           ${part.content}
         </div>
       `).join('');
@@ -932,7 +966,9 @@ function renderSlides() {
             ${options}
           </div>
           <div class="submit-bar">
-            <div class="score-display" id="score-${currentCategory}-${index}">0/${totalHotspots}</div>
+            <div class="score-display" id="score-${currentCategory}-${index}">
+              <span class="score-number">0/${totalHotspots}</span>
+            </div>
             <button class="submit-btn" onclick="submitAnswer(${index})" disabled>Submit</button>
           </div>
         </div>
@@ -957,51 +993,114 @@ function revealHotspot(slideIndex, hotspotId) {
   revealed.add(key);
 }
 
-// ==================== SELECT OPTION (Game Mode) ====================
-function selectOption(slideIndex, optionId) {
+// ==================== DRAG AND DROP HANDLERS ====================
+function initializeDragAndDrop(slideIndex) {
+  const slide = document.querySelector(`.slide[data-index="${slideIndex}"]`);
+  if (!slide) return;
+
+  // Make option cards draggable
+  const optionCards = slide.querySelectorAll('.option-card');
+  optionCards.forEach(card => {
+    card.addEventListener('dragstart', handleDragStart);
+    card.addEventListener('dragend', handleDragEnd);
+  });
+
+  // Make hotspot numbers drop zones
+  const hotspotNumbers = slide.querySelectorAll('.hotspot-number');
+  hotspotNumbers.forEach(number => {
+    number.addEventListener('dragover', handleDragOver);
+    number.addEventListener('dragleave', handleDragLeave);
+    number.addEventListener('drop', handleDrop);
+  });
+}
+
+function handleDragStart(e) {
   if (mode !== 'game') return;
   
-  const category = data.categories.find(c => c.id === currentCategory);
-  const slide = category.slides[slideIndex];
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/html', e.target.innerHTML);
+  e.dataTransfer.setData('optionId', e.target.dataset.id);
+  e.dataTransfer.setData('content', e.target.dataset.content);
   
-  // Find first unmatched hotspot (not yet assigned a selection)
-  const unmatched = slide.sentence.find(part => 
-    part.type === 'hotspot' && !matches[`${slideIndex}-${part.id}`]
-  );
+  e.target.classList.add('dragging');
+}
+
+function handleDragEnd(e) {
+  e.target.classList.remove('dragging');
+}
+
+function handleDragOver(e) {
+  if (mode !== 'game') return;
   
-  if (!unmatched) return; // All slots filled
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
   
-  // Store the user's choice (may be right or wrong)
-  matches[`${slideIndex}-${unmatched.id}`] = optionId;
+  const hotspotContainer = e.target.closest('.hotspot-container');
+  const hotspotId = parseInt(hotspotContainer.dataset.hotspotId);
   
-  // Reveal the clause in place of the number
-  const container = document.querySelector(`.slide[data-index="${slideIndex}"] .hotspot-container[data-hotspot-id="${unmatched.id}"]`);
-  container.classList.add('revealed');
-  container.dataset.selectedOption = optionId;
-  
-  // Update the displayed text to show selected option
-  const selectedClause = slide.sentence.find(p => p.id === optionId);
-  if (selectedClause) {
-    const inlineClause = container.querySelector('.inline-clause');
-    inlineClause.textContent = selectedClause.content;
+  // Only allow drop on unfilled hotspots
+  if (!matches[`${currentSlideIndex}-${hotspotId}`]) {
+    e.target.classList.add('drag-over');
   }
+  
+  return false;
+}
+
+function handleDragLeave(e) {
+  e.target.classList.remove('drag-over');
+}
+
+function handleDrop(e) {
+  if (mode !== 'game') return;
+  
+  e.stopPropagation();
+  e.preventDefault();
+  
+  e.target.classList.remove('drag-over');
+  
+  const hotspotContainer = e.target.closest('.hotspot-container');
+  const hotspotId = parseInt(hotspotContainer.dataset.hotspotId);
+  const key = `${currentSlideIndex}-${hotspotId}`;
+  
+  // Don't allow dropping on already filled slots
+  if (matches[key]) return false;
+  
+  const optionId = parseInt(e.dataTransfer.getData('optionId'));
+  const content = e.dataTransfer.getData('content');
+  
+  // Store the match
+  matches[key] = optionId;
+  
+  // Reveal the clause
+  hotspotContainer.classList.add('revealed');
+  const inlineClause = hotspotContainer.querySelector('.inline-clause');
+  inlineClause.textContent = content;
   
   // Mark option as used
-  const option = document.querySelector(`#options-${currentCategory}-${slideIndex} .option-card[data-id="${optionId}"]`);
-  option.classList.add('used');
-  
-  // Check if all slots are filled
-  const totalHotspots = slide.sentence.filter(p => p.type === 'hotspot').length;
-  const filledCount = Object.keys(matches).filter(k => k.startsWith(`${slideIndex}-`)).length;
-  
-  if (filledCount === totalHotspots) {
-    // Enable submit button when all slots filled
-    const submitBtn = document.querySelector(`#options-${currentCategory}-${slideIndex} .submit-btn`);
-    submitBtn.disabled = false;
+  const optionCard = document.querySelector(`#options-${currentCategory}-${currentSlideIndex} .option-card[data-id="${optionId}"]`);
+  if (optionCard) {
+    optionCard.classList.add('used');
+    optionCard.draggable = false;
   }
   
-  // Highlight next empty hotspot
-  highlightNextHotspot(slideIndex);
+  // Check if all filled
+  checkIfComplete();
+  
+  return false;
+}
+
+// ==================== CHECK IF COMPLETE ====================
+function checkIfComplete() {
+  const category = data.categories.find(c => c.id === currentCategory);
+  const slide = category.slides[currentSlideIndex];
+  
+  const totalHotspots = slide.sentence.filter(p => p.type === 'hotspot').length;
+  const filledCount = Object.keys(matches).filter(k => k.startsWith(`${currentSlideIndex}-`)).length;
+  
+  if (filledCount === totalHotspots) {
+    const submitBtn = document.querySelector(`#options-${currentCategory}-${currentSlideIndex} .submit-btn`);
+    if (submitBtn) submitBtn.disabled = false;
+  }
 }
 
 // ==================== SUBMIT ANSWER ====================
@@ -1044,7 +1143,17 @@ function submitAnswer(slideIndex) {
   // Update score display
   const scoreDisplay = document.getElementById(`score-${currentCategory}-${slideIndex}`);
   if (scoreDisplay) {
-    scoreDisplay.textContent = `${correctCount}/${totalHotspots}`;
+    const scoreNumber = scoreDisplay.querySelector('.score-number');
+    if (scoreNumber) {
+      scoreNumber.textContent = `${correctCount}/${totalHotspots}`;
+    }
+    
+    // Add celebration styling for perfect score
+    if (correctCount === totalHotspots) {
+      scoreDisplay.classList.add('score-perfect');
+    } else {
+      scoreDisplay.classList.remove('score-perfect');
+    }
   }
   
   // Disable submit button after checking
@@ -1060,31 +1169,6 @@ function submitAnswer(slideIndex) {
     setTimeout(() => {
       alert(`Score: ${correctCount}/${totalHotspots}\nTry again or move to next slide.`);
     }, 500);
-  }
-}
-
-// ==================== HIGHLIGHT NEXT HOTSPOT ====================
-function highlightNextHotspot(slideIndex) {
-  const category = data.categories.find(c => c.id === currentCategory);
-  const slide = category.slides[slideIndex];
-  
-  // Clear all highlights
-  document.querySelectorAll(`.slide[data-index="${slideIndex}"] .hotspot-number`).forEach(num => {
-    num.classList.remove('next-to-match');
-  });
-  
-  // Find and highlight next empty slot
-  const unmatched = slide.sentence.find(part => 
-    part.type === 'hotspot' && !matches[`${slideIndex}-${part.id}`]
-  );
-  
-  if (unmatched) {
-    const nextHotspot = document.querySelector(
-      `.slide[data-index="${slideIndex}"] .hotspot-container[data-hotspot-id="${unmatched.id}"] .hotspot-number`
-    );
-    if (nextHotspot) {
-      nextHotspot.classList.add('next-to-match');
-    }
   }
 }
 
@@ -1121,9 +1205,9 @@ function updateSlide() {
     optionsBank.classList.toggle('show', mode === 'game');
   }
   
-  // Highlight first hotspot in game mode
+  // Initialize drag and drop for game mode
   if (mode === 'game') {
-    highlightNextHotspot(currentSlideIndex);
+    setTimeout(() => initializeDragAndDrop(currentSlideIndex), 100);
   }
 }
 
@@ -1163,12 +1247,17 @@ function resetGameState() {
   
   // Clear all visual states
   document.querySelectorAll('.option-card').forEach(card => {
-    card.classList.remove('used', 'correct', 'incorrect');
+    card.classList.remove('used', 'correct', 'incorrect', 'dragging');
+    card.draggable = true;
   });
   
   document.querySelectorAll('.hotspot-container').forEach(container => {
     container.classList.remove('revealed', 'matched', 'wrong');
     delete container.dataset.selectedOption;
+  });
+  
+  document.querySelectorAll('.hotspot-number').forEach(num => {
+    num.classList.remove('drag-over');
   });
   
   document.querySelectorAll('.submit-btn').forEach(btn => {
@@ -1182,7 +1271,11 @@ function resetGameState() {
     const category = data.categories.find(c => c.id === currentCategory);
     if (category && category.slides[slideIndex]) {
       const totalHotspots = category.slides[slideIndex].sentence.filter(p => p.type === 'hotspot').length;
-      score.textContent = `0/${totalHotspots}`;
+      const scoreNumber = score.querySelector('.score-number');
+      if (scoreNumber) {
+        scoreNumber.textContent = `0/${totalHotspots}`;
+      }
+      score.classList.remove('score-perfect');
     }
   });
   
@@ -1190,9 +1283,9 @@ function resetGameState() {
   const currentMatches = Object.keys(matches).filter(k => k.startsWith(`${currentSlideIndex}-`));
   currentMatches.forEach(k => delete matches[k]);
   
-  // Re-highlight first hotspot in game mode
+  // Reinitialize drag and drop
   if (mode === 'game') {
-    setTimeout(() => highlightNextHotspot(currentSlideIndex), 100);
+    setTimeout(() => initializeDragAndDrop(currentSlideIndex), 100);
   }
 }
 
