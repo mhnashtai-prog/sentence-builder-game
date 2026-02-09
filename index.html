@@ -207,6 +207,18 @@
       word-wrap: break-word;
     }
 
+    /* CATEGORY TITLE - Above sentence */
+    .category-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: rgba(0, 0, 0, 0.4);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 1rem 1.5rem 0.5rem 1.5rem;
+      text-align: left;
+    }
+
     .word {
       display: inline;
       white-space: normal;
@@ -808,6 +820,15 @@
         color: #ffffff;
       }
 
+      /* Category title - mobile */
+      .category-title {
+        font-size: 0.6rem;
+        font-weight: 700;
+        color: rgba(0, 0, 0, 0.35);
+        letter-spacing: 0.08em;
+        padding: 0.75rem 1.5rem 0.25rem 1.5rem;
+      }
+
       /* Sentence display - 30% font reduction */
       .sentence-display {
         font-size: 2.1rem;
@@ -1140,6 +1161,7 @@ function renderSlides() {
             </div>
           </div>
         </div>
+        <div class="category-title">${category.icon} ${category.name}</div>
         <div class="sentence-display">${sentenceHTML}</div>
         <div class="options-bank" id="options-${currentCategory}-${index}">
           <div class="options-row">
