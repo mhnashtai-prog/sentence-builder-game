@@ -284,37 +284,92 @@
     /* OPTIONS BANK - BOTTOM OF SLIDE */
     .options-bank {
       display: none;
-      flex-direction: row;
-      flex-wrap: wrap;
-      gap: 0.5rem;
+      flex-direction: column;
+      gap: 0.75rem;
       padding: 1rem 1.5rem;
       border-top: 1px solid rgba(0, 0, 0, 0.08);
-      max-height: 150px;
-      overflow-y: auto;
       background: transparent;
-      justify-content: center;
     }
 
     .options-bank.show {
       display: flex;
     }
 
-    .options-bank::-webkit-scrollbar {
+    /* OPTIONS ROW */
+    .options-row {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+
+    .options-row::-webkit-scrollbar {
       width: 6px;
       height: 6px;
     }
 
-    .options-bank::-webkit-scrollbar-track {
+    .options-row::-webkit-scrollbar-track {
       background: transparent;
     }
 
-    .options-bank::-webkit-scrollbar-thumb {
+    .options-row::-webkit-scrollbar-thumb {
       background: rgba(255, 59, 48, 0.2);
       border-radius: 10px;
     }
 
-    .options-bank::-webkit-scrollbar-thumb:hover {
+    .options-row::-webkit-scrollbar-thumb:hover {
       background: rgba(255, 59, 48, 0.3);
+    }
+
+    /* SUBMIT BAR */
+    .submit-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-top: 0.5rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .score-display {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: rgba(0, 0, 0, 0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .submit-btn {
+      padding: 0.5rem 1.25rem;
+      background: #000000;
+      border: none;
+      border-radius: 8px;
+      color: #ffffff;
+      font-size: 0.7rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .submit-btn:hover {
+      background: #1a1a1a;
+      transform: translateY(-1px);
+    }
+
+    .submit-btn:active {
+      transform: scale(0.98);
+    }
+
+    .submit-btn:disabled {
+      background: rgba(0, 0, 0, 0.2);
+      color: rgba(0, 0, 0, 0.4);
+      cursor: not-allowed;
+      transform: none;
     }
 
     .option-card {
@@ -613,19 +668,33 @@
       }
 
       /* Modal - perfect mobile sizing */
-      .option-card {
-        font-size: 0.7rem;
-        padding: 0.45rem 0.85rem;
-      }
-
       .options-bank {
-        max-height: 140px;
-        gap: 0.4rem;
+        max-height: none;
+        gap: 0.6rem;
         padding: 0.85rem 0.75rem;
         border-top: 1px solid rgba(0, 0, 0, 0.08);
         background: #fafafa;
         width: 100%;
         box-sizing: border-box;
+      }
+
+      .options-row {
+        max-height: 100px;
+        gap: 0.4rem;
+      }
+
+      .submit-bar {
+        padding-top: 0.4rem;
+      }
+
+      .score-display {
+        font-size: 0.65rem;
+      }
+
+      .submit-btn {
+        padding: 0.45rem 1rem;
+        font-size: 0.65rem;
+        border-radius: 7px;
       }
 
       /* Bottom navigation - compact */
@@ -812,6 +881,8 @@ function renderSlides() {
         </div>
       `).join('');
     
+    const totalHotspots = slide.sentence.filter(p => p.type === 'hotspot').length;
+    
     return `
       <div class="slide ${index === 0 ? 'active' : ''}" data-index="${index}">
         <div class="slide-header">
@@ -827,7 +898,13 @@ function renderSlides() {
         </div>
         <div class="sentence-display">${sentenceHTML}</div>
         <div class="options-bank" id="options-${currentCategory}-${index}">
-          ${options}
+          <div class="options-row">
+            ${options}
+          </div>
+          <div class="submit-bar">
+            <div class="score-display" id="score-${currentCategory}-${index}">0/${totalHotspots}</div>
+            <button class="submit-btn" onclick="submitAnswer(${index})" disabled>Submit</button>
+          </div>
         </div>
       </div>
     `;
@@ -845,37 +922,9 @@ function handleHotspotClick(slideIndex, hotspotId) {
 
 // ==================== GAME MODE - HANDLE MATCH ====================
 function handleGameHotspotClick(slideIndex, hotspotId) {
-  if (!selectedOption) {
-    alert('⚠️ CHOOSE AN OPTION FIRST!');
-    return;
-  }
-  
-  const container = document.querySelector(`.slide[data-index="${slideIndex}"] .hotspot-container[data-hotspot-id="${hotspotId}"]`);
-  const option = document.querySelector(`#options-${currentCategory}-${slideIndex} .option-card[data-id="${selectedOption}"]`);
-  
-  if (selectedOption === hotspotId) {
-    container.classList.add('revealed', 'matched');
-    option.classList.add('correct');
-    matches[`${slideIndex}-${hotspotId}`] = true;
-    revealed.add(`${slideIndex}-${hotspotId}`);
-    selectedOption = null;
-    
-    const category = data.categories.find(c => c.id === currentCategory);
-    const totalHotspots = category.slides[slideIndex].sentence.filter(p => p.type === 'hotspot').length;
-    const matchedCount = Object.keys(matches).filter(k => k.startsWith(`${slideIndex}-`)).length;
-    
-    if (matchedCount === totalHotspots) {
-      setTimeout(() => alert('🎉 PERFECT! ALL MATCHED!'), 500);
-    }
-  } else {
-    container.classList.add('wrong');
-    option.classList.add('incorrect');
-    setTimeout(() => {
-      container.classList.remove('wrong');
-      option.classList.remove('incorrect', 'selected');
-      selectedOption = null;
-    }, 1000);
-  }
+  // In game mode, clicking numbers does nothing
+  // Users must select option and click submit
+  return;
 }
 
 // ==================== REVEAL HOTSPOT ====================
@@ -897,6 +946,61 @@ function selectOption(slideIndex, optionId) {
   const card = document.querySelector(`#options-${currentCategory}-${slideIndex} .option-card[data-id="${optionId}"]`);
   card.classList.add('selected');
   selectedOption = optionId;
+  
+  // Enable submit button
+  const submitBtn = document.querySelector(`#options-${currentCategory}-${slideIndex} .submit-btn`);
+  if (submitBtn) submitBtn.disabled = false;
+}
+
+// ==================== SUBMIT ANSWER ====================
+function submitAnswer(slideIndex) {
+  if (!selectedOption) return;
+  
+  const category = data.categories.find(c => c.id === currentCategory);
+  const slide = category.slides[slideIndex];
+  
+  // Find first unmatched hotspot
+  const unmatched = slide.sentence.find(part => 
+    part.type === 'hotspot' && !matches[`${slideIndex}-${part.id}`]
+  );
+  
+  if (!unmatched) return;
+  
+  const container = document.querySelector(`.slide[data-index="${slideIndex}"] .hotspot-container[data-hotspot-id="${unmatched.id}"]`);
+  const option = document.querySelector(`#options-${currentCategory}-${slideIndex} .option-card[data-id="${selectedOption}"]`);
+  const submitBtn = document.querySelector(`#options-${currentCategory}-${slideIndex} .submit-btn`);
+  
+  if (selectedOption === unmatched.id) {
+    // CORRECT
+    container.classList.add('revealed', 'matched');
+    option.classList.add('correct');
+    matches[`${slideIndex}-${unmatched.id}`] = true;
+    revealed.add(`${slideIndex}-${unmatched.id}`);
+    selectedOption = null;
+    
+    // Update score
+    const matchedCount = Object.keys(matches).filter(k => k.startsWith(`${slideIndex}-`)).length;
+    const totalHotspots = slide.sentence.filter(p => p.type === 'hotspot').length;
+    const scoreDisplay = document.getElementById(`score-${currentCategory}-${slideIndex}`);
+    if (scoreDisplay) scoreDisplay.textContent = `${matchedCount}/${totalHotspots}`;
+    
+    // Disable submit
+    submitBtn.disabled = true;
+    
+    if (matchedCount === totalHotspots) {
+      setTimeout(() => alert('🎉 PERFECT! ALL MATCHED!'), 500);
+    }
+  } else {
+    // WRONG
+    container.classList.add('wrong');
+    option.classList.add('incorrect');
+    setTimeout(() => {
+      container.classList.remove('wrong');
+      option.classList.remove('incorrect', 'selected');
+      selectedOption = null;
+      submitBtn.disabled = true;
+    }, 1000);
+  }
 }
 
 // ==================== RENDER PROGRESS DOTS ====================
@@ -973,6 +1077,19 @@ function resetGameState() {
   
   document.querySelectorAll('.hotspot-container').forEach(container => {
     container.classList.remove('revealed', 'matched', 'wrong');
+  });
+  
+  document.querySelectorAll('.submit-btn').forEach(btn => {
+    btn.disabled = true;
+  });
+  
+  document.querySelectorAll('.score-display').forEach(score => {
+    const slideIndex = parseInt(score.id.split('-').pop());
+    const category = data.categories.find(c => c.id === currentCategory);
+    if (category && category.slides[slideIndex]) {
+      const totalHotspots = category.slides[slideIndex].sentence.filter(p => p.type === 'hotspot').length;
+      score.textContent = `0/${totalHotspots}`;
+    }
   });
   
   matches = {};
