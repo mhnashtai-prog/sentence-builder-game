@@ -731,10 +731,10 @@
         color: #ffffff;
       }
 
-      /* Sentence display - POSTER STYLE, HUGE FONTS */
+      /* Sentence display - REDUCED BY 15% HEIGHT, 10% WIDTH */
       .sentence-display {
-        font-size: 3.5rem;
-        line-height: 1.4;
+        font-size: 3.15rem;
+        line-height: 1.19;
         padding: 2.5rem 1.5rem;
         flex: 1;
         display: flex;
@@ -747,6 +747,7 @@
         white-space: normal;
         word-wrap: break-word;
         font-weight: 900;
+        letter-spacing: -0.01em;
       }
 
       .word {
@@ -760,9 +761,9 @@
 
       .hotspot-number {
         display: inline-flex;
-        min-width: 60px;
-        height: 60px;
-        font-size: 2rem;
+        min-width: 54px;
+        height: 51px;
+        font-size: 1.8rem;
         border-radius: 10px;
         margin: 0 0.2rem;
         vertical-align: middle;
@@ -770,7 +771,7 @@
 
       .inline-clause {
         display: none;
-        font-size: 3.5rem;
+        font-size: 3.15rem;
         color: #000000;
       }
 
@@ -874,18 +875,19 @@
     /* Extra small phones */
     @media (max-width: 375px) {
       .sentence-display {
-        font-size: 3rem;
+        font-size: 2.7rem;
         padding: 2rem 1.25rem;
+        line-height: 1.15;
       }
 
       .inline-clause {
-        font-size: 3rem;
+        font-size: 2.7rem;
       }
 
       .hotspot-number {
-        min-width: 54px;
-        height: 54px;
-        font-size: 1.75rem;
+        min-width: 48px;
+        height: 46px;
+        font-size: 1.58rem;
       }
     }
 
