@@ -1007,7 +1007,7 @@
 <script>
 // ==================== STATE ====================
 let data = null;
-let currentCategory = 'simple';
+let currentCategory = 'clause-types';
 let currentSlideIndex = 0;
 let mode = 'explore';
 let selectedOptionCard = null;
@@ -1021,6 +1021,15 @@ async function init() {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     
     data = await response.json();
+    
+    // Use the first category if current doesn't exist
+    if (data.categories.length > 0) {
+      const categoryExists = data.categories.find(c => c.id === currentCategory);
+      if (!categoryExists) {
+        currentCategory = data.categories[0].id;
+      }
+    }
+    
     renderPrimaryTabs();
     loadCategory(currentCategory);
     
