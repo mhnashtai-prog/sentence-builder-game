@@ -261,7 +261,7 @@
       display: none;
       font-size: 3rem;
       font-weight: 900;
-      color: #3b82f6;
+      color: #ef4444;
       letter-spacing: 0.02em;
     }
 
@@ -692,21 +692,23 @@
         transition: all 0.2s;
       }
 
-      .mobile-mode-toggle .mode-btn.active {
+      .mobile-mode-toggle .mode-btn.active[data-mode="explore"] {
+        background: #ef4444;
+        color: #ffffff;
+      }
+
+      .mobile-mode-toggle .mode-btn.active[data-mode="game"] {
         background: #3b82f6;
         color: #ffffff;
       }
 
-      /* Sentence display - LEFT-ALIGNED BLOCK */
+      /* Sentence display - CONTINUOUS INLINE BLOCK */
       .sentence-display {
         font-size: 1.75rem;
         line-height: 1.65;
         padding: 1.5rem 1.25rem;
         flex: 1;
-        display: flex;
-        align-items: flex-start;
-        justify-content: flex-start;
-        flex-wrap: wrap;
+        display: block;
         text-align: left;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
@@ -714,16 +716,36 @@
         word-wrap: break-word;
       }
 
+      .word {
+        display: inline;
+      }
+
+      .hotspot-container {
+        display: inline;
+        white-space: normal;
+      }
+
       .hotspot-number {
+        display: inline-flex;
         min-width: 42px;
         height: 42px;
         font-size: 1.3rem;
         border-radius: 7px;
         margin: 0 0.15rem;
+        vertical-align: middle;
       }
 
       .inline-clause {
+        display: none;
         font-size: 1.75rem;
+      }
+
+      .hotspot-container.revealed .inline-clause {
+        display: inline;
+      }
+
+      .hotspot-container.revealed .hotspot-number {
+        display: none;
       }
 
       /* Modal - perfect mobile sizing */
@@ -932,12 +954,7 @@ function renderSlides() {
   container.innerHTML = slides.map((slide, index) => {
     const sentenceHTML = slide.sentence.map((part, partIndex) => {
       if (part.type === 'hotspot') {
-        return `
-          <span class="hotspot-container" data-hotspot-id="${part.id}">
-            <span class="inline-clause">${part.content}</span>
-            <span class="hotspot-number" onclick="handleHotspotClick(${index}, ${part.id})">${part.id}</span>
-          </span>
-        `;
+        return `<span class="hotspot-container" data-hotspot-id="${part.id}"><span class="inline-clause">${part.content}</span><span class="hotspot-number" onclick="handleHotspotClick(${index}, ${part.id})">${part.id}</span></span>`;
       } else {
         return `<span class="word">${part.text}</span>`;
       }
