@@ -1017,7 +1017,7 @@ let revealed = new Set();
 // ==================== INIT ====================
 async function init() {
   try {
-    const response = await fetch('sentence-structures-b2-comprehensive.json');
+    const response = await fetch('sentence-structures-complete.json');
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     
     data = await response.json();
@@ -1042,7 +1042,7 @@ async function init() {
         <div style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
         <div style="font-size: 1.5rem; font-weight: 700;">Failed to load sentence data</div>
         <div style="font-size: 1rem; margin-top: 1rem; opacity: 0.6;">${error.message}</div>
-        <div style="font-size: 0.875rem; margin-top: 0.5rem; opacity: 0.4;">Looking for: sentence-structures-b2-comprehensive.json</div>
+        <div style="font-size: 0.875rem; margin-top: 0.5rem; opacity: 0.4;">Looking for: sentence-structures-complete.json</div>
       </div>
     `;
   }
