@@ -225,7 +225,7 @@
       justify-content: center;
       min-width: 50px;
       height: 50px;
-      background: #3b82f6;
+      background: #ef4444;
       border: none;
       border-radius: 8px;
       cursor: pointer;
@@ -235,10 +235,16 @@
       color: #ffffff;
       vertical-align: middle;
       margin: 0 0.25rem;
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+    }
+
+    /* Blue in Match mode */
+    body.game-mode .hotspot-number {
+      background: #3b82f6;
       box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
     }
 
-    .hotspot-number.waiting-match {
+    body.game-mode .hotspot-number.waiting-match {
       animation: bounce 1s infinite;
       box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3);
     }
@@ -261,14 +267,23 @@
       display: none;
       font-size: 3rem;
       font-weight: 900;
-      color: #ef4444;
+      color: #000000;
       letter-spacing: 0.02em;
+    }
+
+    /* Explore mode - red */
+    body.explore-mode .hotspot-container.revealed .inline-clause {
+      color: #ef4444;
+    }
+
+    /* Match mode - black until checked */
+    body.game-mode .hotspot-container.revealed .inline-clause {
+      color: #000000;
     }
 
     .hotspot-container.revealed .inline-clause {
       display: inline;
       animation: textGrow 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-      color: #ef4444;
     }
 
     @keyframes textGrow {
@@ -739,12 +754,21 @@
       .inline-clause {
         display: none;
         font-size: 1.75rem;
+        color: #000000;
+      }
+
+      /* Explore mode - red */
+      body.explore-mode .hotspot-container.revealed .inline-clause {
         color: #ef4444;
+      }
+
+      /* Match mode - black until checked */
+      body.game-mode .hotspot-container.revealed .inline-clause {
+        color: #000000;
       }
 
       .hotspot-container.revealed .inline-clause {
         display: inline;
-        color: #ef4444;
       }
 
       .hotspot-container.revealed .hotspot-number {
@@ -843,7 +867,7 @@
     }
   </style>
 </head>
-<body>
+<body class="explore-mode">
 
 <button class="back-btn" onclick="alert('Back navigation would go here')">
   <span>←</span>
@@ -1230,6 +1254,15 @@ function nextSlide() {
 // ==================== MODE SWITCHING ====================
 function setMode(newMode) {
   mode = newMode;
+  
+  // Toggle body class for styling
+  if (mode === 'game') {
+    document.body.classList.add('game-mode');
+    document.body.classList.remove('explore-mode');
+  } else {
+    document.body.classList.add('explore-mode');
+    document.body.classList.remove('game-mode');
+  }
   
   document.querySelectorAll('.mode-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.mode === mode);
