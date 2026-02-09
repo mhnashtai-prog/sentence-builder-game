@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>INTUITY - Sentence Structures (Speech Bubbles)</title>
+  <title>INTUITY - Sentence Structures (Modal)</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
   
   <style>
@@ -18,7 +18,7 @@
       position: relative;
     }
 
-    /* BACK BUTTON */
+    /* BACK BUTTON - OUTSIDE SLIDES */
     .back-btn {
       position: fixed;
       top: 1.5rem;
@@ -36,7 +36,7 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      z-index: 1000;
+      z-index: 2000;
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
@@ -159,7 +159,7 @@
       display: flex;
     }
 
-    /* SLIDE CARD - POSTER STYLE */
+    /* SLIDE CARD */
     .slide {
       position: relative;
       width: 100%;
@@ -185,62 +185,32 @@
       z-index: 1;
     }
 
-    /* SENTENCE DISPLAY - POSTER STYLE */
+    /* SENTENCE DISPLAY - LINEAR BLOCK */
     .sentence-display {
       font-family: 'Inter', sans-serif;
       font-size: 3rem;
-      line-height: 1.4;
+      line-height: 1.5;
       color: #000000;
       text-align: center;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
-      align-items: center;
       padding: 2rem 1.5rem;
       font-weight: 900;
       text-transform: uppercase;
       letter-spacing: 0.01em;
       position: relative;
+      display: block;
     }
 
     .word {
-      display: inline-block;
-      position: relative;
-      text-transform: uppercase;
+      display: inline;
     }
 
-    /* HOTSPOT CONTAINER - INLINE */
+    /* HOTSPOT - INLINE */
     .hotspot-container {
-      display: inline-flex;
-      flex-direction: column;
-      align-items: center;
+      display: inline;
       position: relative;
-      margin: 0 0.5rem;
     }
 
-    /* MOBILE MODE TOGGLE - hidden by default */
-    .mobile-mode-toggle {
-      display: none;
-    }
-
-    /* MOBILE CATEGORY INDICATOR - hidden by default */
-    .mobile-category {
-      display: none;
-    }
-
-    /* SLIDE HEADER - hidden by default */
-    .slide-header {
-      display: none;
-    }
-
-    .slide-categories,
-    .slide-category-tab,
-    .slide-mode-toggle {
-      display: none;
-    }
-
-    /* CLICKABLE NUMBER BADGE - RED */
+    /* CLICKABLE NUMBER BADGE */
     .hotspot-number {
       display: inline-flex;
       align-items: center;
@@ -256,9 +226,9 @@
       font-weight: 900;
       color: #ffffff;
       position: relative;
-      z-index: 10;
+      vertical-align: middle;
+      margin: 0 0.25rem;
       box-shadow: 0 4px 12px rgba(255, 59, 48, 0.4);
-      text-transform: uppercase;
     }
 
     .hotspot-number:hover {
@@ -267,32 +237,28 @@
       box-shadow: 0 8px 20px rgba(255, 59, 48, 0.5);
     }
 
-    /* HIDE NUMBER WHEN REVEALED */
     .hotspot-container.revealed .hotspot-number {
       display: none;
     }
 
-    /* POSTER TEXT - RED - NO BUBBLE */
+    /* INLINE TEXT - GROWS IN */
     .inline-clause {
       display: none;
-      font-size: 2.2rem;
+      font-size: 3rem;
       font-weight: 900;
       color: #ff3b30;
-      position: relative;
-      text-transform: uppercase;
       letter-spacing: 0.02em;
-      line-height: 1;
     }
 
     .hotspot-container.revealed .inline-clause {
-      display: inline-block;
-      animation: posterReveal 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: inline;
+      animation: textGrow 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    @keyframes posterReveal {
+    @keyframes textGrow {
       from { 
         opacity: 0; 
-        transform: scale(0.9);
+        transform: scale(0.8);
       }
       to { 
         opacity: 1; 
@@ -300,7 +266,7 @@
       }
     }
 
-    /* MATCHED STATE (game mode) - GREEN */
+    /* MATCHED STATE */
     .hotspot-container.matched .inline-clause {
       color: #10b981;
     }
@@ -316,74 +282,129 @@
       75% { transform: translateX(6px); }
     }
 
-    /* GAME MODE - OPTIONS BANK - COMPACT & SUBTLE */
-    .options-bank {
+    /* MODAL OVERLAY */
+    .modal-overlay {
       display: none;
-      flex-direction: row;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-top: 2rem;
-      padding: 1rem 1.5rem;
-      border-top: 1px solid rgba(0, 0, 0, 0.08);
-      max-height: 150px;
-      overflow-y: auto;
-      background: transparent;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      z-index: 3000;
+      align-items: flex-end;
       justify-content: center;
+      animation: fadeIn 0.3s ease;
     }
 
-    .options-bank.show {
+    .modal-overlay.show {
       display: flex;
     }
 
-    /* CUSTOM SCROLLBAR FOR OPTIONS */
-    .options-bank::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
-    .options-bank::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    .options-bank::-webkit-scrollbar-thumb {
-      background: rgba(255, 59, 48, 0.2);
-      border-radius: 10px;
-    }
-
-    .options-bank::-webkit-scrollbar-thumb:hover {
-      background: rgba(255, 59, 48, 0.3);
-    }
-
-    /* OPTION CARDS - PILL/TAG STYLE */
-    .option-card {
+    /* MODAL CARD */
+    .modal-card {
       background: #ffffff;
-      border: 2px solid rgba(0, 0, 0, 0.15);
-      border-radius: 20px;
-      padding: 0.5rem 1rem;
+      border-radius: 24px 24px 0 0;
+      width: 100%;
+      max-width: 600px;
+      max-height: 60vh;
+      overflow-y: auto;
+      animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    /* MODAL HEADER */
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 1.5rem 1rem;
+      border-bottom: 2px solid rgba(0, 0, 0, 0.08);
+      position: sticky;
+      top: 0;
+      background: #ffffff;
+      z-index: 10;
+    }
+
+    .modal-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #000000;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .modal-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.05);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: rgba(0, 0, 0, 0.6);
+      transition: all 0.3s;
+    }
+
+    .modal-close:hover {
+      background: rgba(0, 0, 0, 0.1);
+      color: #000000;
+    }
+
+    /* OPTIONS GRID */
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 0.75rem;
+      padding: 1.5rem;
+    }
+
+    .option-card {
+      background: #f5f5f5;
+      border: 2px solid rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      padding: 1rem;
       cursor: pointer;
       transition: all 0.25s;
       text-align: center;
-      font-size: 0.75rem;
+      font-size: 0.85rem;
       font-weight: 700;
-      color: rgba(0, 0, 0, 0.6);
+      color: rgba(0, 0, 0, 0.7);
       text-transform: uppercase;
       letter-spacing: 0.03em;
-      flex-shrink: 0;
-      white-space: nowrap;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .option-card:hover {
       border-color: rgba(255, 59, 48, 0.4);
       color: #000000;
-      transform: translateY(-1px);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
     .option-card.selected {
       background: #ff3b30;
       border-color: #ff3b30;
       color: #ffffff;
-      transform: translateY(-1px);
+      transform: translateY(-2px);
     }
 
     .option-card.correct {
@@ -472,6 +493,11 @@
       box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
     }
 
+    /* SLIDE HEADER - MOBILE ONLY */
+    .slide-header {
+      display: none;
+    }
+
     /* SCROLLBAR */
     .primary-tabs::-webkit-scrollbar { height: 5px; }
     .primary-tabs::-webkit-scrollbar-track { background: transparent; }
@@ -480,7 +506,6 @@
       border-radius: 5px;
     }
 
-    /* SLIDES CONTAINER SCROLLBAR */
     .slides-container::-webkit-scrollbar {
       width: 10px;
     }
@@ -494,43 +519,27 @@
       border-radius: 5px;
     }
 
-    /* TABLET - MEDIUM SCREENS */
-    @media (max-width: 1024px) and (min-width: 769px) {
-      .slide {
-        max-width: 95%;
-        padding: 3rem 2rem;
-      }
-
-      .sentence-display {
-        font-size: 2.2rem;
-      }
-
-      .inline-clause {
-        font-size: 1.8rem;
-      }
-    }
-
-    /* MOBILE - FULL SCREEN WITH INTERNAL NAV */
+    /* MOBILE */
     @media (max-width: 768px) {
       body {
         overflow: hidden;
       }
 
-      /* Hide main navigation bar on mobile */
+      /* Back button - outside slide */
+      .back-btn {
+        top: 0.75rem;
+        left: 0.75rem;
+        padding: 0.5rem 1rem;
+        font-size: 0.7rem;
+        z-index: 2001;
+      }
+
+      /* Hide desktop navigation */
       .navigation-bar {
         display: none;
       }
 
-      /* Back button adjustments */
-      .back-btn {
-        top: 0.75rem;
-        left: 0.75rem;
-        padding: 0.45rem 0.9rem;
-        font-size: 0.7rem;
-        z-index: 2000;
-      }
-
-      /* Slides container - absolute full viewport */
+      /* Slides container - full screen */
       .slides-container {
         position: fixed;
         top: 0;
@@ -547,7 +556,7 @@
         overflow: hidden;
       }
 
-      /* Slide - absolute full screen */
+      /* Slide - full screen */
       .slide {
         position: fixed;
         top: 0;
@@ -572,13 +581,13 @@
         z-index: 1;
       }
 
-      /* Internal navigation header - compact two rows */
+      /* Mobile header */
       .slide-header {
         display: flex !important;
         flex-direction: column;
         background: #ffffff;
         border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-        padding: 0.5rem 0.75rem 0.5rem;
+        padding: 0.75rem;
         gap: 0.5rem;
         position: sticky;
         top: 0;
@@ -587,7 +596,6 @@
         box-sizing: border-box;
       }
 
-      /* Category tabs - horizontal scroll */
       .slide-categories {
         display: flex !important;
         gap: 0.4rem;
@@ -605,7 +613,7 @@
         display: flex !important;
         align-items: center;
         gap: 0.35rem;
-        padding: 0.4rem 0.8rem;
+        padding: 0.45rem 0.9rem;
         background: #f5f5f5;
         border: 1.5px solid rgba(0, 0, 0, 0.1);
         border-radius: 16px;
@@ -630,7 +638,6 @@
         font-size: 0.95rem;
       }
 
-      /* Mode toggle - second row */
       .slide-mode-toggle {
         display: flex !important;
         justify-content: center;
@@ -646,7 +653,7 @@
       }
 
       .mobile-mode-toggle .mode-btn {
-        padding: 0.35rem 0.9rem;
+        padding: 0.4rem 1rem;
         font-size: 0.65rem;
         border-radius: 14px;
         background: transparent;
@@ -663,33 +670,52 @@
         color: #ffffff;
       }
 
-      /* Hide desktop mode toggle on mobile */
-      .secondary-controls {
-        display: none !important;
-      }
-
-      /* Sentence display - takes remaining space */
+      /* Sentence display - centered, linear */
       .sentence-display {
-        font-size: 1.6rem;
-        padding: 2rem 1rem 1rem;
-        gap: 0.6rem;
+        font-size: 1.8rem;
+        line-height: 1.6;
+        padding: 3rem 1.5rem;
         flex: 1;
         display: flex;
         align-items: center;
-        min-height: auto;
-        width: 100%;
-        box-sizing: border-box;
+        justify-content: center;
+        text-align: center;
+        flex-wrap: wrap;
       }
 
       .hotspot-number {
-        min-width: 42px;
-        height: 42px;
-        font-size: 1.3rem;
+        min-width: 44px;
+        height: 44px;
+        font-size: 1.4rem;
         border-radius: 7px;
+        margin: 0 0.2rem;
       }
 
       .inline-clause {
-        font-size: 1.4rem;
+        font-size: 1.8rem;
+      }
+
+      /* Modal adjustments */
+      .modal-card {
+        max-height: 70vh;
+        border-radius: 20px 20px 0 0;
+      }
+
+      .options-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 0.6rem;
+        padding: 1.25rem;
+      }
+
+      .option-card {
+        font-size: 0.75rem;
+        padding: 0.85rem;
+        min-height: 55px;
+      }
+
+      /* Navigation */
+      .nav-arrows {
+        bottom: 1.25rem;
       }
 
       .nav-arrow {
@@ -698,41 +724,12 @@
         font-size: 1.3rem;
       }
 
-      .option-card {
-        font-size: 0.7rem;
-        padding: 0.45rem 0.85rem;
-      }
-
-      .options-bank {
-        max-height: 140px;
-        gap: 0.4rem;
-        padding: 0.85rem 0.75rem;
-        margin-top: 0;
-        border-top: 1px solid rgba(0, 0, 0, 0.08);
-        background: #fafafa;
-        width: 100%;
-        box-sizing: border-box;
-      }
-
       .progress-dots {
         bottom: 4rem;
-        left: 50%;
-        transform: translateX(-50%);
-      }
-
-      .nav-arrows {
-        bottom: 1.25rem;
-        left: 50%;
-        transform: translateX(-50%);
-      }
-
-      /* Hide mobile category indicator - using internal tabs now */
-      .mobile-category {
-        display: none !important;
       }
     }
 
-    /* Desktop - show normal toggle, hide mobile toggle */
+    /* Desktop - hide mobile elements */
     @media (min-width: 769px) {
       .mobile-mode-toggle {
         display: none !important;
@@ -751,7 +748,7 @@
   <span>Back</span>
 </button>
 
-<!-- NAVIGATION -->
+<!-- DESKTOP NAVIGATION -->
 <nav class="navigation-bar">
   <div class="primary-tabs" id="primaryTabs"></div>
   
@@ -766,8 +763,16 @@
 <!-- SLIDES CONTAINER -->
 <div class="slides-container" id="slidesContainer"></div>
 
-<!-- MOBILE CATEGORY INDICATOR -->
-<div class="mobile-category" id="mobileCategoryIndicator"></div>
+<!-- MODAL OVERLAY -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal-card" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title">Select an option</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="options-grid" id="optionsGrid"></div>
+  </div>
+</div>
 
 <!-- NAVIGATION -->
 <div class="nav-arrows">
@@ -786,6 +791,7 @@ let mode = 'explore';
 let selectedOption = null;
 let matches = {};
 let revealed = new Set();
+let currentTargetHotspot = null;
 
 // ==================== INIT ====================
 async function init() {
@@ -796,7 +802,6 @@ async function init() {
     data = await response.json();
     renderPrimaryTabs();
     loadCategory(currentCategory);
-    updateMobileCategoryIndicator();
     
   } catch (error) {
     console.error('Error loading data:', error);
@@ -839,21 +844,6 @@ function loadCategory(categoryId) {
   renderSlides();
   renderProgressDots();
   updateSlide();
-  updateMobileCategoryIndicator();
-}
-
-// ==================== UPDATE MOBILE CATEGORY INDICATOR ====================
-function updateMobileCategoryIndicator() {
-  const indicator = document.getElementById('mobileCategoryIndicator');
-  if (!indicator) return;
-  
-  const category = data.categories.find(c => c.id === currentCategory);
-  if (category) {
-    indicator.innerHTML = `
-      <span class="icon">${category.icon}</span>
-      <span>${category.name}</span>
-    `;
-  }
 }
 
 // ==================== RENDER SLIDES ====================
@@ -864,7 +854,6 @@ function renderSlides() {
   const category = data.categories.find(c => c.id === currentCategory);
   const slides = category.slides;
   
-  // Generate category tabs HTML
   const categoryTabsHTML = data.categories.map(cat => `
     <button class="slide-category-tab ${cat.id === currentCategory ? 'active' : ''}" 
             onclick="loadCategory('${cat.id}')">
@@ -877,24 +866,15 @@ function renderSlides() {
     const sentenceHTML = slide.sentence.map((part, partIndex) => {
       if (part.type === 'hotspot') {
         return `
-          <div class="hotspot-container" data-hotspot-id="${part.id}">
-            <div class="inline-clause">${part.content}</div>
-            <div class="hotspot-number" onclick="revealHotspot(${index}, ${part.id})">${part.id}</div>
-          </div>
+          <span class="hotspot-container" data-hotspot-id="${part.id}">
+            <span class="inline-clause">${part.content}</span>
+            <span class="hotspot-number" onclick="handleHotspotClick(${index}, ${part.id})">${part.id}</span>
+          </span>
         `;
       } else {
         return `<span class="word">${part.text}</span>`;
       }
     }).join(' ');
-    
-    const options = slide.sentence
-      .filter(part => part.type === 'hotspot')
-      .sort(() => Math.random() - 0.5)
-      .map(part => `
-        <div class="option-card" data-id="${part.id}" onclick="selectOption(${index}, ${part.id})">
-          ${part.content}
-        </div>
-      `).join('');
     
     return `
       <div class="slide ${index === 0 ? 'active' : ''}" data-index="${index}">
@@ -910,24 +890,85 @@ function renderSlides() {
           </div>
         </div>
         <div class="sentence-display">${sentenceHTML}</div>
-        <div class="options-bank" id="options-${currentCategory}-${index}">
-          ${options}
-        </div>
       </div>
     `;
   }).join('');
 }
 
+// ==================== HANDLE HOTSPOT CLICK ====================
+function handleHotspotClick(slideIndex, hotspotId) {
+  if (mode === 'explore') {
+    revealHotspot(slideIndex, hotspotId);
+  } else if (mode === 'game') {
+    currentTargetHotspot = hotspotId;
+    openModal(slideIndex);
+  }
+}
+
 // ==================== REVEAL HOTSPOT ====================
 function revealHotspot(slideIndex, hotspotId) {
   const key = `${slideIndex}-${hotspotId}`;
+  const container = document.querySelector(`.slide[data-index="${slideIndex}"] .hotspot-container[data-hotspot-id="${hotspotId}"]`);
+  container.classList.add('revealed');
+  revealed.add(key);
+}
+
+// ==================== MODAL FUNCTIONS ====================
+function openModal(slideIndex) {
+  const category = data.categories.find(c => c.id === currentCategory);
+  const slide = category.slides[slideIndex];
+  const options = slide.sentence
+    .filter(part => part.type === 'hotspot')
+    .sort(() => Math.random() - 0.5);
   
-  if (mode === 'explore') {
-    const container = document.querySelector(`.slide[data-index="${slideIndex}"] .hotspot-container[data-hotspot-id="${hotspotId}"]`);
-    container.classList.add('revealed');
-    revealed.add(key);
-  } else if (mode === 'game') {
-    handleGameHotspotClick(slideIndex, hotspotId);
+  const optionsGrid = document.getElementById('optionsGrid');
+  optionsGrid.innerHTML = options.map(part => `
+    <div class="option-card" data-id="${part.id}" onclick="selectOption(${slideIndex}, ${part.id})">
+      ${part.content}
+    </div>
+  `).join('');
+  
+  document.getElementById('modalOverlay').classList.add('show');
+}
+
+function closeModal(event) {
+  if (event && event.target.classList.contains('option-card')) return;
+  document.getElementById('modalOverlay').classList.remove('show');
+  selectedOption = null;
+  currentTargetHotspot = null;
+}
+
+// ==================== SELECT OPTION ====================
+function selectOption(slideIndex, optionId) {
+  if (!currentTargetHotspot) return;
+  
+  const container = document.querySelector(`.slide[data-index="${slideIndex}"] .hotspot-container[data-hotspot-id="${currentTargetHotspot}"]`);
+  const option = document.querySelector(`#optionsGrid .option-card[data-id="${optionId}"]`);
+  
+  if (optionId === currentTargetHotspot) {
+    container.classList.add('revealed', 'matched');
+    option.classList.add('correct');
+    matches[`${slideIndex}-${currentTargetHotspot}`] = true;
+    revealed.add(`${slideIndex}-${currentTargetHotspot}`);
+    
+    setTimeout(() => {
+      closeModal();
+      
+      const category = data.categories.find(c => c.id === currentCategory);
+      const totalHotspots = category.slides[slideIndex].sentence.filter(p => p.type === 'hotspot').length;
+      const matchedCount = Object.keys(matches).filter(k => k.startsWith(`${slideIndex}-`)).length;
+      
+      if (matchedCount === totalHotspots) {
+        setTimeout(() => alert('🎉 PERFECT! ALL MATCHED!'), 300);
+      }
+    }, 600);
+  } else {
+    container.classList.add('wrong');
+    option.classList.add('incorrect');
+    setTimeout(() => {
+      container.classList.remove('wrong');
+      option.classList.remove('incorrect');
+    }, 1000);
   }
 }
 
@@ -958,11 +999,6 @@ function updateSlide() {
   const nextBtn = document.querySelector('.nav-arrow:last-child');
   prevBtn.disabled = currentSlideIndex === 0;
   nextBtn.disabled = currentSlideIndex === category.slides.length - 1;
-  
-  const optionsBank = document.getElementById(`options-${currentCategory}-${currentSlideIndex}`);
-  if (optionsBank) {
-    optionsBank.classList.toggle('show', mode === 'game');
-  }
 }
 
 // ==================== NAVIGATION ====================
@@ -987,66 +1023,18 @@ function nextSlide() {
 function setMode(newMode) {
   mode = newMode;
   
-  // Update all mode buttons (desktop and mobile)
   document.querySelectorAll('.mode-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.mode === mode);
   });
   
   resetGameState();
-  updateSlide();
-}
-
-// ==================== GAME MODE - SELECT OPTION ====================
-function selectOption(slideIndex, optionId) {
-  if (mode !== 'game') return;
-  
-  document.querySelectorAll(`#options-${currentCategory}-${slideIndex} .option-card`).forEach(card => {
-    card.classList.remove('selected');
-  });
-  
-  const card = document.querySelector(`#options-${currentCategory}-${slideIndex} .option-card[data-id="${optionId}"]`);
-  card.classList.add('selected');
-  selectedOption = optionId;
-}
-
-// ==================== GAME MODE - HANDLE MATCH ====================
-function handleGameHotspotClick(slideIndex, hotspotId) {
-  if (!selectedOption) {
-    alert('⚠️ CHOOSE AN OPTION FIRST!');
-    return;
-  }
-  
-  const container = document.querySelector(`.slide[data-index="${slideIndex}"] .hotspot-container[data-hotspot-id="${hotspotId}"]`);
-  const option = document.querySelector(`#options-${currentCategory}-${slideIndex} .option-card[data-id="${selectedOption}"]`);
-  
-  if (selectedOption === hotspotId) {
-    container.classList.add('revealed', 'matched');
-    option.classList.add('correct');
-    matches[`${slideIndex}-${hotspotId}`] = true;
-    revealed.add(`${slideIndex}-${hotspotId}`);
-    selectedOption = null;
-    
-    const category = data.categories.find(c => c.id === currentCategory);
-    const totalHotspots = category.slides[slideIndex].sentence.filter(p => p.type === 'hotspot').length;
-    const matchedCount = Object.keys(matches).filter(k => k.startsWith(`${slideIndex}-`)).length;
-    
-    if (matchedCount === totalHotspots) {
-      setTimeout(() => alert('🎉 PERFECT! ALL MATCHED!'), 500);
-    }
-  } else {
-    container.classList.add('wrong');
-    option.classList.add('incorrect');
-    setTimeout(() => {
-      container.classList.remove('wrong');
-      option.classList.remove('incorrect', 'selected');
-      selectedOption = null;
-    }, 1000);
-  }
 }
 
 // ==================== RESET GAME STATE ====================
 function resetGameState() {
   selectedOption = null;
+  currentTargetHotspot = null;
+  closeModal();
   
   document.querySelectorAll('.option-card').forEach(card => {
     card.classList.remove('selected', 'correct', 'incorrect');
@@ -1064,6 +1052,7 @@ function resetGameState() {
 document.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowLeft') prevSlide();
   if (e.key === 'ArrowRight') nextSlide();
+  if (e.key === 'Escape') closeModal();
 });
 
 // ==================== INIT ====================
