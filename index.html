@@ -203,15 +203,19 @@
       font-weight: 900;
       text-transform: uppercase;
       letter-spacing: 0.01em;
+      white-space: normal;
+      word-wrap: break-word;
     }
 
     .word {
       display: inline;
+      white-space: normal;
     }
 
     .hotspot-container {
       display: inline;
       position: relative;
+      white-space: nowrap;
     }
 
     /* NUMBER BADGE */
@@ -653,6 +657,8 @@
         text-align: left;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
+        white-space: normal;
+        word-wrap: break-word;
       }
 
       .hotspot-number {
@@ -976,6 +982,8 @@ function submitAnswer(slideIndex) {
     option.classList.add('correct');
     matches[`${slideIndex}-${unmatched.id}`] = true;
     revealed.add(`${slideIndex}-${unmatched.id}`);
+    
+    // Clear selection
     selectedOption = null;
     
     // Update score
@@ -984,22 +992,28 @@ function submitAnswer(slideIndex) {
     const scoreDisplay = document.getElementById(`score-${currentCategory}-${slideIndex}`);
     if (scoreDisplay) scoreDisplay.textContent = `${matchedCount}/${totalHotspots}`;
     
-    // Disable submit
+    // Disable submit button after correct answer
     submitBtn.disabled = true;
+    
+    // Remove selected state from all options
+    document.querySelectorAll(`#options-${currentCategory}-${slideIndex} .option-card`).forEach(card => {
+      card.classList.remove('selected');
+    });
     
     if (matchedCount === totalHotspots) {
       setTimeout(() => alert('🎉 PERFECT! ALL MATCHED!'), 500);
     }
   } else {
-    // WRONG
+    // WRONG - shake animation
     container.classList.add('wrong');
     option.classList.add('incorrect');
+    
     setTimeout(() => {
       container.classList.remove('wrong');
-      option.classList.remove('incorrect', 'selected');
-      selectedOption = null;
-      submitBtn.disabled = true;
-    }, 1000);
+      option.classList.remove('incorrect');
+      // Keep the selection so user can try again
+      // Don't clear selectedOption or disable button
+    }, 800);
   }
 }
 
